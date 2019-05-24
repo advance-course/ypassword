@@ -15,6 +15,14 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
+    "paths": {
+      "src": ["."],
+      "assets/*": ["./assets/*"],
+      "components/*": ["./components/*"],
+      "pages/*": ["./pages/*"],
+      "store/*": ["./store/*"],
+      "utils/*": ["./utils/*"]
+    },
     "jsx": "preserve",
     "jsxFactory": "Taro.createElement",
     "allowJs": true,
