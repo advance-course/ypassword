@@ -35,6 +35,7 @@
     "@tarojs/plugin-babel": "1.3.0-beta.5",
     "@tarojs/plugin-csso": "1.3.0-beta.5",
     "@tarojs/plugin-sass": "1.3.0-beta.5",
+    "@tarojs/plugin-typescript": "^1.3.0-beta.5",
     "@tarojs/plugin-uglifyjs": "1.3.0-beta.5",
     "@tarojs/webpack-runner": "1.3.0-beta.5",
     "@types/react": "^16.4.6",

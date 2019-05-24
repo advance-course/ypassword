@@ -1,3 +1,5 @@
+const path = require('path');
+
 const config = {
   projectName: 'ypass',
   date: '2019-5-24',

@@ -1,6 +1,7 @@
 {
   "extends": ["taro"],
   "rules": {
+    "import/no-commonjs": [0],
     "eqeqeq": [0],
     "operator-linebreak": [0],
     "prefer-template": [0],
