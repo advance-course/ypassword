@@ -18,14 +18,9 @@ export default class Index extends Component<LoginProps> {
   }
 
   render () {
-    const { counter, increment, decrement, incrementAsync } = this.props.LoginStore;
     return (
       <View className='index'>
         <Login />
-        <Button onClick={increment}>+</Button>
-        <Button onClick={decrement}>-</Button>
-        <Button onClick={incrementAsync}>add Async</Button>
-        <Text>{counter}</Text>
       </View>
     )
   }
