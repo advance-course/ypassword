@@ -99,6 +99,18 @@
     swiper "^4.4.2"
     weui "^1.1.2"
 
+"@tarojs/mobx-common@1.3.0-beta.5":
+  version "1.3.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@tarojs/mobx-common/-/mobx-common-1.3.0-beta.5.tgz#022f2142acb4c9b82107b1fe2812087e17fba811"
+  integrity sha512-5Vo18nxtL1DTqC+xMkJOJ1XIAUymS/77YUNixF/qvvVORZIjPeLzLFSLzhZb8mswCDUjWuZNGWJX4ijZ/g6yyQ==
+
+"@tarojs/mobx@^1.3.0-beta.5":
+  version "1.3.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@tarojs/mobx/-/mobx-1.3.0-beta.5.tgz#b88a5bc5a2b6438ba4cc03910f15357dc8759a20"
+  integrity sha512-ocwiLKR9ZzPM5OhHSANvFPU6zPNR3hn3jgHq/WgaSO9T3RcYufYFlHzoE9ogZgtqQO+c61UQ3o9KT+AxcHH49A==
+  dependencies:
+    "@tarojs/mobx-common" "1.3.0-beta.5"
+
 "@tarojs/plugin-babel@1.3.0-beta.5":
   version "1.3.0-beta.5"
   resolved "https://registry.yarnpkg.com/@tarojs/plugin-babel/-/plugin-babel-1.3.0-beta.5.tgz#a85b884dde3a51b9749cac5245a3bb810d699e12"
@@ -120,6 +132,13 @@
   dependencies:
     node-sass "^4.12.0"
     scss-bundle "^2.5.1"
+
+"@tarojs/plugin-typescript@^1.3.0-beta.5":
+  version "1.3.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@tarojs/plugin-typescript/-/plugin-typescript-1.3.0-beta.5.tgz#101ff44f98ee2d93803a43f710c0b7be37f3834d"
+  integrity sha512-VYNCdcOXM+bnQ0htAxYqWuX82yyOnnpKl3I+2ipiGVYYrIQB/wzoYY6oIIc0jIBEs2uybNgTSairZSjNn/AZNQ==
+  dependencies:
+    typescript "^2.9.2"
 
 "@tarojs/plugin-uglifyjs@1.3.0-beta.5":
   version "1.3.0-beta.5"
@@ -4906,6 +4925,11 @@ mobile-detect@^1.4.2:
   resolved "https://registry.yarnpkg.com/mobile-detect/-/mobile-detect-1.4.3.tgz#e436a3839f5807dd4d3cd4e081f7d3a51ffda2dd"
   integrity sha512-UaahPNLllQsstHOEHAmVnTHCMQrAS9eL5Qgdi50QrYz6UgGk+Xziz2udz2GN6NYcyODcPLnasC7a7s6R2DjiaQ==
 
+mobx@^5.9.4:
+  version "5.9.4"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.9.4.tgz#1dee92aba33f67b7baeeb679e3bd376a12e55812"
+  integrity sha512-L9JjTX2rtQUAhCIgnHokfntNOsF14uioT9LqStf6Mya+16j56ZBe21E8Y9V59tfr2aH2kLQPD10qtCJXBuTAxw==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -7249,6 +7273,11 @@ typescript-estree@18.0.0:
   dependencies:
     lodash.unescape "4.0.1"
     semver "5.5.0"
+
+typescript@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+  integrity sha512-Gr4p6nFNaoufRIY4NMdpQRNmgxVIGMs4Fcu/ujdYk3nAZqk7supzBE9idmvfZIlH/Cuj//dvi+019qEue9lV0w==
 
 typescript@^3.0.1:
   version "3.4.5"

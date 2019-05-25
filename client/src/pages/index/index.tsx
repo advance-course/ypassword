@@ -1,36 +1,31 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Button } from '@tarojs/components'
+import { inject, observer } from '@tarojs/mobx'
 import './index.scss'
 
 import Login from '../../components/login/index'
+import { LoginStore } from 'src/store/login';
 
-export default class Index extends Component {
+interface LoginProps {
+  LoginStore: LoginStore
+}
 
-  /**
-   * 指定config的类型声明为: Taro.Config
-   *
-   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-   */
+@inject('LoginStore')
+@observer
+export default class Index extends Component<LoginProps> {
   config: Config = {
     navigationBarTitleText: '首页'
   }
 
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
   render () {
+    const { counter, increment, decrement, incrementAsync } = this.props.LoginStore;
     return (
       <View className='index'>
         <Login />
+        <Button onClick={increment}>+</Button>
+        <Button onClick={decrement}>-</Button>
+        <Button onClick={incrementAsync}>add Async</Button>
+        <Text>{counter}</Text>
       </View>
     )
   }
