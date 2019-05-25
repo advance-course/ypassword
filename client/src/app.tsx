@@ -25,13 +25,13 @@ class App extends Component {
       position: 'bottom',
       list: [
         {
-          text: '密码',
+          // text: '密码',
           pagePath: 'pages/index/index',
           iconPath: 'assets/navigations/customer_default.png',
           selectedIconPath: 'assets/navigations/customer_active.png'
         },
         {
-          text: '我的',
+          // text: '我的',
           pagePath: 'pages/Profile/index',
           iconPath: 'assets/navigations/profile_default.png',
           selectedIconPath: 'assets/navigations/profile_active.png'
