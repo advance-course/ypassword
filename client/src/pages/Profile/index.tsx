@@ -18,3 +18,7 @@ export default function Profile() {
     </View>
   )
 }
+
+Profile.config = {
+  "navigationBarTitleText": "首2"
+}
