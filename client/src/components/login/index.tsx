@@ -10,11 +10,7 @@ export default function Login() {
     })
 
     Taro.cloud.callFunction({
-      name: 'add',
-      data: {
-        a: 20,
-        b: 10
-      }
+      name: 'enterpriseInfo',
     }).then(res => {
       console.log(res);
     }).catch(e => {

@@ -5,7 +5,9 @@ cloud.init()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  return {
-    sum: event.a + event.b
-  }
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(event.a + event.b);
+    }, 2000);
+  })
 }
