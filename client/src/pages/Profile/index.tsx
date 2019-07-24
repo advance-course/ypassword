@@ -1,20 +1,18 @@
-import Taro, { useState, useEffect } from '@tarojs/taro';
-import { View, Button, Text } from '@tarojs/components';
-import { AtButton } from 'taro-ui';
+import Taro from '@tarojs/taro';
+import { View, Label, Image } from '@tarojs/components';
+import useUserInfo from 'src/hooks/useUserInfo';
+import './index.scss';
 
 export default function Profile() {
-  const [userInfo, setUserInfo] = useState(0);
-
-  useEffect(() => {
-  }, []);
-
-  function getUserInfo(res) {
-    console.log(res);
-  }
+  const { nickName = '', avatarUrl = '', city = '' } = useUserInfo();
 
   return (
     <View>
-      <AtButton type="primary" openType="getUserInfo" onGetUserInfo={getUserInfo}>一键授权</AtButton>
+      <View className="userInfoContainer" onClick={() => Taro.navigateTo({ url: '../UserInfo/index' })}>
+        <Image src={avatarUrl} className="avatar" />
+        <Label className="username">{nickName}</Label>
+        <Label className="city">{city}</Label>
+      </View>
     </View>
   )
 }

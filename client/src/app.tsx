@@ -13,6 +13,7 @@ class App extends Component {
       'pages/Category/index',
       'pages/Profile/index',
       'pages/Auth/index',
+      'pages/UserInfo/index',
     ],
     window: {
       backgroundTextStyle: 'light',

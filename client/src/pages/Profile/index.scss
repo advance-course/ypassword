@@ -1,0 +1,24 @@
+.userInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200Px;
+}
+
+.avatar {
+  width: 72Px;
+  height: 72Px;
+  border-radius: 36Px;
+  box-shadow: 0 4Px 10Px rgba(0, 0, 0, 0.05);
+}
+
+.username {
+  font-size: 18Px;
+  margin-top: 10Px;
+}
+
+.city {
+  font-size: 12Px;
+  color: #cccccc;
+}
