@@ -1,7 +1,8 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import { Provider } from '@tarojs/mobx'
-import { View } from '@tarojs/components'
-import * as store from 'src/store'
+import Taro, { Component, Config } from '@tarojs/taro';
+import { Provider } from '@tarojs/mobx';
+import { View } from '@tarojs/components';
+import * as store from 'src/store';
+import 'taro-ui/dist/style/index.scss';
 
 import './app.scss'
 
@@ -9,7 +10,9 @@ class App extends Component {
   config: Config = {
     pages: [
       'pages/index/index',
-      'pages/Profile/index'
+      'pages/Category/index',
+      'pages/Profile/index',
+      'pages/Auth/index',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -25,16 +28,22 @@ class App extends Component {
       position: 'bottom',
       list: [
         {
-          // text: '密码',
+          text: '',
           pagePath: 'pages/index/index',
-          iconPath: 'assets/navigations/customer_default.png',
-          selectedIconPath: 'assets/navigations/customer_active.png'
+          iconPath: 'assets/navigations/home_default@2x.png',
+          selectedIconPath: 'assets/navigations/home_active@2x.png'
         },
         {
-          // text: '我的',
+          text: '',
+          pagePath: 'pages/Category/index',
+          iconPath: 'assets/navigations/message_default@2x.png',
+          selectedIconPath: 'assets/navigations/message_active@2x.png'
+        },
+        {
+          text: '',
           pagePath: 'pages/Profile/index',
-          iconPath: 'assets/navigations/profile_default.png',
-          selectedIconPath: 'assets/navigations/profile_active.png'
+          iconPath: 'assets/navigations/profile_default@2x.png',
+          selectedIconPath: 'assets/navigations/profile_active@2x.png'
         },
       ]
     },

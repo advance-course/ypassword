@@ -1,24 +1,24 @@
-import Taro, { useState } from '@tarojs/taro';
+import Taro, { useState, useEffect } from '@tarojs/taro';
 import { View, Button, Text } from '@tarojs/components';
+import { AtButton } from 'taro-ui';
 
 export default function Profile() {
-  const [counter, setCounter] = useState(0);
+  const [userInfo, setUserInfo] = useState(0);
 
-  function indecAsync() {
-    setTimeout(() => {
-      setCounter(counter + 1);
-    }, 1000);
+  useEffect(() => {
+  }, []);
+
+  function getUserInfo(res) {
+    console.log(res);
   }
+
   return (
     <View>
-      <Button onClick={() => setCounter(counter + 1)}>+</Button>
-      <Button onClick={() => setCounter(counter - 1)}>-</Button>
-      <Button onClick={indecAsync}>Async Add</Button>
-      <Text>{counter}</Text>
+      <AtButton type="primary" openType="getUserInfo" onGetUserInfo={getUserInfo}>一键授权</AtButton>
     </View>
   )
 }
 
 Profile.config = {
-  "navigationBarTitleText": "首2"
+  "navigationBarTitleText": "设置"
 }

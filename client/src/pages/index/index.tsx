@@ -1,9 +1,9 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text, Button } from '@tarojs/components'
-import { inject, observer } from '@tarojs/mobx'
+import Taro, { Component, Config } from '@tarojs/taro';
+import { View } from '@tarojs/components';
+import { inject, observer } from '@tarojs/mobx';
+import { AtButton } from 'taro-ui';
 import './index.scss'
 
-import Login from '../../components/login/index'
 import { LoginStore } from 'src/store/login';
 
 interface LoginProps {
@@ -17,10 +17,19 @@ export default class Index extends Component<LoginProps> {
     navigationBarTitleText: '首页'
   }
 
+  componentWillMount() {
+    Taro.getSetting().then((res) => {
+      console.log(res);
+      if (!res.authSetting || !res.authSetting['scope.userInfo']) {
+        Taro.navigateTo({ url: '../Auth/index' })
+      }
+    })
+  }
+
   render () {
     return (
       <View className='index'>
-        <Login />
+        <AtButton onClick={() => Taro.navigateTo({ url: '../Auth/index' })}>nav to auth</AtButton>
       </View>
     )
   }
