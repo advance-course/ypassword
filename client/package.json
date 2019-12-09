@@ -21,7 +21,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@tarojs/components": "1.3.27",
-		"@tarojs/mobx": "1.3.27",
+		"@tarojs/redux": "^1.3.27",
 		"@tarojs/router": "1.3.27",
 		"@tarojs/taro": "1.3.27",
 		"@tarojs/taro-alipay": "1.3.27",
@@ -29,10 +29,11 @@
 		"@tarojs/taro-swan": "1.3.27",
 		"@tarojs/taro-tt": "1.3.27",
 		"@tarojs/taro-weapp": "1.3.27",
-		"mobx": "^5.9.4",
+		"dva-core": "^2.0.1",
 		"nerv-devtools": "^1.5.6",
 		"nervjs": "^1.5.6",
-		"taro-ui": "^2.2.1"
+		"redux": "^4.0.4",
+		"taro-ui": "^2.2.4"
 	},
 	"devDependencies": {
 		"@tarojs/plugin-babel": "1.3.27",

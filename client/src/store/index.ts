@@ -1,1 +1,3 @@
-export { default as LoginStore } from './login';
+import login from "pages/index/model";
+
+export default [login];

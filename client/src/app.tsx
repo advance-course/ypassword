@@ -1,10 +1,14 @@
 import Taro, { Component, Config } from '@tarojs/taro';
-import { Provider } from '@tarojs/mobx';
-import { View } from '@tarojs/components';
-import * as store from 'src/store';
-import 'taro-ui/dist/style/index.scss';
+import {Provider} from '@tarojs/redux';
+import models from 'store/index';
+import {createApp} from 'utils/dva'
+import {View} from '@tarojs/components';
 
-import './app.scss'
+import 'taro-ui/dist/style/index.scss';
+import './app.scss';
+
+const dvaApp = createApp({initialState: {}, models});
+const store = dvaApp.getStore();
 
 class App extends Component {
   config: Config = {
