@@ -152,6 +152,14 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
+"@tarojs/async-await@^1.3.27":
+  version "1.3.27"
+  resolved "https://registry.yarnpkg.com/@tarojs/async-await/-/async-await-1.3.27.tgz#178e3c187238047c3e1c4730b2238d13a3301be3"
+  integrity sha512-5fKTYN8AvhRQ1BsJ3BMUa5H7pG0/6iwbKVGnMYzCJ60ReU+DGjP4akMaUECulq86GeodG+Grjn+9k6dIa521vw==
+  dependencies:
+    promise-polyfill "^7.1.2"
+    regenerator-runtime "^0.11.1"
+
 "@tarojs/components@1.3.27":
   version "1.3.27"
   resolved "https://registry.yarnpkg.com/@tarojs/components/-/components-1.3.27.tgz#e360328d5473f1459f18f59bf60c969f32e809f5"
@@ -164,19 +172,6 @@
     resolve-pathname "^3.0.0"
     swiper "4.4.2"
     weui "^1.1.2"
-
-"@tarojs/mobx-common@1.3.27":
-  version "1.3.27"
-  resolved "https://registry.yarnpkg.com/@tarojs/mobx-common/-/mobx-common-1.3.27.tgz#34becf94b406a68272f2242e8b338c53bb55f791"
-  integrity sha512-yQsujCFRCTykwJ4oxyQDacFww9bNnT/8mMQ/U8DfxWG7RLtY0AB2Zhm1D9jYcm8MYABzjS5Yk0dfAEkl0yuxqQ==
-
-"@tarojs/mobx@1.3.27":
-  version "1.3.27"
-  resolved "https://registry.yarnpkg.com/@tarojs/mobx/-/mobx-1.3.27.tgz#8689ac62177785807b7d357063bc57098061bc9d"
-  integrity sha512-Vm35DnRiG3yHyDs/yomQp8oKInLqeos+LL1odooVEgxh6eyV2cPUmIfM2VU2In+wfeBV4C+3Kg7cvrBmP/wZng==
-  dependencies:
-    "@tarojs/mobx-common" "1.3.27"
-    "@tarojs/taro" "1.3.27"
 
 "@tarojs/plugin-babel@1.3.27":
   version "1.3.27"
@@ -5163,11 +5158,6 @@ mobile-detect@^1.4.2:
   resolved "https://registry.yarnpkg.com/mobile-detect/-/mobile-detect-1.4.3.tgz#e436a3839f5807dd4d3cd4e081f7d3a51ffda2dd"
   integrity sha512-UaahPNLllQsstHOEHAmVnTHCMQrAS9eL5Qgdi50QrYz6UgGk+Xziz2udz2GN6NYcyODcPLnasC7a7s6R2DjiaQ==
 
-mobx@^5.9.4:
-  version "5.9.4"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.9.4.tgz#1dee92aba33f67b7baeeb679e3bd376a12e55812"
-  integrity sha512-L9JjTX2rtQUAhCIgnHokfntNOsF14uioT9LqStf6Mya+16j56ZBe21E8Y9V59tfr2aH2kLQPD10qtCJXBuTAxw==
-
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -6077,6 +6067,11 @@ promise-inflight@^1.0.1:
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
+promise-polyfill@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-7.1.2.tgz#ab05301d8c28536301622d69227632269a70ca3b"
+  integrity sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==
+
 promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
@@ -6369,7 +6364,7 @@ regenerate@^1.2.1:
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
