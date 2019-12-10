@@ -1,13 +1,10 @@
 import Taro, { Config, useEffect } from '@tarojs/taro';
-import { View, Text } from '@tarojs/components';
-import { AtButton } from 'taro-ui';
-import { useSelector, useDispatch } from 'utils/dva';
-import { LoginState } from 'pages/index/model';
+import { View } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
+import {accounts} from './entity';
 import "./index.scss";
 
 export default function Index() {
-  const {counter} = useSelector<any, LoginState>(state => state.login);
-  const dispatch = useDispatch();
   useEffect(() => {
     Taro.getSetting().then(res => {
       console.log(res);
@@ -18,15 +15,21 @@ export default function Index() {
   }, []);
 
   return (
-    <View className='index'>
-        <AtButton onClick={() => Taro.navigateTo({ url: '../Auth/index' })}>nav to auth</AtButton>
-        <Text>{counter}</Text>
-        <AtButton onClick={() => dispatch({type: 'login/increment'})}>increment</AtButton>
-        <AtButton onClick={() => dispatch({type: 'login/decrement'})}>decrement</AtButton>
-      </View>
+    <View className="container">
+      {accounts.map((item, i) => (
+        <View key={i} className="account_item">
+          <View className="who_icon">{item.title}</View>
+          <View className="info">
+            <View className="title">{item.title}</View>
+            <View className="username">{item.username}</View>
+          </View>
+          <AtIcon value="clock" size="20" color="orange" />
+        </View>
+      ))}
+    </View>
   );
 }
 
 Index.config = {
-  navigationBarTitleText: '首页'
+  navigationBarTitleText: '常用',
 } as Config;

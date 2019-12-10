@@ -22,14 +22,15 @@ class App extends Component {
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarBackgroundColor: '#FAE14C',
+      backgroundColor: '#FFF',
+      navigationBarTitleText: 'WeChart',
       navigationBarTextStyle: 'black'
     },
     tabBar: {
       color: '#CCC',
       selectedColor: '#458CFA',
-      backgroundColor: '#fcfcfc',
+      backgroundColor: '#F7F7F7',
       borderStyle: 'white',
       position: 'bottom',
       list: [

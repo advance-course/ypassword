@@ -1,0 +1,39 @@
+.container {
+  padding: 15Px;
+
+  .account_item {
+    background-color: #FDFDFD;
+    border: 1rpx solid #EEE;
+    margin: 10Px 0;
+    border-radius: 8px;
+    padding: 15Px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .who_icon {
+    width: 35Px;
+    height: 35Px;
+    border: 1Px solid red;
+    margin-right: 15Px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14Px;
+    border-radius: 8px;
+  }
+
+  .info {
+    flex: 1;
+  }
+
+  .title {
+    font-size: 14Px;
+  }
+
+  .username {
+    font-size: 12Px;
+    color: '#CCC'
+  }
+}
