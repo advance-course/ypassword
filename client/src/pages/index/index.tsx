@@ -1,6 +1,7 @@
 import Taro, { Config, useEffect } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
+import qs from 'qs';
 import {accounts} from './entity';
 import "./index.scss";
 
@@ -14,10 +15,17 @@ export default function Index() {
     })
   }, []);
 
+  const a = qs.stringify({a: 1, b: 2});
+  console.log(a);
+
   return (
     <View className="container">
       {accounts.map((item, i) => (
-        <View key={i} className="account_item">
+        <View
+          onClick={() => Taro.navigateTo({ url: `/pages/Account/Detail/index?${qs.stringify(item)}` })}
+          key={i}
+          className="account_item"
+        >
           <View className="who_icon">{item.title}</View>
           <View className="info">
             <View className="title">{item.title}</View>
