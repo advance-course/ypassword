@@ -19,7 +19,8 @@ class App extends Component {
       'pages/Profile/index',
       'pages/Auth/index',
       'pages/UserInfo/index',
-      'pages/Account/Detail/index'
+      'pages/Account/Detail/index',
+      'pages/Account/Editor/index',
     ],
     window: {
       backgroundTextStyle: 'light',
