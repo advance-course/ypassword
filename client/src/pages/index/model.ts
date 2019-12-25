@@ -1,12 +1,15 @@
+/** 
+ * 存储密码所需的所有信息
+ */
 import { Model } from "utils/dva";
 
-export interface LoginState {
+export interface AccountState {
   isLogin: boolean;
   counter: number
 }
 
 export default {
-  namespace: "login",
+  namespace: "account",
   state: {
     isLogin: false,
     counter: 0
@@ -29,4 +32,4 @@ export default {
       counter: state.counter - 1
     })
   }
-} as Model<LoginState>;
+} as Model<AccountState>;
