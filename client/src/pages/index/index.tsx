@@ -2,10 +2,13 @@ import Taro, { Config, useEffect } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import qs from 'qs';
-import {accounts} from './entity';
 import "./index.scss";
+import { useSelector, useDispatch } from '@tarojs/redux';
+import { AccountState } from 'pages/index/model';
 
 export default function Index() {
+  const accounts = useSelector<any, AccountState>(state => state.account);
+  // const dispatch = useDispatch();
   useEffect(() => {
     Taro.getSetting().then(res => {
       console.log(res);
@@ -15,12 +18,9 @@ export default function Index() {
     })
   }, []);
 
-  const a = qs.stringify({a: 1, b: 2});
-  console.log(a);
-
   return (
     <View className="container">
-      {accounts.map((item, i) => (
+      {accounts.accounts.map((item, i) => (
         <View
           onClick={() => Taro.navigateTo({ url: `/pages/Account/Detail/index?${qs.stringify(item)}` })}
           key={i}

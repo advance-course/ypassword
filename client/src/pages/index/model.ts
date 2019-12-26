@@ -2,32 +2,33 @@
  * 存储密码所需的所有信息
  */
 import { Model } from "utils/dva";
+import {accounts} from './entity';
 
 export interface AccountState {
-  isLogin: boolean;
+  accounts: com.Account[],
   counter: number
 }
 
 export default {
   namespace: "account",
   state: {
-    isLogin: false,
+    accounts,
     counter: 0
   },
   effects: {
-    *increment(_, {put}) {
-      yield put({type: 'add'});
+    *addAccount({payload}, {put}) {
+      yield put({type: 'add', payload});
     },
     *decrement(_, {put}) {
       yield put({type: 'reduce'});
     }
   },
   reducers: {
-    add: (state) => ({
+    add: (state, action: any) => ({
       ...state,
-      counter: state.counter + 1
+      accounts: [...state.accounts, action.payload]
     }),
-    reduce: (state) => ({
+    reduce: (state, action: any) => ({
       ...state,
       counter: state.counter - 1
     })
