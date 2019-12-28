@@ -1,9 +1,7 @@
-#lineCanvas,
-#hollowCircleCanvas,
-#drawSolidCircleCanvas {
+.canvas {
   position: absolute;
-  /* top: 100px; */
+  top: 100px;
   background-color: transparent;
-  width: 400;
-  height: 400;
+  width: 100%;
+  height: 100%;
 }
