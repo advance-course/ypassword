@@ -32,6 +32,8 @@ export default function Index() {
             <View className="username">{item.username}</View>
           </View>
           <AtIcon value="clock" size="20" color="orange" />
+          <AtIcon prefixClass='icon' value='jian' size='40' color='#F00'></AtIcon>
+          <AtIcon prefixClass='icon' value='RectangleCopy' size='20' color='#F00'></AtIcon>
         </View>
       ))}
     </View>
