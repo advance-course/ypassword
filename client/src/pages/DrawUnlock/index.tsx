@@ -16,8 +16,7 @@ let hasBindTouchStart:boolean = true  // 有没有绑定touchstart事件
 let hasBindTouchMove:boolean = true  // 有没有绑定touchmove事件
 
 let lineCtx:any = null  // 直线画笔context
-let ConnectLineCanvas:any = null  // 直线连接画笔context
-let drawSolidCircleCtx:any = null  // 实心圆画笔context
+let cacheCanvasCtx:any = null  // 实心圆画笔context
 let prePointIndex:number | undefined = undefined  // 前一个选中的点的index
 let circleR:number = 20  // 默认空心圆的半径
 let touchRange:number = 30  // 在圆心多少范围内触碰检测
@@ -60,8 +59,8 @@ export default function DrawUnlock(props):DrawUnlockProps {
         continue;
       } else {
         pwdArr.push(i)
-        drawSolidCircle(drawSolidCircleCtx, 10, i)
-        drawConnectLine(ConnectLineCanvas, i)
+        drawSolidCircle(cacheCanvasCtx, 10, i)
+        drawConnectLine(cacheCanvasCtx, i)
         return
       }
 
@@ -73,6 +72,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
     circleArr.forEach((v) => {
       ctx.setStrokeStyle('#627eed')
+      ctx.lineWidth = 1
       ctx.beginPath()
       ctx.arc(v.x, v.y, circleR, 0, 2*Math.PI)
       ctx.stroke()
@@ -135,6 +135,31 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
   }
 
+  function drawErrorTips(ctx:any) {
+
+    pwdArr.reduce((a,b) => {
+      ctx.beginPath()
+      ctx.lineWidth = 10;
+      ctx.setStrokeStyle('#F56C6C')
+      ctx.moveTo(circleArr[a].x, circleArr[a].y)
+      ctx.lineTo(circleArr[b].x, circleArr[b].y)
+      ctx.stroke()
+      ctx.draw(true)
+
+      return b
+    })
+
+    drawHollowCircle(cacheCanvasCtx)
+
+    pwdArr.forEach((v) => {
+      ctx.setFillStyle('#F56C6C')
+      ctx.beginPath()
+      ctx.arc(circleArr[v].x, circleArr[v].y, 10, 0, 2*Math.PI)
+      ctx.fill()
+      ctx.draw(true)
+    })
+  }
+
 
   function touchStart(e:any) {
     if (!hasBindTouchStart) return  // 判断事件绑定
@@ -154,7 +179,8 @@ export default function DrawUnlock(props):DrawUnlockProps {
   }
 
   function touchEnd() {
-    lineCtx.clearRect(0,0,canvasWidth,canvasHeight);
+    // lineCtx.clearRect(0,0,canvasWidth,canvasHeight);
+    lineCtx.draw()
 
     checkPwd()
 
@@ -174,6 +200,10 @@ export default function DrawUnlock(props):DrawUnlockProps {
         icon: 'error',
         duration: 2000
       })
+
+      // cacheCanvasCtx.clearRect(0,0,375,400);
+      cacheCanvasCtx.draw()
+      drawErrorTips(cacheCanvasCtx)
     }
   }
 
@@ -189,16 +219,14 @@ export default function DrawUnlock(props):DrawUnlockProps {
       let offsetY:number = 30
 
       lineCtx = Taro.createCanvasContext('lineCanvas', this.$scope)
-      ConnectLineCanvas = Taro.createCanvasContext('ConnectLineCanvas', this.$scope)
-      let hollowCircleCtx = Taro.createCanvasContext('hollowCircleCanvas', this.$scope)
-      drawSolidCircleCtx = Taro.createCanvasContext('drawSolidCircleCanvas', this.$scope)
+      cacheCanvasCtx = Taro.createCanvasContext('cacheCanvas', this.$scope)
 
       let diffX = (canvasWidth-offsetX*2-circleR*2*3)/2
       let diffY = (canvasHeight-offsetY*2-circleR*2*3)/2
       console.log(diffY)
       circleArr = getCircleArr(offsetX, offsetY, diffX, diffY)
 
-      drawHollowCircle(hollowCircleCtx)
+      drawHollowCircle(cacheCanvasCtx)
 
     }).exec();
 
@@ -206,12 +234,10 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
   return (
     <div>
-      <Canvas className="canvas" canvasId="ConnectLineCanvas"></Canvas>
       <Canvas className="canvas" canvasId="lineCanvas"></Canvas>
-      <Canvas className="canvas" canvasId="hollowCircleCanvas"></Canvas>
       <Canvas
         className="canvas"
-        canvasId="drawSolidCircleCanvas"
+        canvasId="cacheCanvas"
         onTouchStart={touchStart}
         onTouchMove={touchMove}
         onTouchEnd={touchEnd}
