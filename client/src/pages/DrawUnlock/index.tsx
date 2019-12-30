@@ -20,6 +20,7 @@ let ConnectLineCanvas:any = null  // 直线连接画笔context
 let drawSolidCircleCtx:any = null  // 实心圆画笔context
 let prePointIndex:number | undefined = undefined  // 前一个选中的点的index
 let circleR:number = 20  // 默认空心圆的半径
+let touchRange:number = 30  // 在圆心多少范围内触碰检测
 let circleArr:Point[] = []  // 九宫格圆心对象数组
 let pwdArr:number[] = []  // 画图形得到的密码数组
 let canvasWidth:number = 375  // 画布宽
@@ -55,7 +56,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
       let dir = Math.sqrt(xDiff*xDiff + yDiff*yDiff)
 
-      if (pwdArr.indexOf(i) >= 0 || dir > circleR ) {
+      if (pwdArr.indexOf(i) >= 0 || dir > touchRange ) {
         continue;
       } else {
         pwdArr.push(i)
@@ -99,6 +100,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
     ctx.lineWidth = 10;
     ctx.setStrokeStyle('#627eed')
+    ctx.setLineCap('round')
 
     let arrLength = pwdArr.length
 
@@ -153,7 +155,6 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
   function touchEnd() {
     lineCtx.clearRect(0,0,canvasWidth,canvasHeight);
-    drawLine(lineCtx)
 
     checkPwd()
 
