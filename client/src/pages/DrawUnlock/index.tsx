@@ -1,6 +1,7 @@
 import Taro, { useEffect } from '@tarojs/taro';
 import { Canvas } from '@tarojs/components'
 
+import { throttle } from '../../utils/utils'
 import './index.scss';
 
 interface DrawUnlockProps {};
@@ -15,7 +16,9 @@ let hasBindTouchStart:boolean = true  // 有没有绑定touchstart事件
 let hasBindTouchMove:boolean = true  // 有没有绑定touchmove事件
 
 let lineCtx:any = null  // 直线画笔context
+let ConnectLineCanvas:any = null  // 直线连接画笔context
 let drawSolidCircleCtx:any = null  // 实心圆画笔context
+let prePointIndex:number | undefined = undefined  // 前一个选中的点的index
 let circleR:number = 20  // 默认空心圆的半径
 let circleArr:Point[] = []  // 九宫格圆心对象数组
 let pwdArr:number[] = []  // 画图形得到的密码数组
@@ -44,7 +47,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
   }
 
-  function getPwdArr(touches:any) {
+  const getPwdArr = throttle((touches:any) => {
 
     for(let i = 0, length = circleArr.length; i < length; i++){
       let xDiff = circleArr[i].x - touches.x
@@ -56,13 +59,14 @@ export default function DrawUnlock(props):DrawUnlockProps {
         continue;
       } else {
         pwdArr.push(i)
-        drawSolidCircle(drawSolidCircleCtx, 10)
+        drawSolidCircle(drawSolidCircleCtx, 10, i)
+        drawConnectLine(ConnectLineCanvas, i)
         return
       }
 
     }
 
-  }
+  }, 30)
 
   function drawHollowCircle(ctx:any){
 
@@ -72,18 +76,23 @@ export default function DrawUnlock(props):DrawUnlockProps {
       ctx.arc(v.x, v.y, circleR, 0, 2*Math.PI)
       ctx.stroke()
       ctx.draw(true)
-
-    })
-  }
-
-  function drawSolidCircle(ctx:any, circleR:number) {
-    pwdArr.forEach((v) => {
-      ctx.setFillStyle('#627eed')
+      
+      ctx.setFillStyle('#fff')
       ctx.beginPath()
-      ctx.arc(circleArr[v].x, circleArr[v].y, circleR, 0, 2*Math.PI)
+      ctx.arc(v.x, v.y, circleR-1, 0, 2*Math.PI)
       ctx.fill()
       ctx.draw(true)
     })
+  }
+
+  function drawSolidCircle(ctx:any, circleR:number, index:number) {
+
+    ctx.setFillStyle('#627eed')
+    ctx.beginPath()
+    ctx.arc(circleArr[index].x, circleArr[index].y, circleR, 0, 2*Math.PI)
+    ctx.fill()
+    ctx.draw(true)
+
   }
 
   function drawLine(ctx:any, touches?:any) {
@@ -105,23 +114,30 @@ export default function DrawUnlock(props):DrawUnlockProps {
         ctx.draw()
       }
 
-      pwdArr.reduce((a, b) => {
-        ctx.beginPath()
-        ctx.moveTo(circleArr[a].x, circleArr[a].y)
-        ctx.lineTo(circleArr[b].x, circleArr[b].y)
-        ctx.stroke()
-        ctx.draw(true)
-        return b
-      })
-
     }
   }
+
+  function drawConnectLine(ctx:any, index?:number) {
+
+    if (prePointIndex !== undefined) {
+      ctx.beginPath()
+      ctx.lineWidth = 10;
+      ctx.setStrokeStyle('#627eed')
+      ctx.moveTo(circleArr[prePointIndex].x, circleArr[prePointIndex].y)
+      ctx.lineTo(circleArr[index].x, circleArr[index].y)
+      ctx.stroke()
+      ctx.draw(true)
+    }
+    
+    prePointIndex = index
+
+  }
+
 
   function touchStart(e:any) {
     if (!hasBindTouchStart) return  // 判断事件绑定
 
     getPwdArr(e.touches[0])
-    drawSolidCircle(drawSolidCircleCtx, 10)
   }
 
   function touchMove(e:any) {
@@ -140,8 +156,6 @@ export default function DrawUnlock(props):DrawUnlockProps {
     drawLine(lineCtx)
 
     checkPwd()
-
-    lineCtx.clearRect(0,0,canvasWidth,canvasHeight);
 
     // 解除绑定
     hasBindTouchStart = false
@@ -174,6 +188,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
       let offsetY:number = 30
 
       lineCtx = Taro.createCanvasContext('lineCanvas', this.$scope)
+      ConnectLineCanvas = Taro.createCanvasContext('ConnectLineCanvas', this.$scope)
       let hollowCircleCtx = Taro.createCanvasContext('hollowCircleCanvas', this.$scope)
       drawSolidCircleCtx = Taro.createCanvasContext('drawSolidCircleCanvas', this.$scope)
 
@@ -190,6 +205,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
   return (
     <div>
+      <Canvas className="canvas" canvasId="ConnectLineCanvas"></Canvas>
       <Canvas className="canvas" canvasId="lineCanvas"></Canvas>
       <Canvas className="canvas" canvasId="hollowCircleCanvas"></Canvas>
       <Canvas
