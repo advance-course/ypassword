@@ -1,8 +1,9 @@
 import Taro, { Config, useEffect } from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import { AtIcon } from 'taro-ui';
 import qs from 'qs';
-import {accounts} from './entity';
+import { accounts } from './entity';
+import ball from 'assets/navigations/basketball@2x.png'
 import "./index.scss";
 
 export default function Index() {
@@ -10,12 +11,15 @@ export default function Index() {
     Taro.getSetting().then(res => {
       console.log(res);
       if (!res.authSetting || !res.authSetting['scope.userInfo']) {
-        Taro.navigateTo({url: '../Auth/index'});
+        Taro.navigateTo({ url: '../Auth/index' });
       }
+    })
+    this.$scope.getTabBar().$component.setState({
+      selected: 0
     })
   }, []);
 
-  const a = qs.stringify({a: 1, b: 2});
+  const a = qs.stringify({ a: 1, b: 2 });
   console.log(a);
 
   return (
@@ -34,6 +38,7 @@ export default function Index() {
           <AtIcon value="clock" size="20" color="orange" />
         </View>
       ))}
+      <Image src={ball}/>
     </View>
   );
 }

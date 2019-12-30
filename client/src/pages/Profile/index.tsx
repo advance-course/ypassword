@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, { useEffect } from '@tarojs/taro';
 import { View, Label, Image } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
 import useUserInfo from 'src/hooks/useUserInfo';
@@ -6,7 +6,11 @@ import './index.scss';
 
 export default function Profile() {
   const { nickName = '', avatarUrl = '', city = '' } = useUserInfo();
-
+  useEffect(() => {
+    this.$scope.getTabBar().$component.setState({
+      selected: 2
+    })
+  }, [])
   return (
     <View>
       <View className="userInfoContainer" onClick={() => Taro.navigateTo({ url: '../UserInfo/index' })}>
@@ -14,7 +18,7 @@ export default function Profile() {
         <Label className="username">{nickName}</Label>
         <Label className="city">{city}</Label>
       </View>
-      
+
       <AtList>
         <AtListItem title="类型设置" extraText="x" arrow="right" />
       </AtList>
