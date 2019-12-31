@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { View, Label, Image } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
-import useUserInfo from 'src/hooks/useUserInfo';
+import useUserInfo from 'hooks/useUserInfo';
 import './index.scss';
 
 export default function Profile() {
@@ -16,7 +16,13 @@ export default function Profile() {
       </View>
       
       <AtList>
-        <AtListItem title="类型设置" extraText="x" arrow="right" />
+        <AtListItem title="类型设置" extraText="" arrow="right" />
+        <AtListItem 
+          title="RSA加密设置" 
+          extraText="2" 
+          arrow="right" 
+          onClick={() => Taro.navigateTo({url: '/pages/Profile/subpages/RSAKey/index'})} 
+        />
       </AtList>
     </View>
   )
