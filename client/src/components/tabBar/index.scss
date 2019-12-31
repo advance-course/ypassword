@@ -1,0 +1,97 @@
+.tab-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  font-size: 32px;
+  background: transparent;
+
+  &-wrap {
+    display: flex;
+    height: 100%;
+    // margin-top: 40px;
+    align-items: center;
+    background: #ffffff;
+
+    &-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 8px;
+
+      &-iconGroup {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+
+        &-icon {
+          width: 60px;
+          height: 60px;
+
+          &.indexAnimated {
+            animation: .5s ease-in both icon;
+          }
+
+
+        }
+
+        &-square {
+          position: absolute;
+          background-color: #ffd64f;
+          width: 35rpx;
+          height: 0;
+          border-radius: 50%;
+          right: 0px;
+          bottom: 0;
+          opacity: 0;
+          transform-origin: 80% 80%;
+
+          &.indexAnimated {
+            animation: 1s ease-in both square;
+            transition: height .3s ease .25s;
+            height: 35rpx;
+          }
+        }
+
+        &-text {
+          font-size: 24px;
+          line-height: 42px;
+          background: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+
+@keyframes icon {
+  0% {
+    transform: scale(0);
+  }
+
+  70% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes square {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  60% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

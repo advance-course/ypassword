@@ -14,6 +14,7 @@ const store = dvaApp.getStore();
 class App extends Component {
   config: Config = {
     pages: [
+      'pages/Layout/index',
       'pages/index/index',
       'pages/Category/index',
       'pages/Profile/index',
@@ -70,7 +71,9 @@ class App extends Component {
       })
     }
   }
-
+  // componentDidShow() {
+  //   Taro.hideTabBar()
+  // }
   render () {
     return (
       <Provider store={store}>
