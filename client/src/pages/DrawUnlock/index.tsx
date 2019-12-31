@@ -204,6 +204,18 @@ export default function DrawUnlock(props):DrawUnlockProps {
       // cacheCanvasCtx.clearRect(0,0,375,400);
       cacheCanvasCtx.draw()
       drawErrorTips(cacheCanvasCtx)
+
+      setTimeout(() => {
+        lineCtx.draw()
+        cacheCanvasCtx.draw()
+        drawHollowCircle(cacheCanvasCtx)
+        pwdArr = []
+        prePointIndex = undefined
+
+        // 绑定
+        hasBindTouchStart = true
+        hasBindTouchMove = true
+      },2000)
     }
   }
 
