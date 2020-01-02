@@ -58,7 +58,7 @@ export default function GestureLock(props:Props) {
     lineWidth,
   } = { ...options, ...props.options }
 
-  function getCircleArr(offsetX:number, offsetY:number, diffX:number, diffY:number):Point[] {
+  function getCircleArr(offsetX:number, offsetY:number, diffX:number, diffY:number, circleR:number):Point[] {
     let circleArr:Point[] = []
 
     for (let col = 0; col < 3; col++) {
@@ -71,7 +71,7 @@ export default function GestureLock(props:Props) {
         circleArr.push(positionObj)
       }
     }
-    console.log(circleArr)
+
     return circleArr
 
   }
@@ -87,7 +87,7 @@ export default function GestureLock(props:Props) {
       if (pwdArr.indexOf(i) >= 0 || dir > touchRange ) {
         continue;
       } else {
-        Taro.vibrateShort()
+        Taro.vibrateShort()  // 震动
         pwdArr.push(i)
         drawConnectLine(baseCanvasCtx, i)
         drawSolidCircle(baseCanvasCtx, i)
@@ -98,25 +98,25 @@ export default function GestureLock(props:Props) {
 
   }, 30)
 
-  function drawBaseCircle(ctx:any, index:number) {
+  function drawBaseCircle(ctx:any, point:Point, circleR:number) {
     ctx.setStrokeStyle(circleBorderColor)
     ctx.lineWidth = 2.5
     ctx.beginPath()
-    ctx.arc(circleArr[index].x, circleArr[index].y, circleR, 0, 2*Math.PI)
+    ctx.arc(point.x, point.y, circleR, 0, 2*Math.PI)
     ctx.stroke()
     ctx.draw(true)
     
     ctx.setFillStyle(circleColor)
     ctx.beginPath()
-    ctx.arc(circleArr[index].x, circleArr[index].y, circleR-1, 0, 2*Math.PI)
+    ctx.arc(point.x, point.y, circleR-1, 0, 2*Math.PI)
     ctx.fill()
     ctx.draw(true)
   }
 
-  function drawNineCircle(ctx:any){
+  function drawNineCircle(ctx:any, circleArr:Point[], circleR:number){
 
     circleArr.forEach((v, i) => {
-      drawBaseCircle(ctx, i)
+      drawBaseCircle(ctx, circleArr[i], circleR)
     })
   }
 
@@ -166,13 +166,13 @@ export default function GestureLock(props:Props) {
       ctx.stroke()
       ctx.draw(true)
 
-      drawBaseCircle(ctx, prePointIndex)
+      drawBaseCircle(ctx, circleArr[prePointIndex], circleR)
 
       drawSolidCircle(ctx, prePointIndex)
 
     }
 
-    drawBaseCircle(ctx, index)
+    drawBaseCircle(ctx, circleArr[index], circleR)
 
     drawSolidCircle(ctx, index)
     
@@ -194,7 +194,7 @@ export default function GestureLock(props:Props) {
       return b
     })
 
-    drawNineCircle(baseCanvasCtx)
+    drawNineCircle(baseCanvasCtx, circleArr, circleR)
 
     pwdArr.forEach((v) => {
       ctx.setFillStyle('#F56C6C')
@@ -249,7 +249,7 @@ export default function GestureLock(props:Props) {
       })
 
       // baseCanvasCtx.clearRect(0,0,375,400);
-      baseCanvasCtx.draw()
+      // baseCanvasCtx.draw()
       drawErrorTips(baseCanvasCtx)
 
       setTimeout(() => {
@@ -257,7 +257,7 @@ export default function GestureLock(props:Props) {
         baseCanvasCtx.draw()
         pwdArr = []
         prePointIndex = undefined
-        drawNineCircle(baseCanvasCtx)
+        drawNineCircle(baseCanvasCtx, circleArr, circleR)
 
         // 绑定
         hasBindTouchStart = true
@@ -281,39 +281,31 @@ export default function GestureLock(props:Props) {
       let diffX = (canvasWidth-offsetX*2-circleR*2*3)/2
       let diffY = (canvasHeight-offsetY*2-circleR*2*3)/2
 
-      circleArr = getCircleArr(offsetX, offsetY, diffX, diffY)
+      circleArr = getCircleArr(offsetX, offsetY, diffX, diffY, circleR)
 
-      drawNineCircle(baseCanvasCtx)
+      drawNineCircle(baseCanvasCtx, circleArr, circleR)
 
     }).exec();
 
-    // query.select('.gesture_preview').boundingClientRect((rect) => {
+    query.select('.gesture_preview').boundingClientRect((rect) => {
 
-    //   let canvasWidth = rect.width
-    //   let canvasHeight = rect.height
+      let canvasWidth = rect.width
+      let canvasHeight = rect.height
 
-    //   let offsetX = 5
-    //   let offsetY = 5
-    //   let rectWidth = 5
+      let offsetX = 1
+      let offsetY = 1
+      let circleR = 5
 
-    //   let diffX = (canvasWidth-offsetX*2-rectWidth*2*3)/2
-    //   let diffY = (canvasHeight-offsetY*2-rectWidth*2*3)/2
+      let diffX = (canvasWidth-offsetX*2-circleR*2*3)/2
+      let diffY = (canvasHeight-offsetY*2-circleR*2*3)/2
 
-    //   let circleArr = getCircleArr(offsetX, offsetY, diffX, diffY)
+      let circleArr = getCircleArr(offsetX, offsetY, diffX, diffY, circleR)
+console.log(circleArr)
+      let ctx = Taro.createCanvasContext('previewCanvas', this.$scope)
 
-    //   let ctx = Taro.createCanvasContext('previewCanvas', this.$scope)
+      drawNineCircle(ctx, circleArr, circleR)
 
-    //   circleArr.forEach((v) => {
-    //     ctx.setStrokeStyle(circleBorderColor)
-
-    //     ctx.beginPath()
-    //     ctx.arc(circleArr[index].x, circleArr[index].y, circleR, 0, 2*Math.PI)
-    //     ctx.stroke()
-    //     ctx.draw(true)
-        
-    //   })
-
-    // }).exec();
+    }).exec();
 
 
 
