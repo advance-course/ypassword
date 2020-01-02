@@ -15,3 +15,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
   )
 }
 
+DrawUnlock.config = {
+  disableScroll: true
+}
+

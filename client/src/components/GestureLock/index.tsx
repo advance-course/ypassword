@@ -24,17 +24,17 @@ interface Point {
 let hasBindTouchStart:boolean = true  // 有没有绑定touchstart事件
 let hasBindTouchMove:boolean = true  // 有没有绑定touchmove事件
 
-let previewCanvas:any = null  // 预览context
 let lineCtx:any = null  // 直线画笔context
+let lineCacheCtx:any = null  // 缓存直线的context
 let baseCanvasCtx:any = null  // 基础画布context
-let prePointIndex:number | undefined = undefined  // 前一个选中的点的index
+let prePointIndex:number | null = null  // 前一个选中的点的index
 let circleR:number = 33  // 默认空心圆的半径
 let touchRange:number = 35  // 在圆心多少范围内触碰检测
 let circleArr:Point[] = []  // 九宫格圆心对象数组
 let pwdArr:number[] = []  // 画图形得到的密码数组
 let canvasWidth:number = 300  // 画布宽
 let canvasHeight:number = 300  // 画布高
-let offsetX:number = 5  // 内边距
+let offsetX:number = 40  // 内边距
 let offsetY:number = 5  // 内边距
 let circleBorderColor:string = '#717176'
 
@@ -58,6 +58,27 @@ export default function GestureLock(props:Props) {
     lineWidth,
   } = { ...options, ...props.options }
 
+  // 初始数据和画布
+  function initData() {
+    // 清空画布
+    lineCtx.draw()
+    lineCacheCtx.draw()
+    baseCanvasCtx.draw()
+    pwdArr = []
+    prePointIndex = null
+    
+    drawNineCircle(baseCanvasCtx, circleArr, circleR)
+
+    // 绑定
+    changeEventBind(true)
+  }
+
+  function changeEventBind(isBind:boolean) {
+    hasBindTouchStart = isBind
+    hasBindTouchMove = isBind
+  }
+
+  // 获取九个圆心位置
   function getCircleArr(offsetX:number, offsetY:number, diffX:number, diffY:number, circleR:number):Point[] {
     let circleArr:Point[] = []
 
@@ -76,6 +97,7 @@ export default function GestureLock(props:Props) {
 
   }
 
+  // 碰撞检测，得到密码，及相应操作
   const getPwdArr = throttle((touches:any) => {
 
     for(let i = 0, length = circleArr.length; i < length; i++){
@@ -89,7 +111,7 @@ export default function GestureLock(props:Props) {
       } else {
         Taro.vibrateShort()  // 震动
         pwdArr.push(i)
-        drawConnectLine(baseCanvasCtx, i)
+        drawConnectLine(lineCacheCtx, i)
         drawSolidCircle(baseCanvasCtx, i)
         return
       }
@@ -98,6 +120,7 @@ export default function GestureLock(props:Props) {
 
   }, 30)
 
+  // 画基础圆
   function drawBaseCircle(ctx:any, point:Point, circleR:number) {
     ctx.setStrokeStyle(circleBorderColor)
     ctx.lineWidth = 2.5
@@ -113,6 +136,7 @@ export default function GestureLock(props:Props) {
     ctx.draw(true)
   }
 
+  // 画九个圆
   function drawNineCircle(ctx:any, circleArr:Point[], circleR:number){
 
     circleArr.forEach((v, i) => {
@@ -120,6 +144,7 @@ export default function GestureLock(props:Props) {
     })
   }
 
+  // 画激活的圆心
   function drawSolidCircle(ctx:any, index:number) {
 
     const grdOutside = ctx.createCircularGradient(circleArr[index].x, circleArr[index].y, circleR-5)
@@ -133,6 +158,7 @@ export default function GestureLock(props:Props) {
 
   }
 
+  // 画最近点到手指的线
   function drawLine(ctx:any, touches?:any) {
 
     ctx.lineWidth = lineWidth;
@@ -153,10 +179,11 @@ export default function GestureLock(props:Props) {
 
   }
 
+  // 画连接线
   function drawConnectLine(ctx:any, index:number) {
 
     
-    if (prePointIndex !== undefined) {
+    if (prePointIndex !== null) {
 
       ctx.beginPath()
       ctx.lineWidth = lineWidth;
@@ -166,22 +193,16 @@ export default function GestureLock(props:Props) {
       ctx.stroke()
       ctx.draw(true)
 
-      drawBaseCircle(ctx, circleArr[prePointIndex], circleR)
-
-      drawSolidCircle(ctx, prePointIndex)
-
     }
-
-    drawBaseCircle(ctx, circleArr[index], circleR)
-
-    drawSolidCircle(ctx, index)
     
     prePointIndex = index
 
   }
 
+  // 画错误提示
   function drawErrorTips(ctx:any) {
 
+    // 画错误的线
     pwdArr.length && pwdArr.reduce((a,b) => {
       ctx.beginPath()
       ctx.lineWidth = lineWidth;
@@ -194,8 +215,10 @@ export default function GestureLock(props:Props) {
       return b
     })
 
+    // 画九个圆
     drawNineCircle(baseCanvasCtx, circleArr, circleR)
 
+    // 画错误的激活点
     pwdArr.forEach((v) => {
       ctx.setFillStyle('#F56C6C')
       ctx.beginPath()
@@ -206,34 +229,35 @@ export default function GestureLock(props:Props) {
   }
 
 
+  // 手指点击
   function touchStart(e:any) {
     if (!hasBindTouchStart) return  // 判断事件绑定
 
     getPwdArr(e.touches[0])
   }
 
+  // 手指移动
   function touchMove(e:any) {
 
     if (!hasBindTouchMove) return  // 判断事件绑定
 
     getPwdArr(e.touches[0])
-    // this.lineCtx.clearRect(0,0,this.canvasWidth,this.canvasHeight);
 
     drawLine(lineCtx, e.touches[0])
 
   }
 
+  // 手指离开
   function touchEnd() {
-    // lineCtx.clearRect(0,0,canvasWidth,canvasHeight);
     lineCtx.draw()
 
     checkPwd()
 
     // 解除绑定
-    hasBindTouchStart = false
-    hasBindTouchMove = false
+    changeEventBind(false)
   }
 
+  // 检测密码
   function checkPwd() {
     if (pwdArr.join('') === password) {
       Taro.switchTab({
@@ -248,27 +272,17 @@ export default function GestureLock(props:Props) {
         duration: 2000
       })
 
-      // baseCanvasCtx.clearRect(0,0,375,400);
-      // baseCanvasCtx.draw()
       drawErrorTips(baseCanvasCtx)
 
-      setTimeout(() => {
-        lineCtx.draw()
-        baseCanvasCtx.draw()
-        pwdArr = []
-        prePointIndex = undefined
-        drawNineCircle(baseCanvasCtx, circleArr, circleR)
-
-        // 绑定
-        hasBindTouchStart = true
-        hasBindTouchMove = true
-      },2000)
+      // 重置
+      setTimeout(initData, 2000)
     }
   }
 
   useEffect(() => {
 
     lineCtx = Taro.createCanvasContext('lineCanvas', this.$scope)
+    lineCacheCtx = Taro.createCanvasContext('lineCacheCanvas', this.$scope)
     baseCanvasCtx = Taro.createCanvasContext('baseCanvas', this.$scope)
 
     let query = Taro.createSelectorQuery().in(this.$scope);
@@ -283,44 +297,24 @@ export default function GestureLock(props:Props) {
 
       circleArr = getCircleArr(offsetX, offsetY, diffX, diffY, circleR)
 
-      drawNineCircle(baseCanvasCtx, circleArr, circleR)
+      // 初始化
+      initData()
 
     }).exec();
-
-    query.select('.gesture_preview').boundingClientRect((rect) => {
-
-      let canvasWidth = rect.width
-      let canvasHeight = rect.height
-
-      let offsetX = 1
-      let offsetY = 1
-      let circleR = 5
-
-      let diffX = (canvasWidth-offsetX*2-circleR*2*3)/2
-      let diffY = (canvasHeight-offsetY*2-circleR*2*3)/2
-
-      let circleArr = getCircleArr(offsetX, offsetY, diffX, diffY, circleR)
-console.log(circleArr)
-      let ctx = Taro.createCanvasContext('previewCanvas', this.$scope)
-
-      drawNineCircle(ctx, circleArr, circleR)
-
-    }).exec();
-
-
 
   }, [])
 
   return (
     <View className="gesture_wrap" style={{ backgroundColor: bgColor }}>
-      <Canvas className="gesture_preview" canvasId="previewCanvas"></Canvas>
+      <View className="gesture_preview"></View>
 
       <View className="tips">请绘制手势</View>
 
       <View className="gesture_main">
         <Canvas className="gesture_canvas" canvasId="lineCanvas"></Canvas>
+        <Canvas className="gesture_canvas" canvasId="lineCacheCanvas"></Canvas>
         <Canvas
-          className="gesture_canvas overlap"
+          className="gesture_canvas"
           canvasId="baseCanvas"
           onTouchStart={touchStart}
           onTouchMove={touchMove}

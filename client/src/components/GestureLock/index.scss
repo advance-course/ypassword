@@ -22,17 +22,13 @@
 
 .gesture_main {
   margin-top: 80px;
-  display: flex;
-  flex-wrap: wrap;
+  position: relative;
 }
 
 .gesture_canvas {
+  position: absolute;
   margin: 0 auto;
   background-color: transparent;
-  width: 600px;
+  width: 100%;
   height: 600px;        
-}
-
-.overlap {
-  margin-top: -600px;
 }
