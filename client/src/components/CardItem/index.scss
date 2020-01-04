@@ -1,0 +1,124 @@
+.container {
+  font-size: 12Px;
+
+  .box_item, .detail_item {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .box_item {
+    display: flex;
+  }
+
+  .detail_item {
+    display: flex;
+    height: 0;
+    overflow: hidden;
+    margin-top: 10Px;
+  }
+  
+  .detail {
+    color: #FFF;
+    background-color: #8698b1;
+    border: 1rpx solid #c6c5cd;
+    padding: 5Px 15Px;
+    border-radius: 8Px;
+  }
+
+  .detail + .detail {
+    margin-left: 20rpx;
+  }
+
+  .who_icon {
+    width: 35Px;
+    height: 35Px;
+    border: 1Px solid red;
+    margin-right: 15Px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+  }
+  
+  .info {
+    flex: 1;
+  }
+
+  .mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .box {
+    padding: 15Px 15Px 5Px;
+    margin: 10Px;
+    position: relative;
+    z-index: 1;
+    border-radius: 8Px;
+    border: 1Px solid #f9f6fb;
+
+    &.fade_out {
+      animation-name: fadeOut;
+    }
+
+    &.actived {
+      animation-name: Actived;
+
+      > .detail_item {
+        height: auto;
+        transition: all .3s ease;
+      }
+    }
+
+    &.has_actived {
+      border-radius: 0;
+      margin: 10Px;
+      border-color: transparent;
+      background-color: transparent;
+    }
+
+    &.animate {
+      animation-duration: .3s;
+      animation-timing-function: ease;
+      animation-fill-mode: forwards;
+    }
+
+  }
+
+  @keyframes Actived {
+    100% {
+      border-radius: 0;
+      margin: 20Px 0 0;
+      padding: 15Px 25Px;
+      border-color: #DDD;
+      background-color: #FFF;
+      box-shadow: 
+        0Px -3Px 8Px #dddddd,
+        0Px 3Px 8Px #dddddd;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      border-radius: 0;
+      margin: 20Px 0 0;
+      padding: 15Px 25Px;
+      border-color: #DDD;
+      background-color: #FFF;
+      box-shadow: 
+        0Px -3Px 8Px #dddddd,
+        0Px 3Px 8Px #dddddd;
+    }
+
+    100% {
+      border-radius: 8Px;
+      margin: 10Px;
+      border-color: #f9f6fb;
+      background-color: #FFF;
+    }
+  }
+
+}
