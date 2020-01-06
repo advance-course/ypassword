@@ -1,30 +1,43 @@
-import classnames from 'classnames';
+import { Text } from '@tarojs/components'
+import classNames from 'classnames';
 import './index.scss';
 
-const defaultProps = {
-  type: '',//类型
-  spin: false,   //旋转
-  className:'',//
-  color:'',//颜色
-  style:{}//
+interface MyIconProps {
+  type: string;
+  size?: number;
+  className?: string;
+  color?: string;
+  style?:any;
+  prefixClass?: string;
 }
 
-const MyIcon = (props = defaultProps) => {
-  // 依次从props中取出可能会出现的值，此处的other表示其余所有剩余的属性，这是ES6的语法
-  const { type, className, spin, color, style, ...other } = props;
+const MyIcon: React.FC<MyIconProps> = ({
+  // customStyle,
+  className = '',
+  prefixClass = 'icon',
+  type = '',
+  size = 24,
+  color = ''
+}) => {
 
-  // 利用classnames方法计算出最终的classname字符串。
-  const cls = classnames({
-    'icon': true,
-    'icon-spin': !!spin || type === 'loading',
-    [`icon-${type}`]: true
-  }, className);
 
-  const _style = { ...style, color };
+  const rootStyle = {
+    fontSize: `${Taro.pxTransform(size * 2)}`,
+    color
+  }
 
+  const iconName = type ? `${prefixClass}-${type}` : ''
   return (
-    <i className={cls} {...other} style={_style} />
+    <Text
+      className={classNames(
+        'iconfont',
+        prefixClass,
+        iconName,
+        className
+      )}
+      style={rootStyle}
+    >
+    </Text>
   )
 }
-
 export default MyIcon;

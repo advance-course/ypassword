@@ -1,0 +1,50 @@
+{
+  "editor.fontFamily": "Fira Code",
+  // "workbench.colorTheme": "Atom One Light",
+  "atomKeymap.promptV3Features": true,
+  "editor.formatOnPaste": true,
+  // 控制是否显示 minimap
+  "editor.minimap.enabled": false,
+  "editor.renderIndentGuides": false,
+  "editor.letterSpacing": 0.1,
+  // 以像素为单位控制字号。
+  "editor.fontSize": 14,
+  "editor.tabSize": 2,
+  // "editor.lineHeight": 28,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "vue-html": "html",
+    "wxml": "html"
+  },
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "git.autofetch": true,
+  "editor.parameterHints": false,
+  "window.zoomLevel": 0,
+  "java.errors.incompleteClasspath.severity": "ignore",
+  // An array of language ids which should be validated by ESLint
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "files.associations": {
+    "*.cjson": "jsonc",
+    "*.wxss": "css",
+    "*.wxs": "javascript"
+  },
+  "minapp-vscode.disableAutoConfig": true,
+  "editor.snippetSuggestions": "none",
+  "editor.detectIndentation": false,
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.autoClosingBrackets": "beforeWhitespace",
+  "editor.autoClosingQuotes": "beforeWhitespace",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.quoteStyle": "single",
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.quoteStyle": "single",
+  "editor.wordWrapColumn": 400,
+  "explorer.confirmDelete": false
+}
