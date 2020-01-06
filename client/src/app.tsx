@@ -14,6 +14,7 @@ const store = dvaApp.getStore();
 class App extends Component {
   config: Config = {
     pages: [
+      'pages/ImmutableTest/demo-before-lib',
       'pages/index/index',
       'pages/Category/index',
       'pages/Profile/index',
