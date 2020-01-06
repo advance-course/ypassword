@@ -17,6 +17,12 @@ export default function Profile() {
       
       <AtList>
         <AtListItem title="类型设置" extraText="x" arrow="right" />
+        <AtListItem 
+          title="不可变数据集案例" 
+          extraText="" 
+          arrow="right"
+          onClick={() => Taro.navigateTo({url: '/pages/Immutable/index'})}
+        />
       </AtList>
     </View>
   )
