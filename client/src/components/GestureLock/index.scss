@@ -8,9 +8,24 @@
 }
 
 .gesture_preview {
+  display: flex;
+  justify-content: space-around;
+
+  flex-wrap: wrap;
   margin: 0 auto;
   width: 110px;
   height: 110px;
+}
+
+.preview_pointer {
+  margin-left: 13px;
+  width: 16px;
+  height: 16px;
+  background-color: #ccc;
+
+  &.active {
+    background-color: #ecd487;
+  }
 }
 
 .tips {

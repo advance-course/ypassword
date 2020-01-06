@@ -105,7 +105,7 @@ export function drawLine(ctx:Taro.CanvasContext, config: {
   ctx.setLineCap('round')
   let arrLength = pwdArr.length
   let lastPoint = circleArr[pwdArr[arrLength - 1]]
-  
+
   if (arrLength) {
     ctx.beginPath()
     ctx.moveTo(lastPoint.x, lastPoint.y)
@@ -174,4 +174,24 @@ export function drawConnectLine(ctx:any, config: {
   ctx.lineTo(pointB.x, pointB.y);
   ctx.stroke();
   ctx.draw(true);
+}
+
+export function checkCrash(circleArr, touchRange, {moveX, moveY} ):number {
+  
+  let index = -1
+  
+  for(let i = 0, length = circleArr.length; i < length; i++){
+
+    let xDiff = Math.abs(circleArr[i].x - moveX)
+    let yDiff = Math.abs(circleArr[i].y - moveY)
+
+    let dir = Math.sqrt(xDiff*xDiff + yDiff*yDiff);
+
+    if (dir < touchRange) {
+      index = i
+      break
+    }
+  }
+
+  return index
 }
