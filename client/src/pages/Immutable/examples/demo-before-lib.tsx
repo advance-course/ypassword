@@ -1,5 +1,6 @@
 // demo-before-lib
 import Taro, { useState } from '@tarojs/taro'
+import {View, Button} from '@tarojs/components'
 
 export default function App() {
   const [state, setState] = useState(() => {
@@ -34,11 +35,17 @@ export default function App() {
   console.log(state.list[0] === nextState.list[0]) // true
   console.log(state.list[1] === nextState.list[1]) // false
   return (
-    <div>
-      <div>{nextState.title}</div>
-      {nextState.list.map(item => {
-        return (<div key={item.id}>id: {item.id} name: {item.name}</div>)
+    <View>
+      <Button onClick={() => setState(nextState)}>set new state</Button>
+      <View>{state.title}</View>
+      {state.list.map(item => {
+        return (
+          <View key={item.id}>
+            <View>id: {item.id}</View>
+            <View>name: {item.name}</View>
+          </View>
+        )
       })}
-    </div>
+    </View>
   )
 }

@@ -24,11 +24,10 @@ class App extends Component {
 
       // 不可变数据集案例
       "pages/Immutable/index",
-      "pages/Immutable/examples/demo-01",
-      "pages/Immutable/examples/demo-02",
-      "pages/Immutable/examples/demo-03",
-      "pages/Immutable/examples/demo-04",
-      "pages/Immutable/examples/demo-05",
+      "pages/Immutable/examples/demo-01/index",
+      "pages/Immutable/examples/demo-02/index",
+      "pages/Immutable/examples/demo-03/index",
+      "pages/Immutable/examples/demo-04/index",
       "pages/Immutable/examples/demo-before-lib",
       "pages/Immutable/examples/demo-immer",
       "pages/Immutable/examples/demo-immutable",
