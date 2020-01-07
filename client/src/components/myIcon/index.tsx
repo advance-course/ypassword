@@ -9,15 +9,17 @@ interface MyIconProps {
   color?: string;
   style?:any;
   prefixClass?: string;
+  spin?: boolean;
 }
-
+// 使用React.FC泛型类型
 const MyIcon: React.FC<MyIconProps> = ({
   // customStyle,
   className = '',
   prefixClass = 'icon',
   type = '',
   size = 24,
-  color = ''
+  color = '',
+  spin = false,
 }) => {
 
 
@@ -26,14 +28,18 @@ const MyIcon: React.FC<MyIconProps> = ({
     color
   }
 
-  const iconName = type ? `${prefixClass}-${type}` : ''
+  const iconName = type ? `${prefixClass}-${type}` : '';
+
+  const iconSpin = spin ? `${prefixClass}-spin` : '';
+
   return (
     <Text
       className={classNames(
         'iconfont',
         prefixClass,
+        iconSpin,
         iconName,
-        className
+        className,
       )}
       style={rootStyle}
     >
