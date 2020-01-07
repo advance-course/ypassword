@@ -18,7 +18,6 @@ import './index.scss';
 let password = '0124678'  // 默认密码
 
 export default function GestureLock(props: typeof lockConfig) {
-
   let {
     bgColor,
     circleColor,
@@ -32,15 +31,12 @@ export default function GestureLock(props: typeof lockConfig) {
   } = { ...lockConfig, ...props };
   let [pwdArr,setPwdArr] = useState<number[]>([]);
   let [tipsIndex, setTipsIndex] = useState(0)
-
   const [lineCtx] = useState(createCanvasContext('lineCanvas', this.$scope));
   const [lineCacheCtx] = useState(createCanvasContext('lineCacheCanvas', this.$scope));
   const [baseCanvasCtx] = useState(createCanvasContext('baseCanvas', this.$scope));
-
   let circleArrRef = useRef<Point[]>([]);
   let isTouchingRef = useRef(false);
   let prePointIndexRef = useRef<number>(-1);
-
   let tipsObj = ['请绘制图形', '请重新绘制', '密码错误'];
 
   useEffect(() => {
@@ -60,7 +56,6 @@ export default function GestureLock(props: typeof lockConfig) {
   // 初始数据和画布
   function initData() {
     let circleArr = circleArrRef.current
-    
     setTipsIndex(0)
 
     // 清空画布
@@ -78,67 +73,47 @@ export default function GestureLock(props: typeof lockConfig) {
   const getPwdArr: any = throttle((x: number, y: number) => {
     let circleArr = circleArrRef.current
     let prePointIndex = prePointIndexRef.current
-
     let length = pwdArr.length
-
     let currentPwdArr = [...pwdArr]
-
     let index = checkCrash(circleArr, touchRange, {moveX:x, moveY:y})
+
     if (index >= 0) {
-      
       if (length) {
         let prePointer = circleArr[pwdArr[length-1]]
-
         let centerIndex = checkCrash(circleArr, touchRange, {moveX: (x+prePointer.x)/2, moveY: (y+prePointer.y)/2})
-
         if (centerIndex >= 0) {
           if (pwdArr.indexOf(centerIndex) < 0) {
-
             currentPwdArr.push(centerIndex)
-
             drawSolidCircle(baseCanvasCtx, circleArr[centerIndex], {circleR, circleColor});
-
           }
         }
       }
-
       if (pwdArr.indexOf(index) < 0) {
         Taro.vibrateShort()  // 震动
-
         currentPwdArr.push(index)
-        
         prePointIndex >= 0 && drawConnectLine(lineCacheCtx, {
           pointA: circleArr[prePointIndex],
           pointB: circleArr[index],
           lineWidth, 
           lineColor
         });
-  
         drawSolidCircle(baseCanvasCtx, circleArr[index], {circleR, circleColor});
-        
         prePointIndexRef.current = index;
-
         setPwdArr(currentPwdArr)
       }
-      
     }
-
   }, 30)
 
   // 检测密码
   function checkPwd() {
     let circleArr = circleArrRef.current
-
     if (pwdArr.join('') === password) {
       return Taro.switchTab({
         url: '/pages/index/index'
       })
     }
-
     Taro.vibrateLong();
-    
     setTipsIndex(2)
-
     drawErrorTips(baseCanvasCtx, {pwdArr, circleArr, ...props});
     setTimeout(initData, 2000);
   }
@@ -147,11 +122,9 @@ export default function GestureLock(props: typeof lockConfig) {
   function touchMove(e: ITouchEvent) {
     let circleArr = circleArrRef.current
     let isTouching = isTouchingRef.current
-
     if (isTouching) {
       const { x, y } = e.changedTouches[0];
       getPwdArr(x, y);
-
       drawLine(lineCtx, {x, y, lineWidth, lineColor, pwdArr, circleArr});
     }
   }
@@ -159,7 +132,6 @@ export default function GestureLock(props: typeof lockConfig) {
   // 手指离开
   function touchEnd() {
     let isTouching = isTouchingRef.current
-    
     if (isTouching) {
       lineCtx.draw();
       checkPwd();
