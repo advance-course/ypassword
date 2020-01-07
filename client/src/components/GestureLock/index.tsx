@@ -67,7 +67,6 @@ export default function GestureLock(props: typeof lockConfig) {
     lineCtx.draw()
     lineCacheCtx.draw()
     baseCanvasCtx.draw()
-    // pwdArr = []
     pwdArr.length > 0 && setPwdArr([])
     prePointIndexRef.current = -1;
     
@@ -82,6 +81,8 @@ export default function GestureLock(props: typeof lockConfig) {
 
     let length = pwdArr.length
 
+    let currentPwdArr = [...pwdArr]
+
     let index = checkCrash(circleArr, touchRange, {moveX:x, moveY:y})
     if (index >= 0) {
       
@@ -92,28 +93,20 @@ export default function GestureLock(props: typeof lockConfig) {
 
         if (centerIndex >= 0) {
           if (pwdArr.indexOf(centerIndex) < 0) {
-            setPwdArr([...pwdArr, centerIndex])
-            // pwdArr.push(centerIndex)
-          
-            prePointIndex >= 0 && drawConnectLine(lineCacheCtx, {
-              pointA: circleArr[prePointIndex],
-              pointB: circleArr[index],
-              lineWidth, 
-              lineColor
-            });
+
+            currentPwdArr.push(centerIndex)
+
             drawSolidCircle(baseCanvasCtx, circleArr[centerIndex], {circleR, circleColor});
-            
-            prePointIndexRef.current = centerIndex
+
           }
         }
       }
 
       if (pwdArr.indexOf(index) < 0) {
-
         Taro.vibrateShort()  // 震动
-        // pwdArr.push(index)
-        setPwdArr([...pwdArr, index])
 
+        currentPwdArr.push(index)
+        
         prePointIndex >= 0 && drawConnectLine(lineCacheCtx, {
           pointA: circleArr[prePointIndex],
           pointB: circleArr[index],
@@ -124,6 +117,8 @@ export default function GestureLock(props: typeof lockConfig) {
         drawSolidCircle(baseCanvasCtx, circleArr[index], {circleR, circleColor});
         
         prePointIndexRef.current = index;
+
+        setPwdArr(currentPwdArr)
       }
       
     }
@@ -164,7 +159,7 @@ export default function GestureLock(props: typeof lockConfig) {
   // 手指离开
   function touchEnd() {
     let isTouching = isTouchingRef.current
-
+    
     if (isTouching) {
       lineCtx.draw();
       checkPwd();

@@ -134,6 +134,7 @@ export function drawErrorTips(ctx: Taro.CanvasContext, config: {
     circleColor = lockConfig.circleColor,
     circleBorderColor = lockConfig.circleBorderColor
   } = config;
+
   // 画错误的线
   pwdArr.length && pwdArr.reduce((a,b) => {
     ctx.beginPath()
@@ -176,6 +177,7 @@ export function drawConnectLine(ctx:any, config: {
   ctx.draw(true);
 }
 
+// 碰撞检测
 export function checkCrash(circleArr, touchRange, {moveX, moveY} ):number {
   
   let index = -1
