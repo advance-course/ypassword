@@ -16,12 +16,18 @@ export default function Profile() {
       </View>
       
       <AtList>
-        <AtListItem title="类型设置" extraText="" arrow="right" />
+        <AtListItem
+          title="专属秘钥"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/RSAKey/index' })}
+        />
+        
         <AtListItem 
-          title="RSA加密设置" 
-          extraText="2" 
-          arrow="right" 
-          onClick={() => Taro.navigateTo({url: '/pages/Profile/subpages/RSAKey/index'})} 
+          title="密码锁" 
+          extraText="" 
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/Settings/Lock/index' })}
         />
       </AtList>
     </View>

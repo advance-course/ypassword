@@ -21,7 +21,9 @@ class App extends Component {
       "pages/Auth/index",
       "pages/UserInfo/index",
       "pages/Account/Detail/index",
-      "pages/Account/Editor/index"
+      "pages/Account/Editor/index",
+
+      "pages/Settings/Lock/index",
     ],
     window: {
       backgroundTextStyle: "light",
