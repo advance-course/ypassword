@@ -20,6 +20,15 @@ export default function Profile() {
     addLocalStorage({ userName: "test_user", password: "test_pwd" });
     addLocalStorage({ userName: "test_user1", password: "test_pwd1" });
     addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
+    addLocalStorage({ userName: "test_user2", password: "test_pwd2" });
 
     // 获取一页的数据
     dataPerPage = getLocalStorage();

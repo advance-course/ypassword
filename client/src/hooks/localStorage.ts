@@ -8,9 +8,38 @@ const UUID_LENGTH = 36;
 // UUID进制
 const UUID_RADIX = 16;
 
-interface Props {
-  userName: string;
-  password: string;
+interface Item {
+  [key: string]: string | number
+}
+
+// 存入一条数据到本地
+export function addStorage(data: Item) {
+}
+
+// 根据key删除一条本地缓存数据
+export function removeStorage(key: string) {
+}
+
+// 根据key获取一条数据，返回格式化好的数据
+export function getStorage(key: string): Item {
+  // todo
+  return {};
+}
+
+export interface Pagination {
+  pageSize: number,
+  pageNumber: number,
+  list: Item[]
+}
+
+// 传入 第几页，以及 每页大小，获取一页数据
+export function paginationStorage(pageNum: number, pageSize: number = 10): Pagination {
+  // todo
+  return {
+    pageNumber: pageNum,
+    pageSize,
+    list: []
+  };
 }
 
 export const useLocalStorage = () => {
