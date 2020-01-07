@@ -15,11 +15,11 @@ interface Props {
 
 export const useLocalStorage = () => {
   // 键值对映射
-  const [map] = useState<Map<string, Object>>(new Map());
+  const [map]       = useState<Map<string, Object>>(new Map());
   // 上次查询页
-  const [lastPage, setLastPage] = useState(0);
+  let [lastPage]  = useState(1);
   // 总共页数
-  const [pageNum, setPageNum]   = useState(Math.floor(map.size / BENCHMARK));
+  let [pageNum]     = useState(Math.ceil(map.size / BENCHMARK));
 
   /*
   @method addLocalStorage
@@ -30,7 +30,7 @@ export const useLocalStorage = () => {
 
     map.set(key, item);
     Taro.setStorageSync(key, JSON.stringify(item));
-    setPageNum(Math.floor(map.size / BENCHMARK));
+    pageNum = Math.ceil(map.size / BENCHMARK);
   };
 
   /*
@@ -41,13 +41,18 @@ export const useLocalStorage = () => {
   const removeLocalStorage = (page: number, index: number) => {
     const exactIndex = (page - 1) * BENCHMARK + index;
 
-    if (page > pageNum || exactIndex >= map.size)
+    if (page > pageNum || exactIndex >= map.size) {
+      console.log(page);
+      console.log(pageNum);
+      console.log(exactIndex);
+      console.log(map.size);
       throw new Error("Index is out of bounds");
+    }
 
     Taro.removeStorage({ key: [...map][exactIndex][0] })
       .then(() => {
         map.delete([...map][exactIndex][0]);
-        setPageNum(Math.floor(map.size / BENCHMARK));
+        pageNum = Math.ceil(map.size / BENCHMARK);
         return true;
       })
       .catch(err => {
@@ -56,7 +61,7 @@ export const useLocalStorage = () => {
   };
 
   /*
-  @method getLocalStorage
+  @method getLocalStorage 每次获取一页的数据
   @param{number=} page 页数
   @return{Object[] | new Error()} 结果数组或抛出错误
    */
@@ -68,21 +73,23 @@ export const useLocalStorage = () => {
         throw new Error(`The size of localSotrage is ${pageNum}`);
       for (
         let i = (page - 1) * BENCHMARK;
-        i < Math.min(map.size, (page - 1) * BENCHMARK + BENCHMARK);
+        i < Math.min(map.size, (page - 1) * BENCHMARK + BENCHMARK - 1);
         i++
       ) {
-        result.push(JSON.parse(Taro.getStorageSync([...map][i][0])));
+        // 本地数据不为空，则push入result内
+        Taro.getStorageSync([...map][i][0]) ? result.push(JSON.parse(Taro.getStorageSync([...map][i][0]))) : null;
       }
-      setLastPage(page);
+      lastPage = page;
       return result;
     }
 
     for (
       let i = (lastPage - 1) * BENCHMARK;
-      i < Math.min(map.size, (lastPage - 1) * BENCHMARK + BENCHMARK);
+      i < Math.min(map.size, (lastPage - 1) * BENCHMARK + BENCHMARK - 1);
       i++
     ) {
-      result.push(JSON.parse(Taro.getStorageSync([...map][i][0])));
+      // 本地数据不为空，则push入result内
+      Taro.getStorageSync([...map][i][0]) ? result.push(JSON.parse(Taro.getStorageSync([...map][i][0]))) : null;
     }
     return result;
   };
