@@ -4,7 +4,6 @@ import {Provider} from '@tarojs/redux';
 import models from 'store/index';
 import {createApp} from 'utils/dva'
 import {View} from '@tarojs/components';
-
 import 'taro-ui/dist/style/index.scss';
 import './app.scss';
 
