@@ -38,9 +38,9 @@ export default function App () {
 
   const otherChild = useMemo(() => {
     return (
-      <>
+      <div>
       otherState:{otherState}
-      </>
+      </div>
     )
   }, [otherState])
 
@@ -54,8 +54,8 @@ export default function App () {
     <div>
       <button onClick={() => setOtherState(otherState + 1)}>change state!</button><br/>
       <button onClick={() => setList([...list, {id: list.length}])}>change List!</button><br/>
-      {otherChild}
-      {listChild}
+      {/* {otherChild}
+      {listChild} */}
     </div>
   )
 }

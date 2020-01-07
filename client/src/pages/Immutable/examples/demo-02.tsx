@@ -37,7 +37,7 @@ export default function App () {
     <div>
       <button onClick={() => setOtherState(otherState + 1)}>change state!</button>
       otherState:{otherState}
-      <Table list={list} />
+      {/* <Table list={list} /> */}
   </div>
   )
 }
