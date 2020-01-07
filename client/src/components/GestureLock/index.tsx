@@ -1,4 +1,4 @@
-import Taro, { useEffect, useState, createCanvasContext } from '@tarojs/taro';
+import Taro, { useEffect, useState, useRef, createCanvasContext } from '@tarojs/taro';
 import { Canvas, View } from '@tarojs/components';
 import { ITouchEvent } from "@tarojs/components/types/common";
 import {
@@ -18,7 +18,6 @@ import './index.scss';
 let password = '0124678'  // 默认密码
 
 export default function GestureLock(props: typeof lockConfig) {
-  console.log('render')
 
   let {
     bgColor,
@@ -31,14 +30,18 @@ export default function GestureLock(props: typeof lockConfig) {
     circleR,
     circleBorderColor,
   } = { ...lockConfig, ...props };
-  let [circleArr] = useState<Point[]>([]);
-  let [isTouching] = useState(false);
-  let [pwdArr] = useState<number[]>([]);
-  let [prePointIndex] = useState<number>(-1);
+  let [pwdArr,setPwdArr] = useState<number[]>([]);
+  let [tipsIndex, setTipsIndex] = useState(0)
 
   const [lineCtx] = useState(createCanvasContext('lineCanvas', this.$scope));
   const [lineCacheCtx] = useState(createCanvasContext('lineCacheCanvas', this.$scope));
   const [baseCanvasCtx] = useState(createCanvasContext('baseCanvas', this.$scope));
+
+  let circleArrRef = useRef<Point[]>([]);
+  let isTouchingRef = useRef(false);
+  let prePointIndexRef = useRef<number>(-1);
+
+  let tipsObj = ['请绘制图形', '请重新绘制', '密码错误'];
 
   useEffect(() => {
     Taro.createSelectorQuery().in(this.$scope)
@@ -47,7 +50,7 @@ export default function GestureLock(props: typeof lockConfig) {
         const {width, height} = rect;
         const diffX = (width - offsetX * 2 - circleR * 2 * 3) / 2;
         const diffY = (height - offsetY * 2 - circleR * 2 * 3) / 2;
-        circleArr = getCircleArr(offsetX, offsetY, diffX, diffY, circleR);
+        circleArrRef.current = getCircleArr(offsetX, offsetY, diffX, diffY, circleR);
 
         // 初始化
         initData();
@@ -56,20 +59,26 @@ export default function GestureLock(props: typeof lockConfig) {
 
   // 初始数据和画布
   function initData() {
+    let circleArr = circleArrRef.current
+    
+    setTipsIndex(0)
+
     // 清空画布
     lineCtx.draw()
     lineCacheCtx.draw()
     baseCanvasCtx.draw()
-    pwdArr = []
-    // setPwdArr([])
-    prePointIndex = -1;
+    // pwdArr = []
+    pwdArr.length > 0 && setPwdArr([])
+    prePointIndexRef.current = -1;
     
     drawNineCircle(baseCanvasCtx, circleArr, {circleR, circleBorderColor, circleColor});
-    isTouching = true;
+    isTouchingRef.current = true;
   }
 
   // 碰撞检测，得到密码，及相应操作
   const getPwdArr: any = throttle((x: number, y: number) => {
+    let circleArr = circleArrRef.current
+    let prePointIndex = prePointIndexRef.current
 
     let length = pwdArr.length
 
@@ -83,8 +92,8 @@ export default function GestureLock(props: typeof lockConfig) {
 
         if (centerIndex >= 0) {
           if (pwdArr.indexOf(centerIndex) < 0) {
-            // setPwdArr([...pwdArr, centerIndex])
-            pwdArr.push(centerIndex)
+            setPwdArr([...pwdArr, centerIndex])
+            // pwdArr.push(centerIndex)
           
             prePointIndex >= 0 && drawConnectLine(lineCacheCtx, {
               pointA: circleArr[prePointIndex],
@@ -94,7 +103,7 @@ export default function GestureLock(props: typeof lockConfig) {
             });
             drawSolidCircle(baseCanvasCtx, circleArr[centerIndex], {circleR, circleColor});
             
-            prePointIndex = centerIndex
+            prePointIndexRef.current = centerIndex
           }
         }
       }
@@ -102,8 +111,8 @@ export default function GestureLock(props: typeof lockConfig) {
       if (pwdArr.indexOf(index) < 0) {
 
         Taro.vibrateShort()  // 震动
-        pwdArr.push(index)
-        // setPwdArr([...pwdArr, index])
+        // pwdArr.push(index)
+        setPwdArr([...pwdArr, index])
 
         prePointIndex >= 0 && drawConnectLine(lineCacheCtx, {
           pointA: circleArr[prePointIndex],
@@ -114,7 +123,7 @@ export default function GestureLock(props: typeof lockConfig) {
   
         drawSolidCircle(baseCanvasCtx, circleArr[index], {circleR, circleColor});
         
-        prePointIndex = index;
+        prePointIndexRef.current = index;
       }
       
     }
@@ -123,6 +132,8 @@ export default function GestureLock(props: typeof lockConfig) {
 
   // 检测密码
   function checkPwd() {
+    let circleArr = circleArrRef.current
+
     if (pwdArr.join('') === password) {
       return Taro.switchTab({
         url: '/pages/index/index'
@@ -130,31 +141,34 @@ export default function GestureLock(props: typeof lockConfig) {
     }
 
     Taro.vibrateLong();
-    Taro.showToast({
-      title: "密码错误！",
-      icon: "error",
-      duration: 2000
-    });
+    
+    setTipsIndex(2)
+
     drawErrorTips(baseCanvasCtx, {pwdArr, circleArr, ...props});
     setTimeout(initData, 2000);
   }
 
   // 手指移动
   function touchMove(e: ITouchEvent) {
+    let circleArr = circleArrRef.current
+    let isTouching = isTouchingRef.current
+
     if (isTouching) {
       const { x, y } = e.changedTouches[0];
       getPwdArr(x, y);
+
       drawLine(lineCtx, {x, y, lineWidth, lineColor, pwdArr, circleArr});
     }
   }
 
   // 手指离开
   function touchEnd() {
-    console.log(pwdArr)
+    let isTouching = isTouchingRef.current
+
     if (isTouching) {
       lineCtx.draw();
       checkPwd();
-      isTouching = false;
+      isTouchingRef.current = false;
     }
   }
 
@@ -168,9 +182,7 @@ export default function GestureLock(props: typeof lockConfig) {
         }
       </View>
 
-      {pwdArr.length}
-
-      <View className="tips">请绘制手势</View>
+      <View className="tips">{tipsObj[tipsIndex]}</View>
 
       <View className="gesture_main">
         <Canvas className="gesture_canvas" canvasId="lineCanvas" />
