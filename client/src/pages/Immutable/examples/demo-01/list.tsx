@@ -3,7 +3,7 @@ import {View} from '@tarojs/components'
 import Item from './item'
 
 const List = (props: { list: Item[] }) => {
-  console.log('render List')
+  // console.log('render List')
   const { list } = props
   return (
     <View>
@@ -11,5 +11,5 @@ const List = (props: { list: Item[] }) => {
     </View>
   )
 }
-
+List.defaultProps = {list: []}
 export default List

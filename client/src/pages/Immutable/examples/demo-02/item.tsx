@@ -3,10 +3,9 @@ import { View } from '@tarojs/components'
 
 const Item = (props: { item: Item }) => {
   const { item } = props
-  console.log('render Item', item.id)
+  console.log('test Item ***', item)
   return (
     <View>{item.id}</View>
   )
 }
-
 export default Item

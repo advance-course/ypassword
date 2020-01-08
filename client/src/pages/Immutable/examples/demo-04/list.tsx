@@ -3,7 +3,7 @@ import {View} from '@tarojs/components'
 import Item from './item'
 
 const List = (props: { list: Item[] }) => {
-  console.log('render List')
+  // console.log('render List')
   const itemStyle = {
     color: 'red'
   }
@@ -14,5 +14,5 @@ const List = (props: { list: Item[] }) => {
     </View>
   )
 }
-// export default List
+List.defaultProps = { list: [] }
 export default Taro.memo(List)

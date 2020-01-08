@@ -7,5 +7,5 @@ const Item = (props: { item: Item }) => {
     <View>{item.id}</View>
   )
 }
-
+Item.defaultProps = { id: null }
 export default Item
