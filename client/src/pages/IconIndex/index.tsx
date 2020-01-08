@@ -25,24 +25,23 @@ export default function IconIndex() {
 
       <View>
         设置字体大小
-        <MyIcon name='RectangleCopy5' size={60} ></MyIcon>
+        <MyIcon name='RectangleCopy5' size={60} />
       </View>
 
       <View>
         设置颜色
-        <MyIcon name='jian' color={'#f0f'} ></MyIcon>
+        <MyIcon name='jian' color={'#f0f'} />
       </View>
 
       <View>
         设置旋转
-        <MyIcon name='jian'   spin ></MyIcon>
+        <MyIcon name='jian' spin/>
       </View>
 
       <View>
         更多图标
         <View> https://www.iconfont.cn/collections/detail?cid=16880</View>
       </View>
-
     </View>
   );
 }

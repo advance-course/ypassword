@@ -14,16 +14,6 @@ const store = dvaApp.getStore();
 class App extends Component {
   config: Config = {
     pages: [
-<<<<<<< HEAD
-      'pages/index/index',
-      'pages/Category/index',
-      'pages/Profile/index',
-      'pages/Auth/index',
-      'pages/UserInfo/index',
-      'pages/Account/Detail/index',
-      'pages/Account/Editor/index',
-      'pages/IconIndex/index',
-=======
       'pages/DrawUnlock/index',
       "pages/index/index",
       "pages/Category/index",
@@ -33,6 +23,8 @@ class App extends Component {
       "pages/UserInfo/index",
       "pages/Account/Detail/index",
       "pages/Account/Editor/index",
+
+      'pages/IconIndex/index',
 
       "pages/Settings/Lock/index",
       // 不可变数据集案例
@@ -44,7 +36,6 @@ class App extends Component {
       "pages/Immutable/examples/demo-before-lib",
       "pages/Immutable/examples/demo-immer",
       "pages/Immutable/examples/demo-immutable",
->>>>>>> master
     ],
     window: {
       backgroundTextStyle: "light",
