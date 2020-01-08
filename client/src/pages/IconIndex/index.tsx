@@ -39,9 +39,8 @@ export default function IconIndex() {
       </View>
 
       <View>
-        测试字体
+        更多图标
         <View> https://www.iconfont.cn/collections/detail?cid=16880</View>
-        <View className='din'>this is DIN English font</View>
       </View>
 
     </View>

@@ -34,6 +34,12 @@ export default function Profile() {
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Immutable/index' })}
         />
+        <AtListItem
+          title="图标"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/IconIndex/index' })}
+        />
       </AtList>
     </View>
   )
