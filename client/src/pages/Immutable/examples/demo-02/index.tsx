@@ -5,7 +5,6 @@ import List from './list'
 import Other from './other'
 
 export default function App() {
-  console.log('test app ****')
   let [other, setOther] = useState(0)
   let [list, setList] = useState<Item[]>(() => {
     return Array(10).fill(0).map((val, index) => ({ id: index }))

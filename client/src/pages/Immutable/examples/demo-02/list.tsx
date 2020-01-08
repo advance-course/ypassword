@@ -3,7 +3,6 @@ import {View} from '@tarojs/components'
 import Item from './item'
 
 const List = (props: { list: Item[] }) => {
-  console.log('test list***', props.list)
   const { list } = props
   return (
     <View>

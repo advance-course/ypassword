@@ -25,7 +25,6 @@ export default function App() {
   })
 
   let immutableObj = newStateMap.toJS()
-  console.log(immutableObj)
 
   return (
     <View>
