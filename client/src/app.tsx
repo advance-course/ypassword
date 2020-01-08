@@ -33,6 +33,8 @@ class App extends Component {
       "pages/Immutable/examples/demo-before-lib",
       "pages/Immutable/examples/demo-immer",
       "pages/Immutable/examples/demo-immutable",
+
+      "pages/Taroui/index"
     ],
     window: {
       backgroundTextStyle: "light",

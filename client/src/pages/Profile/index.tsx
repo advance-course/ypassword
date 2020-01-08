@@ -34,6 +34,13 @@ export default function Profile() {
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Immutable/index' })}
         />
+
+        <AtListItem
+          title="Taro UI"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/Taroui/index' })}
+        />
       </AtList>
     </View>
   )
