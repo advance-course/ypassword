@@ -1,6 +1,5 @@
-import Taro, { Config, useEffect, useState } from '@tarojs/taro';
-import { View, Image } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
+import Taro, { Config, useEffect } from '@tarojs/taro';
+import { View } from '@tarojs/components';
 import qs from 'qs';
 import { accounts } from './entity';
 import "./index.scss";
@@ -33,11 +32,11 @@ export default function Index() {
             <View className="title">{item.title}</View>
             <View className="username">{item.username}</View>
           </View>
-          <AtIcon value="clock" size="20" color="orange" />
-          <AtIcon prefixClass='icon' value='jian' size='40' color='#F00'></AtIcon>
-          <AtIcon prefixClass='icon' value='RectangleCopy' size='20' color='#F00'></AtIcon>
         </View>
       ))}
+      <View  onClick={() => Taro.navigateTo({ url: `/pages/IconIndex/index` })}>
+        <View className="account_item">图标</View>
+      </View>
     </View>
   );
 }

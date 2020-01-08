@@ -25,20 +25,17 @@ export default function Layout() {
           {
             text: '',
             pagePath: '/pages/index/index',
-            iconPath: '/assets/navigations/home_default@2x.png',
-            selectedIconPath: '/assets/navigations/home_active@2x.png'
+            iconPath: 'RectangleCopy5',
           },
           {
             text: '',
             pagePath: '/pages/Category/index',
-            iconPath: '/assets/navigations/message_default@2x.png',
-            selectedIconPath: '/assets/navigations/message_active@2x.png'
+            iconPath: 'RectangleCopy34',
           },
           {
             text: '',
             pagePath: '/pages/Profile/index',
-            iconPath: '/assets/navigations/profile_default@2x.png',
-            selectedIconPath: '/assets/navigations/profile_active@2x.png'
+            iconPath: 'RectangleCopy162',
           },
         ]}
       />

@@ -4,11 +4,9 @@ import {Provider} from '@tarojs/redux';
 import models from 'store/index';
 import {createApp} from 'utils/dva'
 import {View} from '@tarojs/components';
-
 import 'taro-ui/dist/style/index.scss';
-import './assets/css/iconfont/iconfont.css'
-import './assets/css/stylesheet.css'
 import './app.scss';
+import 'assets/css/stylesheet.scss'
 
 const dvaApp = createApp({initialState: {}, models});
 const store = dvaApp.getStore();
@@ -24,6 +22,7 @@ class App extends Component {
       'pages/UserInfo/index',
       'pages/Account/Detail/index',
       'pages/Account/Editor/index',
+      'pages/IconIndex/index',
     ],
     window: {
       backgroundTextStyle: 'light',
