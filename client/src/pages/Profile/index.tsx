@@ -22,12 +22,17 @@ export default function Profile() {
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/RSAKey/index' })}
         />
-        
         <AtListItem 
           title="密码锁" 
           extraText="" 
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Settings/Lock/index' })}
+        />
+        <AtListItem
+          title="不可变数据集案例"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/Immutable/index' })}
         />
       </AtList>
     </View>

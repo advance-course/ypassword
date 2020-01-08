@@ -24,6 +24,15 @@ class App extends Component {
       "pages/Account/Editor/index",
 
       "pages/Settings/Lock/index",
+      // 不可变数据集案例
+      "pages/Immutable/index",
+      "pages/Immutable/examples/demo-01/index",
+      "pages/Immutable/examples/demo-02/index",
+      "pages/Immutable/examples/demo-03/index",
+      "pages/Immutable/examples/demo-04/index",
+      "pages/Immutable/examples/demo-before-lib",
+      "pages/Immutable/examples/demo-immer",
+      "pages/Immutable/examples/demo-immutable",
     ],
     window: {
       backgroundTextStyle: "light",
