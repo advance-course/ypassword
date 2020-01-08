@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { View, Label, Image } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
-import useUserInfo from 'src/hooks/useUserInfo';
+import useUserInfo from 'hooks/useUserInfo';
 import './index.scss';
 
 export default function Profile() {
@@ -16,7 +16,24 @@ export default function Profile() {
       </View>
       
       <AtList>
-        <AtListItem title="类型设置" extraText="x" arrow="right" />
+        <AtListItem
+          title="专属秘钥"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/RSAKey/index' })}
+        />
+        <AtListItem 
+          title="密码锁" 
+          extraText="" 
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/Settings/Lock/index' })}
+        />
+        <AtListItem
+          title="不可变数据集案例"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/Immutable/index' })}
+        />
       </AtList>
     </View>
   )
