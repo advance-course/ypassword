@@ -2,8 +2,8 @@ import { Text } from '@tarojs/components'
 import classNames from 'classnames';
 import './index.scss';
 
-interface MyIconProps {
-  type: string;
+interface IconProps {
+  name: string;
   size?: number;
   className?: string;
   color?: string;
@@ -12,26 +12,21 @@ interface MyIconProps {
   spin?: boolean;
 }
 // 使用React.FC泛型类型
-const MyIcon: React.FC<MyIconProps> = ({
+const MyIcon: React.FC<IconProps> = ({
   // customStyle,
   className = '',
   prefixClass = 'icon',
-  type = '',
+  name = '',
   size = 24,
   color = '',
   spin = false,
 }) => {
-
-
   const rootStyle = {
     fontSize: `${Taro.pxTransform(size * 2)}`,
     color
   }
-
-  const iconName = type ? `${prefixClass}-${type}` : '';
-
+  const iconName = name ? `${prefixClass}-${name}` : '';
   const iconSpin = spin ? `${prefixClass}-spin` : '';
-
   return (
     <Text
       className={classNames(

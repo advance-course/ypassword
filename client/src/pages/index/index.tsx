@@ -32,9 +32,6 @@ export default function Index() {
           </View>
         </View>
       ))}
-      <View  onClick={() => Taro.navigateTo({ url: `/pages/IconIndex/index` })}>
-        <View className="account_item">图标</View>
-      </View>
     </View>
   );
 }

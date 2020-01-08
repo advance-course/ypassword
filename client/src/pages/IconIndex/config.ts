@@ -1,5 +1,5 @@
+// https://www.iconfont.cn/collections/detail?cid=16880
 export const icons = [
-  'jian',
   'RectangleCopy',
   'RectangleCopy1',
   'RectangleCopy2',
@@ -28,5 +28,18 @@ export const icons = [
   'RectangleCopy25',
   'RectangleCopy26',
   'RectangleCopy27',
-  'RectangleCopy28'
+  'RectangleCopy28',
+  'RectangleCopy29',
+  'RectangleCopy30',
+  'RectangleCopy31',
+  'RectangleCopy32',
+  'RectangleCopy33',
+   'RectangleCopy34',
+  'RectangleCopy35',
+  'RectangleCopy36',
+  'RectangleCopy37',
+  'RectangleCopy38',
+  'RectangleCopy39',
+  'RectangleCopy40',
+  'RectangleCopy41',
 ]
