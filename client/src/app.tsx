@@ -15,9 +15,9 @@ class App extends Component {
   config: Config = {
     pages: [
       'pages/DrawUnlock/index',
-      'pages/Layout/index',
       "pages/index/index",
       "pages/Category/index",
+      "pages/List/index",
       "pages/Profile/index",
       "pages/Profile/subpages/RSAKey/index",
       "pages/Auth/index",
@@ -25,7 +25,7 @@ class App extends Component {
       "pages/Account/Detail/index",
       "pages/Account/Editor/index",
 
-      'pages/IconIndex/index',
+      "pages/IconIndex/index",
 
       "pages/Settings/Lock/index",
       // 不可变数据集案例
@@ -36,7 +36,7 @@ class App extends Component {
       "pages/Immutable/examples/demo-04/index",
       "pages/Immutable/examples/demo-before-lib",
       "pages/Immutable/examples/demo-immer",
-      "pages/Immutable/examples/demo-immutable",
+      "pages/Immutable/examples/demo-immutable"
     ],
     window: {
       backgroundTextStyle: "light",
@@ -47,17 +47,22 @@ class App extends Component {
     },
     tabBar: {
       custom: true,
-      color: '#CCC',
-      selectedColor: '#458CFA',
-      backgroundColor: '#F7F7F7',
-      borderStyle: 'white',
-      position: 'bottom',
+      color: "#CCC",
+      selectedColor: "#458CFA",
+      backgroundColor: "#F7F7F7",
+      borderStyle: "white",
+      position: "bottom",
       list: [
         {
           text: "",
           pagePath: "pages/index/index",
           iconPath: "assets/navigations/home_default@2x.png",
           selectedIconPath: "assets/navigations/home_active@2x.png"
+        },
+        {
+          text: "",
+          pagePath: "pages/List/index",
+          iconPath: "assets/navigations/work_default.png"
         },
         {
           text: "",
@@ -74,9 +79,8 @@ class App extends Component {
       ]
     },
     cloud: true,
-    "usingComponents":{
-    }
-  }
+    usingComponents: {}
+  };
 
   componentDidMount() {
     if (process.env.TARO_ENV === "weapp") {
@@ -86,10 +90,7 @@ class App extends Component {
       });
     }
   }
-  // componentDidShow() {
-  //   Taro.hideTabBar()
-  // }
-  render () {
+  render() {
     return (
       <Provider store={store}>
         <View />
