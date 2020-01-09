@@ -18,24 +18,24 @@ export default function IconIndex() {
     <View className="container">
       {icons.map((item, i) => (
         <View key={i} className='itemContainer'>
-            <MyIcon name={item} />
+            <MyIcon name={item}/>
             <Text className='itemStyle'>{item}</Text>
           </View>
         ))}
 
       <View>
         设置字体大小
-        <MyIcon name='RectangleCopy5' size={60} />
+        <MyIcon name='safe' size={60}/>
       </View>
 
       <View>
         设置颜色
-        <MyIcon name='jian' color={'#f0f'} />
+        <MyIcon name='reduce' color={'#f0f'}/>
       </View>
 
       <View>
         设置旋转
-        <MyIcon name='jian' spin/>
+        <MyIcon name='reduce' spin/>
       </View>
 
       <View>
