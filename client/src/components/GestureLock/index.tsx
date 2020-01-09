@@ -108,8 +108,8 @@ export default function GestureLock(props: typeof lockConfig) {
   function checkPwd() {
     let circleArr = circleArrRef.current
     if (pwdArr.join('') === password) {
-      return Taro.switchTab({
-        url: '/pages/index/index'
+      return Taro.navigateTo({
+        url: '/pages/Layout/index'
       })
     }
     Taro.vibrateLong();
