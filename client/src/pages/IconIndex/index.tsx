@@ -1,9 +1,8 @@
 import Taro, { Config,useEffect } from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import { icons } from './config';
 import "./index.scss";
 import MyIcon from 'components/myIcon';
-
 
 export default function IconIndex() {
   useEffect(() => {
@@ -19,31 +18,30 @@ export default function IconIndex() {
     <View className="container">
       {icons.map((item, i) => (
         <View key={i} className='itemContainer'>
-            <MyIcon type={item} />
+            <MyIcon name={item}/>
+            <Text className='itemStyle'>{item}</Text>
           </View>
         ))}
 
       <View>
         设置字体大小
-        <MyIcon type='RectangleCopy5' size={60} ></MyIcon>
+        <MyIcon name='safe' size={60}/>
       </View>
 
       <View>
         设置颜色
-        <MyIcon type='jian' color={'#f0f'} ></MyIcon>
+        <MyIcon name='reduce' color={'#f0f'}/>
       </View>
 
       <View>
         设置旋转
-        <MyIcon type='jian'   spin ></MyIcon>
+        <MyIcon name='reduce' spin/>
       </View>
 
       <View>
-        测试字体
-        <View>这是原字体</View>
-        <View className='din'>this is DIN English font</View>
+        更多图标
+        <View> https://www.iconfont.cn/collections/detail?cid=16880</View>
       </View>
-
     </View>
   );
 }

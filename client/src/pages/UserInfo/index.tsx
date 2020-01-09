@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
-import useUserInfo from 'src/hooks/useUserInfo';
+import useUserInfo from 'hooks/useUserInfo';
 
 export default function UserInfo() {
   const { nickName = '', avatarUrl = '', country = '', province = '', gender = 1, city = '' } = useUserInfo();

@@ -1,0 +1,49 @@
+.gesture_wrap {
+  position: fixed;
+  padding-top: 70px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.gesture_preview {
+  display: flex;
+  justify-content: space-around;
+
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 110px;
+  height: 110px;
+}
+
+.preview_pointer {
+  margin-left: 13px;
+  width: 16px;
+  height: 16px;
+  background-color: #ccc;
+
+  &.active {
+    background-color: #ecd487;
+  }
+}
+
+.tips {
+  padding-top: 30px;
+  text-align: center;
+  font-size: 32px;
+  color: #fff;
+}
+
+.gesture_main {
+  margin-top: 80px;
+  position: relative;
+}
+
+.gesture_canvas {
+  position: absolute;
+  margin: 0 auto;
+  background-color: transparent;
+  width: 100%;
+  height: 600px;        
+}
