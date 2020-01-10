@@ -35,7 +35,7 @@ export default function RealTabBar({
 }: RealTabBarProps) {
   const [animated, setAnimated] = useState(false);
   const tabItemClick = (index: number) => {
-    onClick(index);
+    current !== index && onClick(index);
     current !== index && setAnimated(true);
   };
   return (
