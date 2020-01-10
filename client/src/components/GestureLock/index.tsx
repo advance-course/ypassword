@@ -1,4 +1,5 @@
 import Taro, { useEffect, useState, useRef, createCanvasContext } from '@tarojs/taro';
+import { useDispatch } from '@tarojs/redux';
 import { Canvas, View } from '@tarojs/components';
 import { ITouchEvent } from "@tarojs/components/types/common";
 import {
@@ -40,6 +41,8 @@ export default function GestureLock(props: typeof lockConfig) {
   let circleArrRef = useRef<Point[]>([]);
   let isTouchingRef = useRef(false);
   let prePointIndexRef = useRef<number>(-1);
+
+  const dispatch = useDispatch()
 
   let tipsObj = ['请绘制图形', '请重新绘制', '密码错误'];
 
@@ -130,6 +133,8 @@ export default function GestureLock(props: typeof lockConfig) {
     let circleArr = circleArrRef.current
 
     if (pwdArr.join('') === password) {
+      dispatch({type: 'setIsVerified', isVerified: true})
+
       return Taro.switchTab({
         url: '/pages/index/index'
       })
@@ -172,7 +177,9 @@ export default function GestureLock(props: typeof lockConfig) {
       <View className="gesture_preview">
         {
           Array.from({length:9}).map((v, i) => (
-            <View key={i} className={`preview_pointer ${pwdArr.indexOf(i) > -1 ? 'active' : ''}`}></View>
+            <View key={i} className="pointer_wrap">
+              <View className={`pointer ${pwdArr.indexOf(i) > -1 ? 'active' : ''}`}></View>
+            </View>
           ))
         }
       </View>

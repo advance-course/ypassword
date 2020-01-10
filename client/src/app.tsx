@@ -13,7 +13,6 @@ const store = dvaApp.getStore();
 class App extends Component {
   config: Config = {
     pages: [
-      'pages/DrawUnlock/index',
       "pages/index/index",
       "pages/Category/index",
       "pages/Profile/index",
@@ -22,7 +21,7 @@ class App extends Component {
       "pages/UserInfo/index",
       "pages/Account/Detail/index",
       "pages/Account/Editor/index",
-
+      'pages/DrawUnlock/index',
       "pages/Settings/Lock/index",
     ],
     window: {

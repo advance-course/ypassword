@@ -17,14 +17,21 @@
   height: 110px;
 }
 
-.preview_pointer {
-  margin-left: 13px;
-  width: 16px;
+.pointer_wrap {
+  display: flex;
+  justify-content: center;
+  width: 33.33%;
   height: 16px;
-  background-color: #ccc;
+  
+  .pointer {
+    display: flex;
+    width: 16px;
+    height: 16px;
+    background-color: #ccc;
 
-  &.active {
-    background-color: #ecd487;
+    &.active {
+      background-color: #ecd487;
+    }
   }
 }
 

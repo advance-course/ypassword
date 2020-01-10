@@ -5,7 +5,12 @@ export default function Login() {
   const [context, setContext] = useState();
 
   function getLogin() {
-    Taro.cloud.callFunction({ name: 'login' }).then(res => {
+    Taro.cloud.callFunction({
+      name: 'user',
+      data: {
+        $url: 'login'
+      }
+    }).then(res => {
       setContext(res.result);
     })
 
@@ -20,7 +25,10 @@ export default function Login() {
 
   function getUserInfo() {
     Taro.cloud.callFunction({
-      name: 'userInfoApi'
+      name: 'user',
+      data: {
+        $url: 'info',
+      }
     }).then(res => {
       console.log(res);
     }).catch(e => {

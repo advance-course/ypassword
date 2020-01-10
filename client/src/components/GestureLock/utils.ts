@@ -4,10 +4,8 @@ export interface Point {
 }
 
 export const lockConfig = {
-  /** 画布宽 */
-  canvasWith: 300,
-  /** 画布高 */
-  canvasHeight: 300,
+  // 锁的开启状态
+  isLocking: true,
   /** x内边距 */
   offsetX: 40,
   /** y内边距 */
