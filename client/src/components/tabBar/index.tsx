@@ -13,7 +13,7 @@ interface TabItem {
 }
 
 interface RealTabBarProps {
-  initial: boolean;
+  initial?: boolean;
   current: number;
   backgroundColor: string;
   color: string;
@@ -31,23 +31,13 @@ export default function RealTabBar({
   // fixed = false,
   onClick = () => {},
   tabList = [],
-  initial = true
+  initial = false
 }: RealTabBarProps) {
-  // const [animated, setAnimated] = useState(false);
-
+  const [animated, setAnimated] = useState(false);
   const tabItemClick = (index: number) => {
-    // onClick(index);
-    Taro.switchTab({
-      url: tabList[index].pagePath,
-    }).then(() => {
-      onClick(index);
-      console.log(current, index)
-      // current === index && setAnimated(true);
-    });
+    onClick(index);
+    current !== index && setAnimated(true);
   };
-  console.log(current)
-  // useEffect(() => {
-  // }, [current]);
   return (
     <View className="tab-bar" style={{ backgroundColor }}>
       <View className="tab-bar-wrap">
@@ -60,8 +50,7 @@ export default function RealTabBar({
             <View
               className={classNames({
                 "tab-bar-wrap-item-iconGroup": true,
-                animated: !initial && current === index,
-                initialAnimated: initial && current === 0,
+                animated: (animated || initial) && current === index,
                 animateLine: index === 0,
                 animateTranslate: index === 1,
                 animateRotate: index === 2,
@@ -69,7 +58,7 @@ export default function RealTabBar({
               })}
             >
               <View className="tab-bar-wrap-item-iconGroup-icon">
-                <MyIcon size={35} name={item.iconPath} />
+                <MyIcon size={28} name={item.iconPath} />
               </View>
 
               <View className="tab-bar-wrap-item-iconGroup-square"></View>

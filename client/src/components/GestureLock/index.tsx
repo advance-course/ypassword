@@ -14,6 +14,7 @@ import {
 } from './utils';
 import {throttle} from 'utils';
 import './index.scss';
+import { useDispatch } from '@tarojs/redux';
 
 let password = '0124678'  // 默认密码
 
@@ -38,7 +39,7 @@ export default function GestureLock(props: typeof lockConfig) {
   let isTouchingRef = useRef(false);
   let prePointIndexRef = useRef<number>(-1);
   let tipsObj = ['请绘制图形', '请重新绘制', '密码错误'];
-
+  const dispatch = useDispatch()
   useEffect(() => {
     Taro.createSelectorQuery().in(this.$scope)
       .select(".gesture_canvas")
@@ -108,9 +109,12 @@ export default function GestureLock(props: typeof lockConfig) {
   function checkPwd() {
     let circleArr = circleArrRef.current
     if (pwdArr.join('') === password) {
+       dispatch({
+         type: "global/setLockingStatus",
+         isLocking: false
+       });
       return Taro.navigateTo({
         url: '/pages/Layout/index'
-        // url: '/pages/index/index'
       });
     }
     Taro.vibrateLong();

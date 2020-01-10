@@ -1,3 +1,15 @@
+@supports (bottom: constant(safe-area-inset-bottom)) {
+  .tab-bar {
+    padding-bottom: constant(safe-area-inset-bottom);
+  }
+}
+
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .tab-bar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
 .tab-bar {
   position: fixed;
   left: 0;
@@ -30,26 +42,26 @@
 
         .tab-bar-badge {
           position: absolute;
-          top: 0%;
-          right: 0%;
-          width: 30px;
-          height: 30px;
+          top: 0px;
+          right: 0px;
+          width: 25px;
+          height: 25px;
           border-radius: 50%;
           background-color: #ff0000;
           z-index: 2;
-          font-size: 22px;
+          font-size: 20px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #fff;
-          font-family: 'DIN';
+          font-family: "DIN";
         }
         .tab-bar-dot {
           position: absolute;
-          top: 10%;
-          right: 10%;
-          width: 20px;
-          height: 20px;
+          top: 5px;
+          right: 5px;
+          width: 18px;
+          height: 18px;
           border-radius: 50%;
           background-color: #ff0000;
           z-index: 2;
@@ -62,11 +74,11 @@
         &-square {
           position: absolute;
           background-color: #ebc548;
-          width: 32px;
+          width: 28px;
           height: 0;
           border-radius: 50%;
-          right: 12px;
-          bottom: 15px;
+          right: 10px;
+          bottom: 12px;
           opacity: 0;
           transform-origin: 80% 80%;
           z-index: 1;
@@ -91,20 +103,21 @@
         &.animateLine {
           .animateLine-help-curve {
             position: absolute;
-            left: 25%;
-            top: 35%;
+            left: 16px;
+            top: 22px;
             z-index: 2;
-            height: 40px;
-            width: 40px;
+            height: 32px;
+            width: 32px;
             transform: rotate(180deg);
-            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABCElEQVRYR+3XIUsEQRiH8d8Fq0EQjCeYzo9g0nBXTIZLBg+zoGZBP8HB2WwWLQath8XkN7grBgURk99BBkZZFlcObm+2zJQtw/yffd53dnZaGh6thvNlgGwgG8gGsoFsILWBNt6KB2BKgCFOMMD1D0RKgE+s4Qb7TQB8YQV93KUG2MBLDN3GU2qAI1zGBlxP3YTLeMYmRjhODXCB8xi6FWF+GRa9C7oYx7R77JV/ghcJ0MEkBoZn6P5pCoBQ89OC9srwAFOngfDGPRzGhgvr/xteB8AVdrGE1ZLeUPOzv7TXtQvCwfJaCv3AA27L3V51A5u3BAfYwSPei1+4Wa988wLMmlM5LwN8A416JCFguGbCAAAAAElFTkSuQmCC);
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABCElEQVRYR+3XIUsEQRiH8d8Fq0EQjCeYzo9g0nBXTIZLBg+zoGZBP8HB2WwWLQath8XkN7grBgURk99BBkZZFlcObm+2zJQtw/yffd53dnZaGh6thvNlgGwgG8gGsoFsILWBNt6KB2BKgCFOMMD1D0RKgE+s4Qb7TQB8YQV93KUG2MBLDN3GU2qAI1zGBlxP3YTLeMYmRjhODXCB8xi6FWF+GRa9C7oYx7R77JV/ghcJ0MEkBoZn6P5pCoBQ89OC9srwAFOngfDGPRzGhgvr/xteB8AVdrGE1ZLeUPOzv7TXtQvCwfJaCv3AA27L3V51A5u3BAfYwSPei1+4Wa988wLMmlM5LwN8A416JCFguGbCAAAAAElFTkSuQmCC);
             background-repeat: no-repeat;
             background-size: cover;
+            // background-position: 50% 50%;
           }
         }
         &.initialAnimated.animateLine {
           .tab-bar-wrap-item-iconGroup-square {
-            height: 32px;
+            height: 28px;
             opacity: 1;
           }
           .animateLine-help-curve {
@@ -120,8 +133,8 @@
               border-radius: 5px;
               width: 20px;
               position: absolute;
-              right: 10px;
-              bottom: 10px;
+              right: 9px;
+              bottom: 6px;
               transform: rotate(135deg);
             }
 
@@ -134,10 +147,6 @@
               overflow: hidden;
               background-color: #fff;
             }
-          }
-
-          .tab-bar-wrap-item-iconGroup-square {
-            right: 15px;
           }
 
           .tab-bar-wrap-item-iconGroup-center {
@@ -175,7 +184,7 @@
           .tab-bar-wrap-item-iconGroup-square {
             animation: 1s ease-in both square;
             transition: height 0.3s ease 0.25s;
-            height: 32px;
+            height: 28px;
           }
 
           .tab-bar-wrap-item-iconGroup-icon {
@@ -217,7 +226,7 @@
         }
       }
       &-text {
-        font-size: 24px;
+        font-size: 20px;
       }
     }
   }
@@ -275,7 +284,7 @@
   }
 
   100% {
-    transform: translate(80%, 0%);
+    transform: translate(50%, 0%);
   }
 }
 
@@ -303,7 +312,7 @@
   }
 
   100% {
-    width: 40px;
+    width: 32px;
   }
 }
 
