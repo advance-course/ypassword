@@ -64,7 +64,7 @@ export default function GestureLock(props: typeof lockConfig) {
     baseCanvasCtx.draw()
     pwdArr.length > 0 && setPwdArr([])
     prePointIndexRef.current = -1;
-    
+
     drawNineCircle(baseCanvasCtx, circleArr, {circleR, circleBorderColor, circleColor});
     isTouchingRef.current = true;
   }
@@ -94,7 +94,7 @@ export default function GestureLock(props: typeof lockConfig) {
         prePointIndex >= 0 && drawConnectLine(lineCacheCtx, {
           pointA: circleArr[prePointIndex],
           pointB: circleArr[index],
-          lineWidth, 
+          lineWidth,
           lineColor
         });
         drawSolidCircle(baseCanvasCtx, circleArr[index], {circleR, circleColor});
@@ -110,7 +110,8 @@ export default function GestureLock(props: typeof lockConfig) {
     if (pwdArr.join('') === password) {
       return Taro.navigateTo({
         url: '/pages/Layout/index'
-      })
+        // url: '/pages/index/index'
+      });
     }
     Taro.vibrateLong();
     setTipsIndex(2)
