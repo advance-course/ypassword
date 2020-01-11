@@ -86,8 +86,8 @@ export default function CardItem(props) {
                     <View className={
                       classNames('at-icon', 'animate',
                       {
-                        'at-icon-check-circle': normal_to_active,
-                        'at-icon-clock': !(normal_to_active || normal_to_unactive || unactive),
+                        'at-icon-check-circle': normal_to_active || unactive_to_active,
+                        'at-icon-clock': current_none_active || active_to_normal || unactive_to_normal || normal_to_unactive || active_to_unactive,
                       })
                     } />
                 </View>

@@ -50,6 +50,12 @@
     right: 0;
   }
 
+  .animate {
+    animation-duration: .3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+  }
+
   .box {
     padding: 15Px;
     position: relative;
@@ -65,7 +71,8 @@
 
     .at-icon {
       color: #cad0d9;
-      font-size: 17Px;
+      font-size: 18Px;
+      animation-duration: .5s;
     }
 
     // 正常到激活
@@ -83,6 +90,7 @@
 
       .at-icon {
         animation-name: NormalToUnactiveIcon;
+        animation-duration: .3s;
       }
     }
 
@@ -139,12 +147,6 @@
       background-color: transparent;
     }
 
-  }
-
-  .animate {
-    animation-duration: .3s;
-    animation-timing-function: ease;
-    animation-fill-mode: forwards;
   }
 
 
@@ -278,7 +280,7 @@
   // 图标正常到激活
   @keyframes NormalToActiveIcon {
     from {
-      font-size: 17Px;
+      font-size: 18Px;
     }
     to {
       font-size: 26Px;
@@ -288,7 +290,7 @@
   // 图标正常到非激活
   @keyframes NormalToUnactiveIcon {
     from {
-      font-size: 17Px;
+      font-size: 18Px;
     }
     to {
       font-size: 0Px;
@@ -311,7 +313,7 @@
       font-size: 0Px;
     }
     to {
-      font-size: 17Px;
+      font-size: 18Px;
     }
   }
 
@@ -321,7 +323,7 @@
       font-size: 26Px;
     }
     to {
-      font-size: 17Px;
+      font-size: 18Px;
     }
   }
 
