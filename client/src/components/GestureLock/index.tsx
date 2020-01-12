@@ -133,7 +133,7 @@ export default function GestureLock(props: typeof lockConfig) {
     let circleArr = circleArrRef.current
 
     if (pwdArr.join('') === password) {
-      dispatch({type: 'setIsVerified', isVerified: true})
+      dispatch({type: 'global/setIsVerified', isVerified: true})
 
       return Taro.switchTab({
         url: '/pages/index/index'
