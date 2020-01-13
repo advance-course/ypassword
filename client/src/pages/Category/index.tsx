@@ -1,7 +1,8 @@
-import Taro, { useState } from '@tarojs/taro';
+import Taro, { useState, useEffect } from '@tarojs/taro';
 import { View, Button, Text } from '@tarojs/components';
+import RealTabBar from 'components/tabBar';
 
-export default function Profile() {
+export default function Category() {
   return (
     <View>
       <Text>类别</Text>
@@ -9,6 +10,6 @@ export default function Profile() {
   )
 }
 
-Profile.config = {
+Category.config = {
   "navigationBarTitleText": "类别"
 }

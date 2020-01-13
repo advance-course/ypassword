@@ -1,0 +1,338 @@
+$squareWidth: 28px;
+$squareHeight: 28px;
+$iconGroupWidth: 60px;
+$iconGroupHeight: 60px;
+
+@supports (bottom: constant(safe-area-inset-bottom)) {
+  .tab-bar {
+    padding-bottom: constant(safe-area-inset-bottom);
+  }
+}
+
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .tab-bar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+.tab-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  font-size: 32px;
+  background: transparent;
+  border-top: 3px solid #ececec;
+
+  &-wrap {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    background: #ffffff;
+
+    &-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &-iconGroup {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        overflow: hidden;
+        width: $iconGroupWidth;
+        height: $iconGroupHeight;
+
+        .tab-bar-badge {
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          background-color: #ff0000;
+          z-index: 2;
+          font-size: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          font-family: "DIN";
+        }
+        .tab-bar-dot {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background-color: #ff0000;
+          z-index: 2;
+        }
+
+        &-icon {
+          z-index: 2;
+        }
+
+        &-square {
+          position: absolute;
+          background-color: #ebc548;
+          width: $squareWidth;
+          height: 0;
+          border-radius: 50%;
+          right: 12px;
+          bottom: 12px;
+          opacity: 0;
+          transform-origin: 80% 80%;
+          z-index: 1;
+        }
+
+        &-center {
+          position: absolute;
+          z-index: 2;
+        }
+
+        &.animateRotate {
+          .tab-bar-wrap-item-iconGroup-center {
+            width: 20px;
+            height: 0;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(135deg);
+            border-bottom: 2px solid #000;
+          }
+        }
+
+        &.animateLine {
+          .animateLine-help-curve {
+            position: absolute;
+            left: 20px;
+            top: 22px;
+            z-index: 2;
+            height: 32px;
+            width: 30px;
+            transform: rotate(180deg);
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABCElEQVRYR+3XIUsEQRiH8d8Fq0EQjCeYzo9g0nBXTIZLBg+zoGZBP8HB2WwWLQath8XkN7grBgURk99BBkZZFlcObm+2zJQtw/yffd53dnZaGh6thvNlgGwgG8gGsoFsILWBNt6KB2BKgCFOMMD1D0RKgE+s4Qb7TQB8YQV93KUG2MBLDN3GU2qAI1zGBlxP3YTLeMYmRjhODXCB8xi6FWF+GRa9C7oYx7R77JV/ghcJ0MEkBoZn6P5pCoBQ89OC9srwAFOngfDGPRzGhgvr/xteB8AVdrGE1ZLeUPOzv7TXtQvCwfJaCv3AA27L3V51A5u3BAfYwSPei1+4Wa988wLMmlM5LwN8A416JCFguGbCAAAAAElFTkSuQmCC);
+            background-repeat: no-repeat;
+            background-size: cover;
+            // background-position: 50% 50%;
+          }
+        }
+        &.initialAnimated.animateLine {
+          .tab-bar-wrap-item-iconGroup-square {
+            height: 28px;
+            opacity: 1;
+          }
+          .animateLine-help-curve {
+            left: 10%;
+            top: 20%;
+            transform: rotate(0);
+          }
+        }
+        &.animateTranslate {
+          .animateTranslate-help {
+            &-line {
+              // border: 1px solid #000;
+              border-radius: 10px;
+              width: 18px;
+              height: 2px;
+              background-color: #000;
+              position: absolute;
+              right: 24%;
+              bottom: 22%;
+
+              transform-origin: top right;
+              transform: rotate(-45deg);
+              z-index: 0;
+            }
+
+            &-lineHidden {
+              width: 20px;
+              height: 20px;
+              position: absolute;
+              right: 12px;
+              bottom: -20px;
+              overflow: hidden;
+              background-color: #fff;
+            }
+          }
+
+          .tab-bar-wrap-item-iconGroup-center {
+            border: 5px solid #000;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-110%, 0);
+          }
+        }
+
+        &.animateEye {
+          .animateEye-help-eyes {
+            position: absolute;
+            bottom: 45%;
+            z-index: 2;
+            left: 30%;
+            display: flex;
+            align-items: center;
+
+            height: 5px;
+            &-single {
+              width: 6px;
+              height: 12px;
+              background-color: #000;
+              border-radius: 50%;
+              margin-right: 8px;
+            }
+          }
+        }
+        &.animated {
+          .tab-bar-wrap-item-iconGroup-square {
+            animation: 1s ease-in both square;
+            transition: height 0.3s ease 0.25s;
+            height: $squareHeight;
+          }
+
+          .tab-bar-wrap-item-iconGroup-icon {
+            animation: 0.5s ease-in both iconAnimate;
+          }
+
+          &.animateRotate {
+            .tab-bar-wrap-item-iconGroup-center {
+              animation: 0.3s ease-in 0.2s both animateRotateCenter;
+            }
+          }
+
+          &.animateLine {
+            .animateLine-help-curve {
+              left: 10%;
+              top: 20%;
+              transform: rotate(0);
+              animation: 0.5s ease-in both animateLineCurve;
+            }
+          }
+
+          &.animateTranslate {
+            .tab-bar-wrap-item-iconGroup-center {
+              animation: 0.3s ease-in 0.2s both animateTranslateCenter;
+            }
+
+            .animateTranslate-help {
+              &-lineHidden {
+                animation: 0.2s ease-in 0.5s both animateTranslate;
+              }
+            }
+          }
+          &.animateEye {
+            .animateEye-help-eyes {
+              overflow: hidden;
+              animation: 0.5s ease-in both animateEyes;
+            }
+          }
+        }
+      }
+      &-text {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@keyframes iconAnimate {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes square {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  60% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes animateRotateCenter {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(135deg) scale(1);
+  }
+}
+
+@keyframes animateTranslateCenter {
+  0% {
+    transform: translate(-50%, 0%) scale(0);
+  }
+
+  50% {
+    transform: translate(-50%, 0%);
+  }
+
+  100% {
+    transform: translate(50%, 0%);
+  }
+}
+
+@keyframes animateTranslate {
+  0% {
+    bottom: 0;
+  }
+
+  100% {
+    bottom: -20px;
+  }
+}
+
+@keyframes animateLineCurve {
+  0% {
+    width: 0;
+  }
+
+  20% {
+    width: 5px;
+  }
+
+  40% {
+    width: 10px;
+  }
+
+  100% {
+    width: 30px;
+  }
+}
+
+@keyframes animateEyes {
+  0% {
+    height: 12px;
+  }
+
+  50% {
+    height: 0px;
+  }
+  100% {
+    height: 12px;
+  }
+}

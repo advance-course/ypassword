@@ -1,9 +1,8 @@
 import Taro, { Config, useEffect } from '@tarojs/taro';
 import { View } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
 import qs from 'qs';
 import "./index.scss";
-import { useSelector, useDispatch } from '@tarojs/redux';
+import { useSelector } from '@tarojs/redux';
 import { AccountState } from 'pages/index/model';
 
 export default function Index() {
@@ -13,9 +12,10 @@ export default function Index() {
     Taro.getSetting().then(res => {
       console.log(res);
       if (!res.authSetting || !res.authSetting['scope.userInfo']) {
-        Taro.navigateTo({url: '../Auth/index'});
+        Taro.navigateTo({ url: '../Auth/index' });
       }
     })
+    // Taro.hideTabBar()
   }, []);
 
   return (
@@ -31,7 +31,6 @@ export default function Index() {
             <View className="title">{item.title}</View>
             <View className="username">{item.username}</View>
           </View>
-          <AtIcon value="clock" size="20" color="orange" />
         </View>
       ))}
     </View>

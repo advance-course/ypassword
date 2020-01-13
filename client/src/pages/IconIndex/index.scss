@@ -1,0 +1,17 @@
+.container {
+  padding: 15Px;
+  .itemContainer {
+      width:33%;
+      height: 50Px;
+      display: inline-block;
+      text-align: center;
+       .itemStyle{
+        font-size: 12Px;
+        display: block;
+       }
+  }
+}
+
+.din {
+  font-family: 'DIN';
+}

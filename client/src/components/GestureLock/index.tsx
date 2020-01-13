@@ -14,6 +14,7 @@ import {
 } from './utils';
 import {throttle} from 'utils';
 import './index.scss';
+import { useDispatch } from '@tarojs/redux';
 
 let password = '0124678'  // 默认密码
 
@@ -38,7 +39,7 @@ export default function GestureLock(props: typeof lockConfig) {
   let isTouchingRef = useRef(false);
   let prePointIndexRef = useRef<number>(-1);
   let tipsObj = ['请绘制图形', '请重新绘制', '密码错误'];
-
+  const dispatch = useDispatch()
   useEffect(() => {
     Taro.createSelectorQuery().in(this.$scope)
       .select(".gesture_canvas")
@@ -64,7 +65,7 @@ export default function GestureLock(props: typeof lockConfig) {
     baseCanvasCtx.draw()
     pwdArr.length > 0 && setPwdArr([])
     prePointIndexRef.current = -1;
-    
+
     drawNineCircle(baseCanvasCtx, circleArr, {circleR, circleBorderColor, circleColor});
     isTouchingRef.current = true;
   }
@@ -94,7 +95,7 @@ export default function GestureLock(props: typeof lockConfig) {
         prePointIndex >= 0 && drawConnectLine(lineCacheCtx, {
           pointA: circleArr[prePointIndex],
           pointB: circleArr[index],
-          lineWidth, 
+          lineWidth,
           lineColor
         });
         drawSolidCircle(baseCanvasCtx, circleArr[index], {circleR, circleColor});
@@ -108,9 +109,13 @@ export default function GestureLock(props: typeof lockConfig) {
   function checkPwd() {
     let circleArr = circleArrRef.current
     if (pwdArr.join('') === password) {
-      return Taro.switchTab({
-        url: '/pages/index/index'
-      })
+       dispatch({
+         type: "global/setLockingStatus",
+         isLocking: false
+       });
+      return Taro.navigateTo({
+        url: '/pages/Layout/index'
+      });
     }
     Taro.vibrateLong();
     setTipsIndex(2)

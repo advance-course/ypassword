@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, { useEffect, useState } from '@tarojs/taro';
 import { View, Label, Image } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
 import useUserInfo from 'hooks/useUserInfo';
@@ -14,7 +14,7 @@ export default function Profile() {
         <Label className="username">{nickName}</Label>
         <Label className="city">{city}</Label>
       </View>
-      
+
       <AtList>
         <AtListItem
           title="专属秘钥"
@@ -40,6 +40,13 @@ export default function Profile() {
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Taroui/index' })}
+        />
+        
+        <AtListItem
+          title="图标"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/IconIndex/index' })}
         />
       </AtList>
     </View>

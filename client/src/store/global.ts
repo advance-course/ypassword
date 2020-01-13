@@ -1,4 +1,4 @@
-/** 
+/**
  * 存储密码所需的所有信息
  */
 import { Model } from "utils/dva";
@@ -17,14 +17,16 @@ export interface GlobalState {
 export default {
   namespace: "global",
   state: {
-    isLock: false,
+    isLock: true,
     isFingerprintLock: false,
-    isNinecaseLock: false,
-    isLocking: false
+    isNinecaseLock: true,
+    isLocking: true
   },
-  effects: {
-    
-  },
+  effects: {},
   reducers: {
+    setLockingStatus: (state, action: any) => ({
+      ...state,
+      isLocking: action.isLocking,
+    })
   }
 } as Model<GlobalState>;
