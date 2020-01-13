@@ -2,10 +2,12 @@ import Taro, { useState, useEffect, Config } from "@tarojs/taro";
 import RealTabBar from "components/tabBar";
 import { useSelector } from "@tarojs/redux";
 import { View } from "@tarojs/components";
+
 import Home from "pages/Home";
 import List from "pages/List";
 import Profile from "pages/Profile";
 import Category from "pages/Category";
+
 import { GlobalState } from "store/global";
 import "./index.scss";
 
