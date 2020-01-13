@@ -6,10 +6,10 @@ import Home from "pages/Home";
 import List from "pages/List";
 import Profile from "pages/Profile";
 import Category from "pages/Category";
-import "./index.scss";
 import { GlobalState } from "store/global";
+import "./index.scss";
 
-const titles = {
+export const titles = {
   0: '首页',
   1: '列表',
   2: '分类',
@@ -17,9 +17,9 @@ const titles = {
 }
 
 export default function Layout() {
+  const { isLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
   const [current, setCurrent] = useState(0);
   const [initial, setInitial] = useState(true);
-  const { isLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
 
   useEffect(() => {
     // 如果加锁功能是启动状态，并且是九宫格解锁方式，则跳转到九宫格解锁页面
@@ -76,7 +76,7 @@ export default function Layout() {
 }
 
 Layout.config = {
-  navigationBarTitleText: '首页',
-  navigationBarBackgroundColor: '#187af1',
-  navigationBarTextStyle: 'white',
+  navigationBarTitleText: '',
+  navigationBarBackgroundColor: '#ffe100',
+  navigationBarTextStyle: 'black',
 } as Config;
