@@ -1,0 +1,340 @@
+.container {
+  font-size: 12Px;
+
+  .box_item, .detail_item {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .box_item {
+    display: flex;
+    margin-bottom: 15Px;
+  }
+
+  .detail_item {
+    display: flex;
+  }
+  
+  .detail {
+    color: #FFF;
+    background-color: #8698b1;
+    border: 1rpx solid #c6c5cd;
+    padding: 5Px 15Px;
+    border-radius: 8Px;
+  }
+
+  .detail + .detail {
+    margin-left: 20rpx;
+  }
+
+  .who_icon {
+    width: 35Px;
+    height: 35Px;
+    border: 1Px solid red;
+    margin-right: 15Px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+  }
+  
+  .info {
+    flex: 1;
+  }
+
+  .mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .animate {
+    animation-duration: .3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+  }
+
+  .box {
+    padding: 15Px;
+    position: relative;
+    z-index: 1;
+
+    margin: 10Px;
+    border-radius: 8Px;
+    border: 1Px solid #dedbdd;
+    background-color: #FFF;
+
+    overflow: hidden;
+    height: 37Px;
+
+    .at-icon {
+      color: #cad0d9;
+      font-size: 18Px;
+      animation-duration: .5s;
+    }
+
+    // 正常到激活
+    &.normal_to_active {
+      animation-name: NormalToActive;
+
+      .at-icon {
+        animation-name: NormalToActiveIcon;
+      }
+    }
+
+    // 正常到非激活
+    &.normal_to_unactive {
+      animation-name: NormalToUnactive;
+
+      .at-icon {
+        animation-name: NormalToUnactiveIcon;
+        animation-duration: .3s;
+      }
+    }
+
+    // 激活到正常
+    &.active_to_normal {
+      animation-name: ActiveToNormal;
+
+      .detail_item {
+        opacity: 0;
+      }
+
+      .at-icon {
+        animation-name: ActiveToNormalIcon;
+      }
+    }
+
+    // 激活到非激活
+    &.active_to_unactive {
+      animation-name: ActiveToUnactive;
+
+      .detail_item {
+        opacity: 0;
+      }
+
+      .at-icon {
+        animation-name: ActiveToUnactiveIcon;
+      }
+    }
+
+    // 非激活到正常
+    &.unactive_to_normal {
+      animation-name: UnactiveToNormal;
+
+      .at-icon {
+        animation-name: UnactiveToNormalIcon;
+      }
+    }
+
+    // 非激活到激活
+    &.unactive_to_active {
+      animation-name: UnactiveToActive;
+
+      .at-icon {
+        animation-name: UnactiveToActiveIcon;
+      }
+    }
+
+    // 持续非激活
+    &.unactive {
+      height: 37Px;
+      border-radius: 0;
+      margin: 10Px;
+      border-color: transparent;
+      background-color: transparent;
+    }
+
+  }
+
+
+  // 正常到激活
+  @keyframes NormalToActive {
+    from {
+      height: 37Px;
+      border-radius: 8Px;
+      margin: 10Px;
+      border-color: #dedbdd;
+      background-color: #FFF;
+    }
+    to {
+      // height: auto;
+      height: 95Px;
+      border-radius: 0;
+      margin: 20Px 0 0;
+      padding: 15Px 25Px;
+      border-color: #DDD;
+      background-color: #FFF;
+      box-shadow: 
+        0Px -3Px 8Px #dddddd,
+        0Px 3Px 8Px #dddddd;
+    }
+  }
+
+  // 正常到非激活
+  @keyframes NormalToUnactive {
+    from {
+      border-radius: 8Px;
+      margin: 10Px;
+      border-color: #dedbdd;
+      background-color: #FFF;
+    }
+    to {
+      border-radius: 0;
+      margin: 10Px;
+      border-color: transparent;
+      background-color: transparent;
+    }
+  }
+
+  // 非激活到激活
+  @keyframes UnactiveToActive {
+    from {
+      height: 37Px;
+      border-radius: 0;
+      margin: 10Px;
+      border-color: transparent;
+      background-color: transparent;
+    }
+    to {
+      // height: auto;
+      height: 95Px;
+      border-radius: 0;
+      margin: 20Px 0 0;
+      padding: 15Px 25Px;
+      border-color: #DDD;
+      background-color: #FFF;
+      box-shadow: 
+        0Px -3Px 8Px #dddddd,
+        0Px 3Px 8Px #dddddd;
+    }
+  }
+
+  // 非激活到正常
+  @keyframes UnactiveToNormal {
+    from {
+      border-radius: 0;
+      margin: 10Px;
+      border-color: transparent;
+      background-color: transparent;
+    }
+
+    to {
+      border-radius: 8Px;
+      margin: 10Px;
+      border-color: #dedbdd;
+      background-color: #FFF;
+    }
+  }
+
+  // 激活到正常
+  @keyframes ActiveToNormal {
+    from {
+      // height: auto;
+      height: 95Px;
+      border-radius: 0;
+      margin: 20Px 0 0;
+      padding: 15Px 25Px;
+      border-color: #DDD;
+      background-color: #FFF;
+      box-shadow: 
+        0Px -3Px 8Px #dddddd,
+        0Px 3Px 8Px #dddddd;
+    }
+
+    to {
+      height: 37Px;
+      border-radius: 8Px;
+      margin: 10Px;
+      border-color: #dedbdd;
+      background-color: #FFF;
+    }
+  }
+
+  // 激活到非激活
+  @keyframes ActiveToUnactive {
+    from {
+      // height: auto;
+      height: 95Px;
+      border-radius: 0;
+      margin: 20Px 0 0;
+      padding: 15Px 25Px;
+      border-color: #DDD;
+      background-color: #FFF;
+      box-shadow: 
+        0Px -3Px 8Px #dddddd,
+        0Px 3Px 8Px #dddddd;
+    }
+
+    to {
+      height: 37Px;
+      border-radius: 0;
+      margin: 10Px;
+      border-color: transparent;
+      background-color: transparent;
+    }
+  }
+
+  // 图标正常到激活
+  @keyframes NormalToActiveIcon {
+    from {
+      font-size: 18Px;
+    }
+    to {
+      font-size: 26Px;
+    }
+  }
+
+  // 图标正常到非激活
+  @keyframes NormalToUnactiveIcon {
+    from {
+      font-size: 18Px;
+    }
+    to {
+      font-size: 0Px;
+    }
+  }
+
+  // 图标非激活到激活
+  @keyframes UnactiveToActiveIcon {
+    from {
+      font-size: 0Px;
+    }
+    to {
+      font-size: 26Px;
+    }
+  }
+
+  // 图标非激活到正常
+  @keyframes UnactiveToNormalIcon {
+    from {
+      font-size: 0Px;
+    }
+    to {
+      font-size: 18Px;
+    }
+  }
+
+  // 图标激活到正常
+  @keyframes ActiveToNormalIcon {
+    from {
+      font-size: 26Px;
+    }
+    to {
+      font-size: 18Px;
+    }
+  }
+
+  // 图标激活到非激活
+  @keyframes ActiveToUnactiveIcon {
+    from {
+      font-size: 26Px;
+    }
+    to {
+      font-size: 0Px;
+    }
+  }
+
+}
