@@ -8,8 +8,18 @@ import topImage from './images/inspection.png';
 
 export default function Auth() {
   const getUserInfo: CommonEventFunction<any> = (res) => {
-    console.log(res.detail);
-    if (res.detail && res.detail.userInfo) {
+
+    let result = res.detail
+    if (result && result.userInfo) {
+
+      Taro.cloud.callFunction({
+        name: 'user',
+        data: {
+          $url: 'register',
+          ...result.userInfo
+        }
+      })
+
       Taro.setStorage({
         key: 'userInfo',
         data: JSON.stringify(res.detail.userInfo)

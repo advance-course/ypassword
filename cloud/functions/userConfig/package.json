@@ -1,5 +1,5 @@
 {
-  "name": "login",
+  "name": "userConfig",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "wx-server-sdk": "latest"
+    "tcb-router": "^1.1.2",
+    "wx-server-sdk": "^1.7.1"
   }
 }

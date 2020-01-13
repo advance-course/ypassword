@@ -13,6 +13,7 @@ const store = dvaApp.getStore();
 class App extends Component {
   config: Config = {
     pages: [
+      "pages/AuthLock/index",
       "pages/index/index",
       "pages/DrawUnlock/index",
       "pages/Profile/subpages/RSAKey/index",
@@ -20,9 +21,7 @@ class App extends Component {
       "pages/UserInfo/index",
       "pages/Account/Detail/index",
       "pages/Account/Editor/index",
-
       "pages/IconIndex/index",
-
       "pages/Settings/Lock/index",
       // 不可变数据集案例
       "pages/Immutable/index",
