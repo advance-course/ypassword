@@ -34,14 +34,23 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    if(global.isFirstEnter) {
+    if (global.isFirstEnter) {
       login().then(() => {
-        return getUserConfig()
-      }).then(() => {
         console.log(global)
-        if (global.isLock && !global.isVerified) {
+        if (global.isLock && global.isLocking) {
           if (global.isNinecaseLock) {
-            Taro.redirectTo({url: '/pages/DrawUnlock/index'})
+            return Taro.redirectTo({url: '/pages/DrawUnlock/index'})
+          }
+
+          if (global.isFingerprintLock) {
+            Taro.startSoterAuthentication({
+              requestAuthModes: ['fingerPrint'],
+              challenge: '123456',
+              authContent: '请用指纹解锁',
+              success(res) {
+                dispatch({type: 'global/setIsLocking', isLocking: false})
+              }
+           })
           }
         }
 
@@ -51,36 +60,6 @@ export default function Index() {
     }
 
   }, [])
-
-  // 获取应用配置
-  async function getUserConfig() {
-    const userInfo = userInfoRef.current
-    const hasUserConfig:boolean = Taro.getStorageSync('hasUserConfig')
-
-    if (!hasUserConfig && userInfo._id) {
-
-      const res = await Taro.cloud.callFunction({
-        name: 'userConfig',
-        data: {
-          $url: 'getInfo',
-          userId: userInfo._id,
-        }
-      })
-
-      let result = res.result
-      
-      if (result) {
-        Taro.setStorageSync('hasUserConfig', true)
-
-        dispatch({type: 'global/setIsLock', isLock: result.isLock})
-        dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: result.isFingerprintLock})
-        dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock: result.isNinecaseLock})
-        dispatch({type: 'global/setIsLocking', isLocking: result.isLocking})
-      }
-
-    }
-
-  }
 
   // 获取用户信息，进行登陆，返回服务器用户信息
   async function login() {
@@ -93,6 +72,10 @@ export default function Index() {
 
     if (res.result) {
       userInfoRef.current = res.result
+
+      Taro.setStorageSync('userInfo', res.result)
+
+      dispatch({type: 'global/setUserId', userId: res.result._id})
     }
   }
 

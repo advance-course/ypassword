@@ -1,5 +1,4 @@
 import Taro, { useEffect, useState, useRef, createCanvasContext } from '@tarojs/taro';
-import { useDispatch } from '@tarojs/redux';
 import { Canvas, View } from '@tarojs/components';
 import { ITouchEvent } from "@tarojs/components/types/common";
 import {
@@ -16,11 +15,13 @@ import {
 import {throttle} from 'utils';
 import './index.scss';
 
-let password = '0124678'  // 默认密码
-
 export default function GestureLock(props: typeof lockConfig) {
 
   let {
+    lockPwd,
+    isLocking,
+    closeLock,
+    setLockPwd,
     bgColor,
     circleColor,
     lineColor,
@@ -40,13 +41,14 @@ export default function GestureLock(props: typeof lockConfig) {
 
   let circleArrRef = useRef<Point[]>([]);
   let isTouchingRef = useRef(false);
-  let prePointIndexRef = useRef<number>(-1);
+  let prePointIndexRef = useRef(-1);
+  let confirmPwdRef = useRef('');
 
-  const dispatch = useDispatch()
-
-  let tipsObj = ['请绘制图形', '请重新绘制', '密码错误'];
+  let tipsObj = ['请绘制手势解锁', '请绘制手势密码', '请再次绘制手势密码', '密码错误', '至少连接3个点，请重新绘制', '与上次输入不一致，请重新绘制'];
 
   useEffect(() => {
+    setTipsIndex(0)
+
     Taro.createSelectorQuery().in(this.$scope)
       .select(".gesture_canvas")
       .boundingClientRect((rect: Taro.SelectorQuery.clientRectElement) => {
@@ -63,8 +65,6 @@ export default function GestureLock(props: typeof lockConfig) {
   // 初始数据和画布
   function initData() {
     let circleArr = circleArrRef.current
-    
-    setTipsIndex(0)
 
     // 清空画布
     lineCtx.draw()
@@ -132,20 +132,53 @@ export default function GestureLock(props: typeof lockConfig) {
   function checkPwd() {
     let circleArr = circleArrRef.current
 
-    if (pwdArr.join('') === password) {
-      dispatch({type: 'global/setIsVerified', isVerified: true})
+    // 有锁时
+    if(isLocking) {
+      if (pwdArr.join('') === lockPwd) {
+        // 关闭锁
+        closeLock()
+  
+        return Taro.switchTab({
+          url: '/pages/index/index'
+        })
+      }
+          
+      setTipsIndex(3)
 
-      return Taro.switchTab({
-        url: '/pages/index/index'
-      })
+    } else {  // 第一次设密码
+      if (confirmPwdRef.current) {
+        if(pwdArr.join('') === confirmPwdRef.current) {
+          Taro.showToast({
+            title: '设置成功',
+            icon: 'success',
+            duration: 2000
+          });
+
+          setLockPwd(pwdArr.join(''));
+
+          return setTimeout(Taro.navigateBack, 1000);
+        } else {
+          setTipsIndex(5);
+        }
+      } else {
+        if (pwdArr.length < 3) {
+          setTipsIndex(4);
+        } else {
+          confirmPwdRef.current = pwdArr.join('');
+          setTipsIndex(2);
+          return setTimeout(initData, 500);
+        }
+      }
     }
-
-    Taro.vibrateLong();
     
-    setTipsIndex(2)
 
-    drawErrorTips(baseCanvasCtx, {pwdArr, circleArr, ...props});
-    setTimeout(initData, 2000);
+    setTimeout(() => {
+      Taro.vibrateLong();
+
+      drawErrorTips(baseCanvasCtx, {pwdArr, circleArr, ...props});
+      setTimeout(initData, 2000);
+    }, 100)
+    
   }
 
   // 手指移动

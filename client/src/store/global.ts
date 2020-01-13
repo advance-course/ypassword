@@ -12,16 +12,11 @@ function setStorage(key:string, value:any):void {
   Taro.setStorageSync(key, value)
 }
 
-const isLock = Taro.getStorageSync('isLock')
-const isFingerprintLock = Taro.getStorageSync('isFingerprintLock')
-const isNinecaseLock = Taro.getStorageSync('isNinecaseLock')
-const isLocking = Taro.getStorageSync('isLocking')
-
 export interface GlobalState {
+  // 用户id
+  userId: string,
   // 每次退出后的首次进入
   isFirstEnter: boolean,
-  // 是否验证通过用户锁
-  isVerified: boolean,
   /** 是否启用指纹解锁 */
   isFingerprintLock: boolean,
   /** 是否启用加锁功能 */
@@ -32,6 +27,11 @@ export interface GlobalState {
   isLocking: boolean
 }
 
+export interface setUserId {
+  type: string,
+  userId: string,
+}
+
 export interface SetBooleanStatus {
   type: string,
   [lock:string]: any
@@ -40,28 +40,20 @@ export interface SetBooleanStatus {
 export default {
   namespace: "global",
   state: {
+    userId: '',
     isFirstEnter: true,
-    isVerified: false,
     isLock: getStorage('isLock') || false,
     isFingerprintLock: getStorage('isFingerprintLock') || false,
     isNinecaseLock: getStorage('isNinecaseLock') || false,
-    isLocking: getStorage('isLocking') || false,
+    isLocking: true,
   },
   effects: {
-
   },
   reducers: {
-    setIsFirstEnter(state:GlobalState, action:SetBooleanStatus) {
+    setUserId(state:GlobalState, action:setUserId) {
       return {
         ...state,
-        isFirstEnter: action.isFirstEnter
-      }
-    },
-    setIsVerified(state:GlobalState, action:SetBooleanStatus) {
-      console.log(action.isVerified)
-      return {
-        ...state,
-        isVerified: action.isVerified
+        userId: action.userId
       }
     },
     setIsLock(state:GlobalState, action:SetBooleanStatus) {
@@ -72,8 +64,14 @@ export default {
         isLock: action.isLock
       }
     },
+    setIsFirstEnter(state:GlobalState, action:SetBooleanStatus) {
+      return {
+        ...state,
+        isFirstEnter: action.isFirstEnter
+      }
+    },
     setIsFingerprintLock(state:GlobalState, action:SetBooleanStatus) {
-      setStorage('userCisFingerprintLockonfig', action.isFingerprintLock)
+      setStorage('isFingerprintLock', action.isFingerprintLock)
 
       return {
         ...state,
@@ -89,8 +87,6 @@ export default {
       }
     },
     setIsLocking(state:GlobalState, action:SetBooleanStatus) {
-      setStorage('isLocking', action.isLocking)
-
       return {
         ...state,
         isLocking: action.isLocking

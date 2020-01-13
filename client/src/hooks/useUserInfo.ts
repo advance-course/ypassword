@@ -6,7 +6,7 @@ export default function useUserInfo() {
 
   useEffect(() => {
     taro.getStorage({ key: 'userInfo' }).then(res => {
-      setUserInfo(JSON.parse(res.data));
+      setUserInfo(res.data);
     })
   }, []);
 

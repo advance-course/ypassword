@@ -50,14 +50,7 @@ exports.main = async (event, context) => {
         }
       })
 
-      // 初始化用户配置
-      await cloud.callFunction({
-        name: 'userConfig',
-        data: {
-          $url: 'add',
-          userId: userId._id,
-        }
-      })
+      ctx.body = userId
 
     }
   })
