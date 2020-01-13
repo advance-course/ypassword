@@ -21,20 +21,27 @@ const config = {
     hooks: path.resolve(__dirname, '..', 'src/hooks'),
     'custom-tab-bar': path.resolve(__dirname, '..', 'src/custom-tab-bar'),
   },
+  babel: {
+    sourceMap: true,
+    presets: [
+      ['env', {
+        modules: false
+      }]
+    ],
+    plugins: [
+      'transform-decorators-legacy',
+      'transform-class-properties',
+      'transform-object-rest-spread',
+      ['transform-runtime', {
+        "helpers": false,
+        "polyfill": false,
+        "regenerator": true,
+        "moduleName": 'babel-runtime'
+      }]
+    ]
+  },
   plugins: {
-    babel: {
-      sourceMap: true,
-      presets: [
-        ['env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        'transform-decorators-legacy',
-        'transform-class-properties',
-        'transform-object-rest-spread'
-      ]
-    }
+    
   },
   defineConstants: {
   },
@@ -44,7 +51,7 @@ const config = {
     options: {
     }
   },
-  weapp: {
+  mini: {
     module: {
       postcss: {
         autoprefixer: {
