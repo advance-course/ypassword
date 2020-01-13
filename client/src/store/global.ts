@@ -17,7 +17,7 @@ export interface GlobalState {
 export default {
   namespace: "global",
   state: {
-    isLock: true,
+    isLock: false,
     isFingerprintLock: false,
     isNinecaseLock: true,
     isLocking: true

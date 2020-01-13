@@ -1,112 +1,82 @@
-import Taro, { Config, useEffect, useState } from '@tarojs/taro';
-import { View } from '@tarojs/components';
-// import qs from 'qs';
-// import "./index.scss";
-// import { useSelector } from '@tarojs/redux';
-// import { AccountState } from 'pages/index/model';
-
-// export default function Index() {
-//   const accounts = useSelector<any, AccountState>(state => state.account);
-//   // const dispatch = useDispatch();
-//   useEffect(() => {
-//     Taro.getSetting().then(res => {
-//       console.log(res);
-//       if (!res.authSetting || !res.authSetting['scope.userInfo']) {
-//         Taro.navigateTo({ url: '../Auth/index' });
-//       }
-//     })
-//     // Taro.hideTabBar()
-//   }, []);
-
-//   return (
-//     <View className="container">
-//       {accounts.accounts.map((item, i) => (
-//         <View
-//           onClick={() => Taro.navigateTo({ url: `/pages/Account/Detail/index?${qs.stringify(item)}` })}
-//           key={i}
-//           className="account_item"
-//         >
-//           <View className="who_icon">{item.title}</View>
-//           <View className="info">
-//             <View className="title">{item.title}</View>
-//             <View className="username">{item.username}</View>
-//           </View>
-//         </View>
-//       ))}
-import { AtForm, AtInput } from 'taro-ui';
-// import qs from 'qs';
+import Taro, { useState, useEffect, Config } from "@tarojs/taro";
+import RealTabBar from "components/tabBar";
+import { useSelector } from "@tarojs/redux";
+import { View } from "@tarojs/components";
+import Home from "pages/Home";
+import List from "pages/List";
+import Profile from "pages/Profile";
+import Category from "pages/Category";
 import "./index.scss";
-import CardItem from 'components/CardItem';
-import { accounts } from './entity';
+import { GlobalState } from "store/global";
 
-export default function Index() {
-  const [searchText, setSearchText] = useState();
-  const [tick, setTick] = useState(0);
-  const [dataList, setDataList] = useState(accounts);
+const titles = {
+  0: '首页',
+  1: '列表',
+  2: '分类',
+  3: '我的'
+}
 
-  // useEffect(() => {
-  //   Taro.getSetting().then(res => {
-  //     console.log(res);
-  //     if (!res.authSetting || !res.authSetting['scope.userInfo']) {
-  //       Taro.navigateTo({url: '../Auth/index'});
-  //     }
-  //   })
-  // }, []);
-
-  // const a = qs.stringify({a: 1, b: 2});
-  // console.log(a);
+export default function Layout() {
+  const [current, setCurrent] = useState(0);
+  const [initial, setInitial] = useState(true);
+  const { isLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
 
   useEffect(() => {
-    const val = searchText && searchText.trim();
-    const list = val ? accounts.filter(item => item.title!.includes(val)) : accounts;
-    setDataList(list);
-  }, [searchText])
+    // 如果加锁功能是启动状态，并且是九宫格解锁方式，则跳转到九宫格解锁页面
+    if (isLock && isLocking && isNinecaseLock) {
+      Taro.navigateTo({ url: "/pages/DrawUnlock/index" });
+    }
+  }, [isLock, isLocking, isNinecaseLock]);
 
-  function searchTextChange(val) {
-    setSearchText(val);
-  }
-
-  function inputFocus () {
-    setTick(tick + 1);
-  }
+  useEffect(() => {
+    Taro.setNavigationBarTitle({ title: titles[current] });
+  }, [current]);
 
   return (
     <View>
-      <AtForm>
-        <AtInput
-          name='search'
-          type='text'
-          placeholder='请输入'
-          value={searchText}
-          onFocus={inputFocus}
-          onChange={searchTextChange}
-        />
-      </AtForm>
-
-      <View className="container">
-        {/* {accounts.map((item, i) => (
-          <View
-            onClick={() => Taro.navigateTo({ url: `/pages/Account/Detail/index?${qs.stringify(item)}` })}
-            key={i}
-            className="account_item"
-          >
-            <View className="who_icon">{item.title}</View>
-            <View className="info">
-              <View className="title">{item.title}</View>
-              <View className="username">{item.username}</View>
-            </View>
-            <AtIcon value="clock" size="20" color="orange" />
-          </View>
-        ))} */}
-
-        <CardItem list={dataList} tick={tick} />
-      </View>
+      {current === 0 && <Home />}
+      {current === 1 && <List />}
+      {current === 2 && <Category />}
+      {current === 3 && <Profile />}
+      
+      <RealTabBar
+        initial={initial}
+        current={current}
+        backgroundColor="#edeaed"
+        color="#999"
+        tintColor="#000"
+        fixed
+        onClick={(current: number) => {
+          setCurrent(current);
+          setInitial(false)
+        }}
+        tabList={[
+          {
+            text: "首页",
+            iconPath: "home"
+          },
+          {
+            text: "列表",
+            iconPath: "RectangleCopy62"
+          },
+          {
+            text: "分类",
+            iconPath: "RectangleCopy162",
+            badge: 5
+          },
+          {
+            text: "我的",
+            iconPath: "RectangleCopy49",
+            dot: true
+          }
+        ]}
+      />
     </View>
   );
 }
 
-Index.config = {
-  navigationBarTitleText: '常用',
+Layout.config = {
+  navigationBarTitleText: '首页',
   navigationBarBackgroundColor: '#187af1',
   navigationBarTextStyle: 'white',
 } as Config;

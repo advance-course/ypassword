@@ -8,9 +8,11 @@ export default function CardItem(props) {
     const [activeIndex, setActiveIndex] = useState(undefined);
     const [beforeIndex, setBeforeIndex] = useState(undefined);
 
+    const {tick, list = []} = props;
+
     useEffect(() => {
       blurClick();
-    }, [props.tick])
+    }, [tick])
 
 
     function itemClick (index) {
@@ -36,7 +38,7 @@ export default function CardItem(props) {
     <View className="container">
         <View className="mask" onClick={blurClick} />
         {
-          props.list.map((item, index) => {
+          list.map((item, index) => {
             // 之前是激活元素
             const before_is_active = beforeIndex === index;
             // 之前是非激活元素

@@ -6,7 +6,6 @@ import "./index.scss";
 
 interface TabItem {
   text: string;
-  pagePath: string;
   iconPath: string;
   badge?: number;
   dot?: boolean;
