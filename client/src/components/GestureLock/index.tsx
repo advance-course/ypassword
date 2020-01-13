@@ -120,7 +120,7 @@ export default function GestureLock(props: typeof lockConfig) {
         // 关闭锁
         closeLock()
   
-        return Taro.switchTab({
+        return Taro.navigateTo({
           url: '/pages/index/index'
         })
       }

@@ -36,7 +36,7 @@ export default function AuthLock() {
           authContent: '请用指纹解锁',
           success(res) {
             dispatch({type: 'global/setIsLocking', isLocking: false})
-            return Taro.switchTab({url: '/pages/index/index'})
+            return Taro.navigateTo({url: '/pages/index/index'})
           }
        })
       }
@@ -46,7 +46,7 @@ export default function AuthLock() {
       }
 
     } else {
-      return Taro.switchTab({url: '/pages/index/index'})
+      return Taro.navigateTo({url: '/pages/index/index'})
     }
   }
 
