@@ -36,26 +36,7 @@ export default function Index() {
   useEffect(() => {
     if (global.isFirstEnter) {
       login().then(() => {
-        console.log(global)
-        if (global.isLock && global.isLocking) {
-          if (global.isNinecaseLock) {
-            return Taro.redirectTo({url: '/pages/DrawUnlock/index'})
-          }
-
-          if (global.isFingerprintLock) {
-            Taro.startSoterAuthentication({
-              requestAuthModes: ['fingerPrint'],
-              challenge: '123456',
-              authContent: '请用指纹解锁',
-              success(res) {
-                dispatch({type: 'global/setIsLocking', isLocking: false})
-              }
-           })
-          }
-        }
-
         dispatch({type: 'setIsFirstEnter', isFirstEnter: false})
-
       })
     }
 

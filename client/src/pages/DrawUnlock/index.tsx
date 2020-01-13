@@ -27,7 +27,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
     dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:true});
 
   }
-  console.log(global.isNinecaseLock)
+  
   return (
     <View>
       <GestureLock

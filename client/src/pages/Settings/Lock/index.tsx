@@ -19,7 +19,7 @@ export default function Profile() {
       success(res) {
         if (!res.supportMode.length) {
           return Taro.showToast({
-            title: '您的手指暂不支持该功能',
+            title: '您的设备暂不支持该功能',
             icon: 'success',
           })
         }
@@ -35,7 +35,7 @@ export default function Profile() {
               }
               dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock})
             }
-         })
+        })
         } else {
           dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock})
         }

@@ -13,6 +13,7 @@ const store = dvaApp.getStore();
 class App extends Component {
   config: Config = {
     pages: [
+      "pages/AuthLock/index",
       "pages/index/index",
       "pages/Category/index",
       "pages/Profile/index",
