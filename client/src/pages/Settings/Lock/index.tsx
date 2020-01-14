@@ -15,32 +15,21 @@ export default function Profile() {
   
   function switchFingerprintLock(isFingerprintLock) {
 
-    Taro.checkIsSupportSoterAuthentication({
-      success(res) {
-        if (!res.supportMode.length) {
-          return Taro.showToast({
-            title: '您的设备暂不支持该功能',
-            icon: 'success',
-          })
-        }
-
-        if (isFingerprintLock === true) {
-          Taro.startSoterAuthentication({
-            requestAuthModes: ['fingerPrint'],
-            challenge: '123456',
-            authContent: '请用指纹解锁',
-            success(res) {
-              if (global.isNinecaseLock) {
-                dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock: false})
-              }
-              dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock})
-            }
-        })
-        } else {
+    if (isFingerprintLock === true) {
+      Taro.startSoterAuthentication({
+        requestAuthModes: ['fingerPrint'],
+        challenge: '123456',
+        authContent: '请用指纹解锁',
+        success(res) {
+          if (global.isNinecaseLock) {
+            dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock: false})
+          }
           dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock})
         }
-      }
     })
+    } else {
+      dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock})
+    }
 
   }
 

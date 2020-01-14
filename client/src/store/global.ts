@@ -15,6 +15,8 @@ function setStorage(key:string, value:any):void {
 export interface GlobalState {
   // 用户id
   userId: string,
+  // 首次使用
+  isFirstUse: true,
   // 每次退出后的首次进入
   isFirstEnter: boolean,
   /** 是否启用指纹解锁 */
@@ -42,6 +44,7 @@ export default {
   state: {
     userId: '',
     isFirstEnter: true,
+    isFirstUse: getStorage('isFirstUse') === '' ? true : getStorage('isFirstUse'),
     isLock: getStorage('isLock') || false,
     isFingerprintLock: getStorage('isFingerprintLock') || false,
     isNinecaseLock: getStorage('isNinecaseLock') || false,
@@ -58,6 +61,14 @@ export default {
       return {
         ...state,
         userId: action.userId
+      }
+    },
+    setIsFirstUse(state:GlobalState, action:SetBooleanStatus) {
+      setStorage('isFirstUse', action.isFirstUse)
+
+      return {
+        ...state,
+        isFirstUse: action.isFirstUse
       }
     },
     setIsLock(state:GlobalState, action:SetBooleanStatus) {

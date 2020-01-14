@@ -13,8 +13,8 @@ const store = dvaApp.getStore();
 class App extends Component {
   config: Config = {
     pages: [
-      "pages/AuthLock/index",
       "pages/index/index",
+      "pages/FingerprintLock/index",
       "pages/DrawUnlock/index",
       "pages/Profile/subpages/RSAKey/index",
       "pages/Auth/index",

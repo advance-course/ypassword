@@ -9,10 +9,8 @@ import Profile from "pages/Profile";
 import Category from "pages/Category";
 
 import { GlobalState } from "store/global";
-import qs from 'qs';
 import { SetBooleanStatus } from 'store/global'
 import "./index.scss";
-import { AccountState } from 'pages/Home/model';
 
 export const titles = {
   0: '首页',
@@ -21,19 +19,8 @@ export const titles = {
   3: '我的'
 }
 
-interface UserInfo {
-  _id?: string,
-  avatarUrl?: string,
-  city?: string,
-  country?: string,
-  gender?: string,
-  language?: string,
-  nickName?: string,
-  province?: string,
-}
-
 export default function Layout() {
-  const { isLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
+  const { isFirstUse, isFirstEnter, isLock, isNinecaseLock, isFingerprintLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
   const [current, setCurrent] = useState(0);
   const [initial, setInitial] = useState(true);
   const userInfoRef = useRef<any>(null);
@@ -48,7 +35,7 @@ export default function Layout() {
       }
     })
 
-    if (global.isFirstEnter) {
+    if (isFirstEnter) {
       login().then(() => {
         dispatch({ type: 'setIsFirstEnter', isFirstEnter: false })
       })
@@ -56,11 +43,29 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    // 如果加锁功能是启动状态，并且是九宫格解锁方式，则跳转到九宫格解锁页面
-    if (isLock && isLocking && isNinecaseLock) {
-      Taro.navigateTo({ url: "/pages/DrawUnlock/index" });
+    // 首次使用
+    if (isFirstUse) {
+      Taro.checkIsSupportSoterAuthentication({
+        success(res) {
+          if (res.supportMode.indexOf('fingerPrint') > -1 && !global.isNinecaseLock) {
+            dispatch({type: 'global/setIsLock', isLock: true})
+            dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true})
+          }
+        }
+      })
+
+      dispatch({type: 'global/setIsFirstUse', isFirstUse: false})
     }
-  }, [isLock, isLocking, isNinecaseLock]);
+  }, [])
+
+  useEffect(():any => {
+    // 如果加锁功能是启动状态，并且是九宫格解锁方式，则跳转到九宫格解锁页面
+    if (isLock && isLocking) {
+      isFingerprintLock && Taro.redirectTo({url: '/pages/FingerprintLock/index'})
+  
+      isNinecaseLock && Taro.redirectTo({url: '/pages/DrawUnlock/index'})
+    }
+  }, [isLock, isLocking, isNinecaseLock, isFingerprintLock]);
 
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: titles[current] });
