@@ -65,7 +65,7 @@ export default function Layout() {
   
       isNinecaseLock && Taro.redirectTo({url: '/pages/DrawUnlock/index'})
     }
-  }, [isLock, isLocking, isNinecaseLock, isFingerprintLock]);
+  }, []);
 
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: titles[current] });

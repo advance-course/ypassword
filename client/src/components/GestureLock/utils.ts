@@ -6,12 +6,12 @@ export interface Point {
 export const lockConfig = {
   // 锁密码
   lockPwd: '',
-  // 锁的开启状态
-  isLocking: true,
   // 关闭锁的方法
   closeLock: () => {},
   // 设置手势锁密码
   setLockPwd: (pwd:string) => {},
+  // 忘记密码
+  forgetPwd: () => {},
   /** x内边距 */
   offsetX: 40,
   /** y内边距 */

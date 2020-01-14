@@ -6,40 +6,44 @@ import './index.scss';
 import { SetBooleanStatus } from 'store/global';
 
 export default function Profile() {
-  const global = useSelector<any, SetBooleanStatus>(state => state.global)
+  const { isLock, isFingerprintLock, isNinecaseLock } = useSelector<any, SetBooleanStatus>(state => state.global)
   const dispatch = useDispatch()
 
   function switchLock(isLock) {
     dispatch({type: 'global/setIsLock', isLock})
   }
   
-  function switchFingerprintLock(isFingerprintLock) {
+  function switchFingerprintLock(isLock) {
 
-    if (isFingerprintLock === true) {
+    if (isLock) {
       Taro.startSoterAuthentication({
         requestAuthModes: ['fingerPrint'],
         challenge: '123456',
         authContent: '请用指纹解锁',
         success(res) {
-          if (global.isNinecaseLock) {
-            dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock: false})
-          }
-          dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock})
+          dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true})
+          dispatch({type: 'global/setIsLock', isLock: true})
         }
-    })
+      })
     } else {
-      dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock})
+      dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: isLock})
     }
 
   }
 
-  function switchNinecaseLock(isNinecaseLock) {
-    if(isNinecaseLock === true) {
-      Taro.navigateTo({
-        url: '/pages/DrawUnlock/index'
-      })
+  function switchNinecaseLock(isLock) {
+    const lockPwd = Taro.getStorageSync('gesturePwd');
+
+    if (isLock) {
+      if (lockPwd.length) {
+        dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:true});
+      } else {
+        Taro.navigateTo({
+          url: '/pages/DrawUnlock/index'
+        })
+      }
     } else {
-      dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock})
+      dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock: false})
     }
 
   }
@@ -47,9 +51,9 @@ export default function Profile() {
   return (
     <View>
       <AtForm>
-        <AtSwitch title='是否启用密码锁' checked={global.isLock} onChange={switchLock} />
-        <AtSwitch title='指纹锁' checked={global.isFingerprintLock} onChange={switchFingerprintLock} />
-        <AtSwitch title='九宫格锁' checked={global.isNinecaseLock} onChange={switchNinecaseLock} />
+        <AtSwitch title='是否启用密码锁' checked={isLock} onChange={switchLock} />
+        <AtSwitch title='指纹锁' disabled={!isLock && isFingerprintLock} checked={isFingerprintLock} onChange={switchFingerprintLock} />
+        <AtSwitch title='九宫格锁' disabled={!isLock && isNinecaseLock} checked={isNinecaseLock} onChange={switchNinecaseLock} />
       </AtForm>
     </View>
   )

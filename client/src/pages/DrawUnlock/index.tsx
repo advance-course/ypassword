@@ -11,30 +11,32 @@ export default function DrawUnlock(props):DrawUnlockProps {
   const global = useSelector<any, SetBooleanStatus>(state => state.global)
   const dispatch = useDispatch();
 
-  const lockPwd = Taro.getStorageSync('gesture');
+  const lockPwd = Taro.getStorageSync('gesturePwd');
 
   function closeLock() {
     dispatch({type: 'global/setIsLocking', isLocking: false})
   }
 
   function setLockPwd(pwd) {
-    Taro.setStorageSync('gesture', pwd);
-
-    if (global.isFingerprintLock) {
-      dispatch({type: 'global/setIsFingerprintLock', isNinecaseLock: false})
-    };
+    Taro.setStorageSync('gesturePwd', pwd);
 
     dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:true});
+    dispatch({type: 'global/setIsLock', isLock: true})
+  }
 
+  function forgetPwd() {
+    Taro.redirectTo({
+      url: '/pages/PasswordRest/index'
+    })
   }
   
   return (
     <View>
       <GestureLock
         lockPwd={lockPwd}
-        isLocking={global.isNinecaseLock}
         closeLock={closeLock}
         setLockPwd={setLockPwd}
+        forgetPwd={forgetPwd}
       />
     </View>
   )

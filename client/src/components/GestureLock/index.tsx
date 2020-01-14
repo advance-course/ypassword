@@ -19,9 +19,9 @@ import { useDispatch } from '@tarojs/redux';
 export default function GestureLock(props: typeof lockConfig) {
   let {
     lockPwd,
-    isLocking,
     closeLock,
     setLockPwd,
+    forgetPwd,
     bgColor,
     circleColor,
     lineColor,
@@ -45,7 +45,7 @@ export default function GestureLock(props: typeof lockConfig) {
   let tipsObj = ['请绘制手势解锁', '请绘制手势密码', '请再次绘制手势密码', '密码错误', '至少连接3个点，请重新绘制', '与上次输入不一致，请重新绘制'];
 
   useEffect(() => {
-    isLocking ? setTipsIndex(0) : setTipsIndex(1)
+    lockPwd.length ? setTipsIndex(0) : setTipsIndex(1)
 
     Taro.createSelectorQuery().in(this.$scope)
       .select(".gesture_canvas")
@@ -115,7 +115,7 @@ export default function GestureLock(props: typeof lockConfig) {
     let circleArr = circleArrRef.current
 
     // 有锁时
-    if(isLocking) {
+    if(lockPwd.length) {
       if (pwdArr.join('') === lockPwd) {
         // 关闭锁
         closeLock()
@@ -209,6 +209,9 @@ export default function GestureLock(props: typeof lockConfig) {
           onTouchEnd={touchEnd}
         />
       </View>
+
+      <View className="forget_pwd" onClick={forgetPwd}>忘记密码</View>
+
     </View>
   );
 }

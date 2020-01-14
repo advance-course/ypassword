@@ -87,6 +87,16 @@ export default {
     },
     setIsFingerprintLock(state:GlobalState, action:SetBooleanStatus) {
       setStorage('isFingerprintLock', action.isFingerprintLock)
+      
+      if (state.isNinecaseLock) {
+        setStorage('isNinecaseLock', false)
+
+        return {
+          ...state,
+          isNinecaseLock: false,
+          isFingerprintLock: action.isFingerprintLock
+        }
+      }
 
       return {
         ...state,
@@ -95,6 +105,16 @@ export default {
     },
     setIsNinecaseLock(state:GlobalState, action:SetBooleanStatus) {
       setStorage('isNinecaseLock', action.isNinecaseLock)
+
+      if (state.isFingerprintLock) {
+        setStorage('isFingerprintLock', false)
+
+        return {
+          ...state,
+          isFingerprintLock: false,
+          isNinecaseLock: action.isNinecaseLock
+        }
+      }
 
       return {
         ...state,
