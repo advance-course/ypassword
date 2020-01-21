@@ -9,49 +9,39 @@ import Profile from "pages/Profile";
 import Category from "pages/Category";
 
 import { GlobalState } from "store/global";
-import qs from 'qs';
-import { SetBooleanStatus } from 'store/global'
+import { SetBooleanStatus } from "store/global";
 import "./index.scss";
-import { AccountState } from 'pages/Home/model';
+import LogoSelect from "../../components/LogoSelect";
 
 export const titles = {
-  0: '首页',
-  1: '列表',
-  2: '分类',
-  3: '我的'
-}
-
-interface UserInfo {
-  _id?: string,
-  avatarUrl?: string,
-  city?: string,
-  country?: string,
-  gender?: string,
-  language?: string,
-  nickName?: string,
-  province?: string,
-}
+  0: "首页",
+  1: "列表",
+  2: "分类",
+  3: "我的"
+};
 
 export default function Layout() {
-  const { isLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
+  const { isLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(
+    state => state.global
+  );
   const [current, setCurrent] = useState(0);
   const [initial, setInitial] = useState(true);
   const userInfoRef = useRef<any>(null);
 
-  const global = useSelector<any, SetBooleanStatus>(state => state.global)
+  const global = useSelector<any, SetBooleanStatus>(state => state.global);
   const dispatch = useDispatch();
 
   useEffect(() => {
     Taro.getSetting().then(res => {
-      if (!res.authSetting || !res.authSetting['scope.userInfo']) {
-        Taro.navigateTo({ url: '../Auth/index' });
+      if (!res.authSetting || !res.authSetting["scope.userInfo"]) {
+        Taro.navigateTo({ url: "../Auth/index" });
       }
-    })
+    });
 
     if (global.isFirstEnter) {
       login().then(() => {
-        dispatch({ type: 'setIsFirstEnter', isFirstEnter: false })
-      })
+        dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
+      });
     }
   }, []);
 
@@ -69,28 +59,29 @@ export default function Layout() {
   // 获取用户信息，进行登陆，返回服务器用户信息
   async function login() {
     const res = await Taro.cloud.callFunction({
-      name: 'user',
+      name: "user",
       data: {
-        $url: 'login'
+        $url: "login"
       }
-    })
+    });
 
     if (res.result) {
-      userInfoRef.current = res.result
+      userInfoRef.current = res.result;
 
-      Taro.setStorageSync('userInfo', res.result)
+      Taro.setStorageSync("userInfo", res.result);
 
-      dispatch({type: 'global/setUserId', userId: res.result._id})
+      dispatch({ type: "global/setUserId", userId: res.result._id });
     }
   }
-
+  function handleSelectImage(select: any) {
+    console.log("=========", select);
+  }
   return (
     <View>
       {current === 0 && <Home />}
       {current === 1 && <List />}
       {current === 2 && <Category />}
       {current === 3 && <Profile />}
-      
       <RealTabBar
         initial={initial}
         current={current}
@@ -100,7 +91,7 @@ export default function Layout() {
         fixed
         onClick={(current: number) => {
           setCurrent(current);
-          setInitial(false)
+          setInitial(false);
         }}
         tabList={[
           {
@@ -123,12 +114,19 @@ export default function Layout() {
           }
         ]}
       />
+      <View>
+        <LogoSelect
+          title="选择logo"
+          selectText="选择logo按钮"
+          onSelectCallback={handleSelectImage}
+        />
+      </View>
     </View>
   );
 }
 
 Layout.config = {
-  navigationBarTitleText: '',
-  navigationBarBackgroundColor: '#ffe100',
-  navigationBarTextStyle: 'black',
+  navigationBarTitleText: "",
+  navigationBarBackgroundColor: "#ffe100",
+  navigationBarTextStyle: "black"
 } as Config;
