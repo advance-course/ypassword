@@ -2,27 +2,27 @@ export const auth = [
   {
     icon: 'RectangleCopy63',
     title: '用户管理',
-    path: ''
+    path: '/pages/toB/users/index'
   },
   {
     icon: 'RectangleCopy70',
     title: '角色管理',
-    path: ''
+    path: '/pages/toB/roles/index'
   },
   {
     icon: 'RectangleCopy219',
     title: '资源管理',
-    path: ''
+    path: '/pages/toB/resources/index'
   },
   {
     icon: 'RectangleCopy192',
     title: 'banner配置',
-    path: ''
+    path: '/pages/toB/banner/index'
   },
   {
     icon: 'RectangleCopy153',
     title: '文章配置',
-    path: ''
+    path: '/pages/toB/articles/index'
   },
   {
     icon: 'RectangleCopy196',
@@ -32,26 +32,26 @@ export const auth = [
   {
     icon: 'RectangleCopy66',
     title: '新增账号',
-    path: ''
+    path: '/pages/Account/Editor/index'
   },
   {
     icon: 'monitor',
     title: '每日签到',
-    path: ''
+    path: 'checkin'
   },
   {
     icon: 'RectangleCopy74',
     title: '不知非攻',
-    path: ''
+    path: 'keepkiller'
   },
   {
     icon: 'dialogue',
     title: '联系作者',
-    path: ''
+    path: 'contcatauthor'
   },
   {
     icon: 'RectangleCopy66',
     title: '开发团队',
-    path: ''
+    path: 'devteam'
   },
 ];

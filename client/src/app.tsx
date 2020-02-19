@@ -26,8 +26,13 @@ class App extends Component {
       "pages/Settings/Lock/index",
 
       // B端页面
+      "pages/toB/users/index",
+      "pages/toB/roles/index",
+      "pages/toB/resources/index",
+      "pages/toB/banner/index",
+      "pages/toB/articles/index",
       "pages/toB/categoryIcon/index",
-
+      
       // 不可变数据集案例
       "pages/Immutable/index",
       "pages/Immutable/examples/demo-01/index",
