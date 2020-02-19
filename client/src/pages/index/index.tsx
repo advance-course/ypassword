@@ -9,7 +9,6 @@ import Profile from "pages/Profile";
 import Category from "pages/Category";
 
 import { GlobalState, SetBooleanStatus } from "store/global";
-import LogoSelect from "../../components/LogoSelect";
 import "./index.scss";
 
 export const titles = {
@@ -129,13 +128,6 @@ export default function Layout() {
           }
         ]}
       />
-      <View>
-        <LogoSelect
-          title="选择logo"
-          selectText="选择logo按钮"
-          onSelectCallback={handleSelectImage}
-        />
-      </View>
     </View>
   );
 }

@@ -1,19 +1,57 @@
-export const accounts: com.Account[] = [
+export const auth = [
   {
-    title: "微信",
-    username: "y1832064870",
-    password: "12312313"
+    icon: 'RectangleCopy63',
+    title: '用户管理',
+    path: ''
   },
   {
-    title: "QQ",
-    username: "1832064870",
-    password: "1231312"
+    icon: 'RectangleCopy70',
+    title: '角色管理',
+    path: ''
   },
   {
-    title: "抖音",
-    username: "1832064870",
-    password: "1231312",
-    '支付密码': '12334',
-    '二级验证码': '999999'
+    icon: 'RectangleCopy219',
+    title: '资源管理',
+    path: ''
+  },
+  {
+    icon: 'RectangleCopy192',
+    title: 'banner配置',
+    path: ''
+  },
+  {
+    icon: 'RectangleCopy153',
+    title: '文章配置',
+    path: ''
+  },
+  {
+    icon: 'RectangleCopy196',
+    title: '图标配置',
+    path: '/pages/toB/categoryIcon/index'
+  },
+  {
+    icon: 'RectangleCopy66',
+    title: '新增账号',
+    path: ''
+  },
+  {
+    icon: 'monitor',
+    title: '每日签到',
+    path: ''
+  },
+  {
+    icon: 'RectangleCopy74',
+    title: '不知非攻',
+    path: ''
+  },
+  {
+    icon: 'dialogue',
+    title: '联系作者',
+    path: ''
+  },
+  {
+    icon: 'RectangleCopy66',
+    title: '开发团队',
+    path: ''
   },
 ];

@@ -1,6 +1,5 @@
 import Taro, { useEffect, useState } from '@tarojs/taro';
 import { View } from '@tarojs/components';
-import qs from 'qs';
 import { AtForm, AtInput } from 'taro-ui';
 import CardItem from 'components/CardItem';
 import { useSelector } from '@tarojs/redux';
