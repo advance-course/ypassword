@@ -1,18 +1,26 @@
-import Taro from '@tarojs/taro';
+import Taro, { useState, useEffect } from '@tarojs/taro';
 import { View, Label, Image } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
-import useUserInfo from 'hooks/useUserInfo';
+import { UserInfo } from 'pages/Auth/interface';
+
 import './index.scss';
 
 export default function Profile() {
-  const { nickName = '', avatarUrl = '', city = '' } = useUserInfo();
+
+  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
+
+  useEffect(() => {
+    Taro.getStorage({ key: 'userInfo' }).then(res => {
+      setUserInfo(res.data);
+    })
+  }, [userInfo]);
 
   return (
     <View>
-      <View className="userInfoContainer" onClick={() => Taro.navigateTo({ url: '../UserInfo/index' })}>
-        <Image src={avatarUrl} className="avatar" />
-        <Label className="username">{nickName}</Label>
-        <Label className="city">{city}</Label>
+      <View className="userInfoContainer"  >
+        <Image src={userInfo.avatarUrl} className="avatar" />
+        <Label className="username">{userInfo.nickName}</Label>
+        <Label className="city">{userInfo.city}</Label>
       </View>
 
       <AtList>

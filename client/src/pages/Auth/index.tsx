@@ -17,7 +17,7 @@ export default function Auth() {
 
       Taro.setStorage({
         key: 'userInfo',
-        data: JSON.stringify(res.detail.userInfo)
+        data: res.detail.userInfo
       })
       Taro.navigateBack();
     }

@@ -68,12 +68,18 @@ exports.main = async (event, context) => {
       _openid: OPENID,
     }).field({_openid: false}).get()
 
-    if(info.data.length) {
+    if (info.data.length) {
       ctx.body = {
         success: true,
         code: 200,
         message: '请求成功',
         data: info.data[0],
+      }
+    } else {
+      ctx.body = {
+        success: false,
+        code: 1002,
+        message: '无此用户，请注册',
       }
     }
   })

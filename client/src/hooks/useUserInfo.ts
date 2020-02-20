@@ -1,5 +1,5 @@
 import taro, { useState, useEffect } from '@tarojs/taro';
-import { UserInfo } from 'src/pages/Auth/interface';
+import { UserInfo } from 'pages/Auth/interface';
 
 export default function useUserInfo() {
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
