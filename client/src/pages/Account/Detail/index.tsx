@@ -17,8 +17,8 @@ export default function AccountDetail() {
         <AtListItem title="标题" extraText={title} />
         <AtListItem title="账号" extraText={username} />
         <AtListItem title="密码" extraText={password} />
-        {keys.map((item, index) => (
-          <AtListItem key={index} title={item} extraText={other[item]} />
+        {keys.map((item) => (
+          <AtListItem key={item} title={item} extraText={other[item]} />
         ))}
       </AtList>
       <View className="float_button">

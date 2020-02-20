@@ -1,4 +1,4 @@
-import Taro, { useEffect, useState } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
 import { View, Label, Image } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
 import useUserInfo from 'hooks/useUserInfo';
@@ -46,7 +46,7 @@ export default function Profile() {
           title="图标"
           extraText=""
           arrow="right"
-          onClick={() => Taro.navigateTo({ url: '/pages/IconIndex/index' })}
+          onClick={() => Taro.navigateTo({ url: '/pages/examples/icon/index' })}
         />
       </AtList>
     </View>

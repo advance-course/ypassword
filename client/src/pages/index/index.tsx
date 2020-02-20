@@ -8,8 +8,7 @@ import List from "pages/List";
 import Profile from "pages/Profile";
 import Category from "pages/Category";
 
-import { GlobalState } from "store/global";
-import { SetBooleanStatus } from 'store/global'
+import { GlobalState, SetBooleanStatus } from "store/global";
 import http from 'utils/http'
 import "./index.scss";
 
@@ -26,20 +25,20 @@ export default function Layout() {
   const [initial, setInitial] = useState(true);
   const userInfoRef = useRef<any>(null);
 
-  const global = useSelector<any, SetBooleanStatus>(state => state.global)
+  const global = useSelector<any, SetBooleanStatus>(state => state.global);
   const dispatch = useDispatch();
 
   useEffect(() => {
     Taro.getSetting().then(res => {
-      if (!res.authSetting || !res.authSetting['scope.userInfo']) {
-        Taro.navigateTo({ url: '../Auth/index' });
+      if (!res.authSetting || !res.authSetting["scope.userInfo"]) {
+        Taro.navigateTo({ url: "../Auth/index" });
       }
-    })
+    });
 
     if (isFirstEnter) {
       login().then(() => {
-        dispatch({ type: 'setIsFirstEnter', isFirstEnter: false })
-      })
+        dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
+      });
     }
   }, []);
 
@@ -74,6 +73,7 @@ export default function Layout() {
 
   // 获取用户信息，进行登陆，返回服务器用户信息
   async function login() {
+<<<<<<< HEAD
     const res = await http.get('user/v1/login')
 
     if (res.success) {
@@ -82,6 +82,21 @@ export default function Layout() {
       Taro.setStorageSync('userInfo', res.data)
 
       dispatch({type: 'global/setUserId', userId: res.data._id})
+=======
+    const res = await Taro.cloud.callFunction({
+      name: "user",
+      data: {
+        $url: "login"
+      }
+    });
+
+    if (res.result) {
+      userInfoRef.current = res.result;
+
+      Taro.setStorageSync("userInfo", res.result);
+
+      dispatch({ type: "global/setUserId", userId: res.result._id });
+>>>>>>> master
     }
   }
 
@@ -91,37 +106,19 @@ export default function Layout() {
       {current === 1 && <List />}
       {current === 2 && <Category />}
       {current === 3 && <Profile />}
-      
       <RealTabBar
+        onClick={(current: number) => { setCurrent(current); setInitial(false); }}
         initial={initial}
         current={current}
         backgroundColor="#edeaed"
         color="#999"
         tintColor="#000"
         fixed
-        onClick={(current: number) => {
-          setCurrent(current);
-          setInitial(false)
-        }}
         tabList={[
-          {
-            text: "首页",
-            iconPath: "home"
-          },
-          {
-            text: "列表",
-            iconPath: "RectangleCopy62"
-          },
-          {
-            text: "分类",
-            iconPath: "RectangleCopy162",
-            badge: 5
-          },
-          {
-            text: "我的",
-            iconPath: "RectangleCopy49",
-            dot: true
-          }
+          {text: "首页", iconPath: "home"},
+          {text: "账户", iconPath: "RectangleCopy62"},
+          {text: "分类", iconPath: "RectangleCopy162", badge: 5},
+          {text: "我的", iconPath: "RectangleCopy49", dot: true}
         ]}
       />
     </View>
@@ -129,7 +126,7 @@ export default function Layout() {
 }
 
 Layout.config = {
-  navigationBarTitleText: '',
-  navigationBarBackgroundColor: '#ffe100',
-  navigationBarTextStyle: 'black',
+  navigationBarTitleText: "",
+  navigationBarBackgroundColor: "#ffe100",
+  navigationBarTextStyle: "black"
 } as Config;

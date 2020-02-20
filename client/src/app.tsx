@@ -22,8 +22,26 @@ class App extends Component {
       "pages/UserInfo/index",
       "pages/Account/Detail/index",
       "pages/Account/Editor/index",
-      "pages/IconIndex/index",
       "pages/Settings/Lock/index",
+      "pages/checkin/index",
+      "pages/webview/index",
+
+      // B端页面
+      "pages/toB/users/index",
+      "pages/toB/roles/index",
+      "pages/toB/resources/index",
+      "pages/toB/banner/index",
+      "pages/toB/articles/index",
+      "pages/toB/categoryIcon/index",
+
+      // 额外功能，主功能之外的扩展
+      "pages/extra/articles/index",
+      "pages/extra/author/index",
+      "pages/extra/devteam/index",
+
+      // examples
+      "pages/examples/icon/index",
+      
       // 不可变数据集案例
       "pages/Immutable/index",
       "pages/Immutable/examples/demo-01/index",

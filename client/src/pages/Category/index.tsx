@@ -1,6 +1,5 @@
-import Taro, { useState, useEffect } from '@tarojs/taro';
-import { View, Button, Text } from '@tarojs/components';
-import RealTabBar from 'components/tabBar';
+import Taro from '@tarojs/taro';
+import { View, Text } from '@tarojs/components';
 
 export default function Category() {
   return (

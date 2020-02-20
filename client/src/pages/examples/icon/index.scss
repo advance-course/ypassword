@@ -1,0 +1,43 @@
+.container {
+  .title_wrapper {
+    padding: 10Px 15Px;
+    margin-top: 30Px;
+  }
+  .title {
+    font-size: 16Px;
+    font-weight: bold;
+  }
+  .base_wrapper {
+    padding: 0 15Px;
+    .item {
+      display: flex;
+      margin: 10Px 0;
+      align-items: center;
+    }
+  }
+  .icons_wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 33.33%);
+  }
+  .itemContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20Px 0;
+    
+    &:active {
+      background: #ffe100;
+      transition: .5s;
+    }
+    
+    .itemStyle{
+      font-size: 12Px;
+      margin-top: 10Px;
+    }
+  }
+}
+
+.din {
+  font-family: 'DIN';
+}

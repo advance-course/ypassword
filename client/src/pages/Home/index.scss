@@ -1,46 +1,50 @@
 page {
-  background-color: #ebebf1;
+  background-color: #f5f5f5;
 }
+
 .container {
-  // padding: 15Px;
-
-  .account_item {
-    background-color: #FDFDFD;
-    border: 1rpx solid #EEE;
-    margin: 10Px 0;
-    border-radius: 8px;
-    padding: 15Px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .sp_item {
+    width: 100%;
+    height: 150Px;
+    position: relative;
   }
-
-  .who_icon {
-    width: 35Px;
-    height: 35Px;
-    border: 1Px solid red;
-    margin-right: 15Px;
+  .sp_img {
+    width: 100%;
+    height: 100%;
+  }
+  .sp_titleview {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 30Px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .sp_titletext {
     font-size: 14Px;
-    border-radius: 8px;
+    color: #FFF;
   }
-
-  .info {
-    flex: 1;
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 33.33%);
   }
-
-  .title {
-    font-size: 14Px;
+  .auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 120Px;
+    transition: .5s;
+    &:active {
+      background-color: #ffe100;
+    }
+    .title {
+      font-size: 14Px;
+      color: #333;
+      margin-top: 2Px;
+    }
   }
-
-  .username {
-    font-size: 12Px;
-    color: '#CCC'
-  }
-}
-
-.din {
-  font-size: 'DIN';
 }

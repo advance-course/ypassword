@@ -1,19 +1,57 @@
-export const accounts: com.Account[] = [
+export const auth = [
   {
-    title: "微信",
-    username: "y1832064870",
-    password: "12312313"
+    icon: 'RectangleCopy63',
+    title: '用户管理',
+    path: '/pages/toB/users/index'
   },
   {
-    title: "QQ",
-    username: "1832064870",
-    password: "1231312"
+    icon: 'RectangleCopy70',
+    title: '角色管理',
+    path: '/pages/toB/roles/index'
   },
   {
-    title: "抖音",
-    username: "1832064870",
-    password: "1231312",
-    '支付密码': '12334',
-    '二级验证码': '999999'
+    icon: 'RectangleCopy219',
+    title: '资源管理',
+    path: '/pages/toB/resources/index'
+  },
+  {
+    icon: 'RectangleCopy192',
+    title: 'banner配置',
+    path: '/pages/toB/banner/index'
+  },
+  {
+    icon: 'RectangleCopy153',
+    title: '文章配置',
+    path: '/pages/toB/articles/index'
+  },
+  {
+    icon: 'RectangleCopy196',
+    title: '图标配置',
+    path: '/pages/toB/categoryIcon/index'
+  },
+  {
+    icon: 'RectangleCopy66',
+    title: '新增账号',
+    path: '/pages/Account/Editor/index'
+  },
+  {
+    icon: 'monitor',
+    title: '每日签到',
+    path: '/pages/checkin/index'
+  },
+  {
+    icon: 'RectangleCopy74',
+    title: '不知非攻',
+    path: '/pages/extra/articles/index'
+  },
+  {
+    icon: 'dialogue',
+    title: '联系作者',
+    path: '/pages/extra/author/index'
+  },
+  {
+    icon: 'RectangleCopy66',
+    title: '开发团队',
+    path: '/pages/extra/devteam/index'
   },
 ];
