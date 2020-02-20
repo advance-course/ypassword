@@ -1,6 +1,7 @@
 import Taro, { useEffect, useState, useRef, createCanvasContext } from '@tarojs/taro';
 import { Canvas, View } from '@tarojs/components';
 import { ITouchEvent } from "@tarojs/components/types/common";
+import classNames from 'classnames'
 import {
   getCircleArr,
   lockConfig,
@@ -14,7 +15,6 @@ import {
 } from './utils';
 import {throttle} from 'utils';
 import './index.scss';
-import { useDispatch } from '@tarojs/redux';
 
 export default function GestureLock(props: typeof lockConfig) {
   let {
@@ -190,7 +190,11 @@ export default function GestureLock(props: typeof lockConfig) {
         {
           Array.from({length:9}).map((v, i) => (
             <View key={i} className="pointer_wrap">
-              <View className={`pointer ${pwdArr.indexOf(i) > -1 ? 'active' : ''}`}></View>
+              <View className={classNames('pointer', {
+                'active': pwdArr.indexOf(i) > -1
+                })}
+              >
+              </View>
             </View>
           ))
         }

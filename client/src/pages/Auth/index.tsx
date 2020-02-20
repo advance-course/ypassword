@@ -1,10 +1,11 @@
 import Taro from '@tarojs/taro';
 import { View, Image, Label } from '@tarojs/components';
 import { AtButton } from 'taro-ui';
-import './index.scss';
 import { CommonEventFunction } from '@tarojs/components/types/common';
+import http from 'utils/http'
 
 import topImage from './images/inspection.png';
+import './index.scss';
 
 export default function Auth() {
   const getUserInfo: CommonEventFunction<any> = (res) => {
@@ -12,13 +13,7 @@ export default function Auth() {
     let result = res.detail
     if (result && result.userInfo) {
 
-      Taro.cloud.callFunction({
-        name: 'user',
-        data: {
-          $url: 'register',
-          ...result.userInfo
-        }
-      })
+      http.post('user/v1/register', result.userInfo)
 
       Taro.setStorage({
         key: 'userInfo',

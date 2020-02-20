@@ -7,7 +7,7 @@ import MyIcon from 'components/myIcon';
 export default function IconIndex() {
   useEffect(() => {
     Taro.getSetting().then(res => {
-      console.log(res);
+      // console.log(res);
       if (!res.authSetting || !res.authSetting['scope.userInfo']) {
         Taro.navigateTo({ url: '../Auth/index' });
       }

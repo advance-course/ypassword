@@ -12,11 +12,11 @@ export default function Index() {
   const [tick, setTick] = useState(0);
   const accounts = useSelector<any, AccountState>(state => state.account);
 
-  console.log(accounts);
+  // console.log(accounts);
 
   useEffect(() => {
     Taro.getSetting().then(res => {
-      console.log(res);
+      // console.log(res);
       if (!res.authSetting || !res.authSetting['scope.userInfo']) {
         Taro.navigateTo({ url: '../Auth/index' });
       }

@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
   const app = new TcbRouter({ event })
   
   // 注册
-  app.router('register', async(ctx, next) => {
+  app.router('v1/register', async(ctx, next) => {
     const { OPENID } = cloud.getWXContext()
 
     const {
@@ -50,27 +50,46 @@ exports.main = async (event, context) => {
         }
       })
 
-      ctx.body = userId
+      ctx.body = {
+        success: true,
+        code: 200,
+        message: '请求成功',
+        data: userId
+      }
 
     }
   })
 
   // 登陆
-  app.router('login', async(ctx, next) => {
+  app.router('v1/login', async(ctx, next) => {
     const { OPENID } = cloud.getWXContext()
 
     const info = await userDb.where({
       _openid: OPENID,
     }).field({_openid: false}).get()
 
-    ctx.body = info.data.length ? info.data[0] : null
+    if(info.data.length) {
+      ctx.body = {
+        success: true,
+        code: 200,
+        message: '请求成功',
+        data: info.data[0],
+      }
+    }
   })
 
   // 查询用户信息
-  app.router('info', async(ctx, next) => {
-    ctx.body = await userDb.where({
+  app.router('v1/info', async(ctx, next) => {
+    const res = await userDb.where({
       _id: event.userId,
     }).get();
+
+    ctx.body = {
+      success: true,
+      code: 200,
+      message: '请求成功',
+      data: res
+    }
   })
 
   return app.serve();

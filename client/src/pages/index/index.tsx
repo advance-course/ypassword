@@ -10,6 +10,7 @@ import Category from "pages/Category";
 
 import { GlobalState } from "store/global";
 import { SetBooleanStatus } from 'store/global'
+import http from 'utils/http'
 import "./index.scss";
 
 export const titles = {
@@ -73,19 +74,14 @@ export default function Layout() {
 
   // 获取用户信息，进行登陆，返回服务器用户信息
   async function login() {
-    const res = await Taro.cloud.callFunction({
-      name: 'user',
-      data: {
-        $url: 'login'
-      }
-    })
+    const res = await http.get('user/v1/login')
 
-    if (res.result) {
-      userInfoRef.current = res.result
+    if (res.success) {
+      userInfoRef.current = res.data
 
-      Taro.setStorageSync('userInfo', res.result)
+      Taro.setStorageSync('userInfo', res.data)
 
-      dispatch({type: 'global/setUserId', userId: res.result._id})
+      dispatch({type: 'global/setUserId', userId: res.data._id})
     }
   }
 

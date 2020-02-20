@@ -29,7 +29,7 @@ export default function AccountDetail() {
     setVisible(false);
   }
 
-  console.log(params);
+  // console.log(params);
 
   const keys = Object.keys(other);
   return (
