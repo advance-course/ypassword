@@ -37,21 +37,21 @@ export const auth = [
   {
     icon: 'monitor',
     title: '每日签到',
-    path: 'checkin'
+    path: '/pages/checkin/index'
   },
   {
     icon: 'RectangleCopy74',
     title: '不知非攻',
-    path: 'keepkiller'
+    path: '/pages/extra/articles/index'
   },
   {
     icon: 'dialogue',
     title: '联系作者',
-    path: 'contcatauthor'
+    path: '/pages/extra/author/index'
   },
   {
     icon: 'RectangleCopy66',
     title: '开发团队',
-    path: 'devteam'
+    path: '/pages/extra/devteam/index'
   },
 ];
