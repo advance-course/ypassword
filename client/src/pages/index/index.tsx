@@ -29,6 +29,7 @@ export default function Layout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('run')
     Taro.getSetting().then(res => {
       if (!res.authSetting || !res.authSetting["scope.userInfo"]) {
         Taro.navigateTo({ url: "../Auth/index" });
@@ -73,7 +74,6 @@ export default function Layout() {
 
   // 获取用户信息，进行登陆，返回服务器用户信息
   async function login() {
-<<<<<<< HEAD
     const res = await http.get('user/v1/login')
 
     if (res.success) {
@@ -82,21 +82,8 @@ export default function Layout() {
       Taro.setStorageSync('userInfo', res.data)
 
       dispatch({type: 'global/setUserId', userId: res.data._id})
-=======
-    const res = await Taro.cloud.callFunction({
-      name: "user",
-      data: {
-        $url: "login"
-      }
-    });
-
-    if (res.result) {
-      userInfoRef.current = res.result;
-
-      Taro.setStorageSync("userInfo", res.result);
-
-      dispatch({ type: "global/setUserId", userId: res.result._id });
->>>>>>> master
+    } else {
+      Promise.reject('登陆失败')
     }
   }
 
