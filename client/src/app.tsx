@@ -24,6 +24,7 @@ class App extends Component {
       "pages/Account/Editor/index",
       "pages/Settings/Lock/index",
       "pages/checkin/index",
+      "pages/webview/index",
 
       // B端页面
       "pages/toB/users/index",
