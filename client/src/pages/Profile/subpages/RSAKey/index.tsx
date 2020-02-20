@@ -15,7 +15,7 @@ export default function RSAKeys() {
   const [deText, setDetext] = useState('')
 
   function createKeys() {
-    Taro.showLoading();
+    Taro.showLoading({title: '生成中...'});
     const crypt = new JSEncrypt({ default_key_size: 1024 });
     crypt.getKey(() => {
       Taro.hideLoading();

@@ -22,7 +22,6 @@ class App extends Component {
       "pages/UserInfo/index",
       "pages/Account/Detail/index",
       "pages/Account/Editor/index",
-      "pages/IconIndex/index",
       "pages/Settings/Lock/index",
       "pages/checkin/index",
 
@@ -38,6 +37,9 @@ class App extends Component {
       "pages/extra/articles/index",
       "pages/extra/author/index",
       "pages/extra/devteam/index",
+
+      // examples
+      "pages/examples/icon/index",
       
       // 不可变数据集案例
       "pages/Immutable/index",

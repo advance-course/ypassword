@@ -87,9 +87,7 @@ export default function Layout() {
       dispatch({ type: "global/setUserId", userId: res.result._id });
     }
   }
-  function handleSelectImage(select: any) {
-    console.log("=========", select);
-  }
+
   return (
     <View>
       {current === 0 && <Home />}
@@ -97,35 +95,18 @@ export default function Layout() {
       {current === 2 && <Category />}
       {current === 3 && <Profile />}
       <RealTabBar
+        onClick={(current: number) => { setCurrent(current); setInitial(false); }}
         initial={initial}
         current={current}
         backgroundColor="#edeaed"
         color="#999"
         tintColor="#000"
         fixed
-        onClick={(current: number) => {
-          setCurrent(current);
-          setInitial(false);
-        }}
         tabList={[
-          {
-            text: "首页",
-            iconPath: "home"
-          },
-          {
-            text: "列表",
-            iconPath: "RectangleCopy62"
-          },
-          {
-            text: "分类",
-            iconPath: "RectangleCopy162",
-            badge: 5
-          },
-          {
-            text: "我的",
-            iconPath: "RectangleCopy49",
-            dot: true
-          }
+          {text: "首页", iconPath: "home"},
+          {text: "账户", iconPath: "RectangleCopy62"},
+          {text: "分类", iconPath: "RectangleCopy162", badge: 5},
+          {text: "我的", iconPath: "RectangleCopy49", dot: true}
         ]}
       />
     </View>
