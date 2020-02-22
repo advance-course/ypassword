@@ -12,5 +12,5 @@ interface Userinfo {
 }
 
 export function loginApi()  {
-  return http.get<Userinfo>('uer/v1/login');
+  return http.get<Userinfo>('user/v1/login');
 }
