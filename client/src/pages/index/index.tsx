@@ -9,7 +9,7 @@ import Profile from "pages/Profile";
 import Category from "pages/Category";
 
 import { GlobalState, SetBooleanStatus } from "store/global";
-import http from 'utils/http'
+import {loginApi} from './api';
 import "./index.scss";
 
 export const titles = {
@@ -29,18 +29,13 @@ export default function Layout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('run')
     Taro.getSetting().then(res => {
       if (!res.authSetting || !res.authSetting["scope.userInfo"]) {
         Taro.navigateTo({ url: "../Auth/index" });
       }
     });
 
-    if (isFirstEnter) {
-      login().then(() => {
-        dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
-      });
-    }
+    login();
   }, []);
 
   useEffect(() => {
@@ -73,17 +68,16 @@ export default function Layout() {
   }, [current]);
 
   // 获取用户信息，进行登陆，返回服务器用户信息
-  async function login() {
-    const res = await http.get('user/v1/login')
-
-    if (res.success) {
-      userInfoRef.current = res.data
-
-      Taro.setStorageSync('userInfo', res.data)
-
-      dispatch({type: 'global/setUserId', userId: res.data._id})
-    } else {
-      Promise.reject('登陆失败')
+  function login() {
+    if (isFirstEnter) {
+      loginApi().then(res => {
+        userInfoRef.current = res.data
+        Taro.setStorageSync('userInfo', res.data)
+        dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
+        dispatch({ type: 'global/setUserId', userId: res.data._id })  
+      }).catch(err => {
+        console.log(err.message);
+      });
     }
   }
 
