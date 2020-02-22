@@ -24,7 +24,6 @@ interface RealTabBarProps {
 
 export default function RealTabBar({
   current = 0,
-  backgroundColor = "#fff",
   color = "#999",
   tintColor = "#000",
   // fixed = false,
@@ -38,7 +37,7 @@ export default function RealTabBar({
     current !== index && setAnimated(true);
   };
   return (
-    <View className="tab-bar" style={{ backgroundColor }}>
+    <View className="tab-bar">
       <View className="tab-bar-wrap">
         {tabList.map((item, index) => (
           <View

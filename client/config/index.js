@@ -19,7 +19,6 @@ const config = {
     store: path.resolve(__dirname, '..', 'src/store'),
     utils: path.resolve(__dirname, '..', 'src/utils'),
     hooks: path.resolve(__dirname, '..', 'src/hooks'),
-    'custom-tab-bar': path.resolve(__dirname, '..', 'src/custom-tab-bar'),
   },
   babel: {
     sourceMap: true,
