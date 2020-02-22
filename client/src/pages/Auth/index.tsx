@@ -9,12 +9,9 @@ import './index.scss';
 
 export default function Auth() {
   const getUserInfo: CommonEventFunction<any> = (res) => {
-
     let result = res.detail
     if (result && result.userInfo) {
-
       http.post('user/v1/register', result.userInfo)
-
       Taro.setStorage({
         key: 'userInfo',
         data: res.detail.userInfo

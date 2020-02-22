@@ -1,1 +1,2 @@
 /cloud/functions/**/node_modules
+/cloud/functions/**/yarn.lock
