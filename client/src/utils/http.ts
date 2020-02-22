@@ -42,7 +42,7 @@ function createError(desc: string, code: number) {
   const error = new Error();
   error.message = error.name = desc;
   // @ts-ignore
-  error.code = code;
+  error.errCode = code;
 }
 
 // 在这个引用场景，get，post，delete仅用作语义化的区分，功能上其实没有差别
