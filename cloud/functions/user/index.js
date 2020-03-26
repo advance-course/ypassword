@@ -66,7 +66,7 @@ exports.main = async (event, context) => {
         return
       }
 
-      ctx.body = { success: false, code: 1002, message: '无此用户，请注册' }
+      ctx.body = { success: false, code: 40101, message: '无此用户，请注册' }
     } catch (e) {
       ctx.body = {success: false, code: errCode, message: errMsg}
     }
@@ -78,7 +78,7 @@ exports.main = async (event, context) => {
    */
   app.router('v1/info', async(ctx, next) => {
     try {
-      const res = await user.doc(event.userid).get();
+      const res = await user.doc(event.userid).field({openid: false}).get();
       ctx.body = { success: true, code: 200, message: '请求成功', data: res.data }
     } catch (e) {
       ctx.body = { success: false, code: errCode, message: errMsg }

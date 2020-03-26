@@ -33,10 +33,6 @@ export default function Layout() {
       if (!res.authSetting || !res.authSetting["scope.userInfo"]) {
         return Taro.navigateTo({ url: "../Auth/index" });
       }
-
-      Taro.login().then(res => {
-        console.log(res);
-      })
     });
 
     login();
@@ -80,7 +76,9 @@ export default function Layout() {
         dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
         dispatch({ type: 'global/setUserId', userId: res.data._id })  
       }).catch(err => {
-        console.log(err.message);
+        if ([401, 40101, 40102, 40103].includes(err.code)) {
+          Taro.navigateTo({url: '/pages/Auth/index'})
+        }
       });
     }
   }
