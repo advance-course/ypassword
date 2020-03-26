@@ -1,0 +1,36 @@
+[
+  {
+    "name": "注册",
+    "value": {
+      "$url": "v1/register",
+      "nickName": "欧阳先生",
+      "avatarUrl": "",
+      "city": "",
+      "country": "",
+      "gender": 1,
+      "language": "zh_CN",
+      "province": ""
+    }
+  },
+  {
+    "name": "登陆",
+    "value": {
+      "$url": "v1/login"
+    }
+  },
+  {
+    "name": "查询用户信息",
+    "value": {
+      "$url": "v1/info",
+      "userid": "2b4144565e7c93cd000bf9f57588473e"
+    }
+  },
+  {
+    "name": "更新用户信息",
+    "value": {
+      "$url": "v1/update/info",
+      "userid": "2b4144565e7c93cd000bf9f57588473e",
+      "avatarUrl": "hello"
+    }
+  }
+]

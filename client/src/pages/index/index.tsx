@@ -31,8 +31,12 @@ export default function Layout() {
   useEffect(() => {
     Taro.getSetting().then(res => {
       if (!res.authSetting || !res.authSetting["scope.userInfo"]) {
-        Taro.navigateTo({ url: "../Auth/index" });
+        return Taro.navigateTo({ url: "../Auth/index" });
       }
+
+      Taro.login().then(res => {
+        console.log(res);
+      })
     });
 
     login();

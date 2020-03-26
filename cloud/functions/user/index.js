@@ -6,6 +6,7 @@ const TcbRouter = require('tcb-router');
  */
 exports.main = async (event, context) => {
   const { OPENID, ENV } = cloud.getWXContext()
+  console.log(OPENID, ENV);
   cloud.init({
     env: ENV == 'local' ? "release-d541f1" : 'prod-d541f1'
   });
@@ -14,44 +15,89 @@ exports.main = async (event, context) => {
   const user = db.collection('user');
   const app = new TcbRouter({ event });
   
-  // 注册
+  /**
+   * @description 注册
+   */
   app.router('v1/register', async(ctx, next) => {
-    const { nickName, avatarUrl, city, country, gender, language, province, } = event;
+    const _info = {
+      openid: OPENID,
+      nickName: '',
+      avatarUrl: '',
+      city: '',
+      country: '',
+      gender: 1,
+      language: 'zh_CN',
+      province: '',
+      isLock: true,  // 是否启用加锁
+      isFingerprintLock: false, // 是否启用指纹解锁
+      isNinecaseLock: false // 是否启用九宫格解锁
+    }
+
     let userInfo = await user.where({
-      _openid: OPENID,
+      openid: OPENID,
     }).get();
 
-    if (!userInfo.data.length) {
-      // 新建用户
-      const userId = await user.add({
-        data: { _openid: OPENID, nickName, avatarUrl, city, country, gender, language, province }
-      })
-      ctx.body = { success: true, code: 200, message: '注册成功', data: userId }
-    } else {
-      ctx.body = { success: false, code: 200, message: '当前用户已经存在！', data: userId }
+    if (userInfo.data.length > 0) {
+      ctx.body = { success: false, code: 200, message: '当前用户已经存在！', data: null }
+      return
+    }
+    const info = { ..._info, ...event };
+    delete info.$url;
+    try {
+      const res = await user.add({ data: info });
+      ctx.body = { success: true, code: 200, message: '注册成功', data: res._id }
+    } catch (e) {
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
   })
 
-  // 登陆
+  /**
+   * @description 登陆
+   */
   app.router('v1/login', async(ctx, next) => {
-    const info = await user.where({
-      _openid: OPENID,
-    }).field({_openid: false}).get()
+    try {
+      const info = await user.where({
+        openid: OPENID,
+      }).field({ openid: false }).get()
 
-    if (info.data.length) {
-      ctx.body = { success: true, code: 200, message: '请求成功', data: info.data[0], }
-    } else {
+      if (info.data.length) {
+        ctx.body = { success: true, code: 200, message: '请求成功', data: info.data[0], }
+        return
+      }
+
       ctx.body = { success: false, code: 1002, message: '无此用户，请注册' }
+    } catch (e) {
+      ctx.body = {success: false, code: errCode, message: errMsg}
     }
   })
 
-  // 查询指定用户的信息
+  /**
+   * @description 查询用户基本信息
+   * @param {userid} 用户id
+   */
   app.router('v1/info', async(ctx, next) => {
-    const res = await user.where({
-      _id: event.userId,
-    }).get();
+    try {
+      const res = await user.doc(event.userid).get();
+      ctx.body = { success: true, code: 200, message: '请求成功', data: res.data }
+    } catch (e) {
+      ctx.body = { success: false, code: errCode, message: errMsg }
+    }
+  })
 
-    ctx.body = { success: true, code: 200, message: '请求成功', data: res.data }
+  // 修改某用户信息的内容
+  app.router('v1/update/info', async (ctx) => {
+    const {userid, $url, ...other} = event;
+    try {
+      await user.doc(userid).update({
+        data: {
+          ...other
+        }
+      })
+
+      ctx.body = { success: true, code: 200, message: '更新成功', data: null}
+    } catch (e) {
+      ctx.body = { success: false, code: errCode, message: errMsg }
+    }
   })
   
   /**
@@ -61,21 +107,25 @@ exports.main = async (event, context) => {
    */
   app.router('v1/list', async (ctx) => {
     const {current = 1, pageSize = 10} = event;
-    const count = await user.count();
-    const total = count.total;
-    let lastPage = false;
-    if (current * pageSize >= total) {
-      lastPage = true;
-    }
-    const start = pageSize * (current - 1);
-    const list = await user.skip(start).limit(pageSize).get();
-    
-    const result = { pageSize, current, lastPage, total, list: list.data };
-    ctx.body = {
-      success: true,
-      code: 200,
-      message: '请求成功',
-      data: result
+    try {
+      const count = await user.count();
+      const total = count.total;
+      let lastPage = false;
+      if (current * pageSize >= total) {
+        lastPage = true;
+      }
+      const start = pageSize * (current - 1);
+      const list = await user.skip(start).limit(pageSize).get();
+
+      const result = { pageSize, current, lastPage, total, list: list.data };
+      ctx.body = {
+        success: true,
+        code: 200,
+        message: '请求成功',
+        data: result
+      }
+    } catch (e) {
+      ctx.body = { success: false, code: errCode, message: errMsg }
     }
   })
 
