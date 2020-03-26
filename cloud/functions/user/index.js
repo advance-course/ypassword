@@ -8,7 +8,8 @@ exports.main = async (event, context) => {
   const { OPENID, ENV } = cloud.getWXContext()
   console.log(OPENID, ENV);
   cloud.init({
-    env: ENV == 'local' ? "release-d541f1" : 'prod-d541f1'
+    // env: ENV == 'local' ? "release-d541f1" : 'prod-d541f1'
+    env: "release-d541f1"
   });
 
   const db = cloud.database();
