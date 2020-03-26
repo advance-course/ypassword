@@ -30,7 +30,8 @@ exports.main = async (event, context) => {
       province: '',
       isLock: true,  // 是否启用加锁
       isFingerprintLock: false, // 是否启用指纹解锁
-      isNinecaseLock: false // 是否启用九宫格解锁
+      isNinecaseLock: false, // 是否启用九宫格解锁
+      type: 3  // 1: 超级管理员  2: 管理员  3：普通用户  4：付费用户
     }
 
     let userInfo = await user.where({
