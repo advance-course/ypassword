@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 
-interface Response<T> {
+export interface Result<T> {
   success: boolean,
   code: number,
   data: T,
@@ -9,10 +9,10 @@ interface Response<T> {
 
 interface CloudResult<T> extends Taro.cloud.CallFunctionResult {
   requestID: string,
-  result: Response<T>
+  result: Result<T>
 }
 
-function http<T>(url: string, data?: {}): Promise<Response<T>> {
+function http<T>(url: string, data?: {}): Promise<Result<T>> {
   let name = '';
   let $url = url.replace(/(^[a-z]+)\//, (m, $1, $2) => {
     name = $1;
