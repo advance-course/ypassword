@@ -1,4 +1,4 @@
-import { useState, useEffect } from '@tarojs/taro'
+import { useState, useEffect, stopPullDownRefresh } from '@tarojs/taro'
 import { Result } from 'utils/http'
 import { Page, PaginationParam, defPaginationParams, defPageData, PageData, mergePagination } from './entity'
 
@@ -48,6 +48,7 @@ export default function usePagination<T>(
         increasing: false,
         errMsg: ''
       })
+      stopPullDownRefresh();
     }).catch(e => {
       dispatch({
         errMsg: e.message,
@@ -55,6 +56,7 @@ export default function usePagination<T>(
         refreshing: false,
         increasing: false
       })
+      stopPullDownRefresh();
     })
   }
 

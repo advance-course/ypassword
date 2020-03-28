@@ -1,4 +1,5 @@
 import http from 'utils/http';
+import { Page, PaginationParam } from 'hooks/usePagination/entity';
 
 export interface WxUserinfo {
   avatarUrl?: string,
@@ -27,6 +28,13 @@ export interface UserInfo extends WxUserinfo {
   type: 1 | 2 | 3 | 4,
 }
 
+export const userTypeDesc = {
+  1: '超级管理员',
+  2: '管理员',
+  3: '普通用户',
+  4: 'VIP'
+}
+
 /** 用户登录 */
 export function loginApi()  {
   return http.get<UserInfo>('user/v1/login');
@@ -39,4 +47,8 @@ export function loginApi()  {
  * */
 export function registerApi(params: WxUserinfo) {
   return http.post<string>('user/v1/register', params);
+}
+
+export function userListApi(params: PaginationParam) {
+  return http.get<Page<UserInfo>>('user/v1/list', params);
 }
