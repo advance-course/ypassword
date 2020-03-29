@@ -59,9 +59,9 @@ export function mergePagination<T>(preData: PageData<T>, incomingData: Page<T>):
       list: incomingData.list || [],
       pagination: {
         current: 1,
-        pageSize: preData.pagination.pageSize,
-        lastPage: incomingData.lastPage || true,
-        total: incomingData.total || 0,
+        pageSize: incomingData.pageSize,
+        lastPage: incomingData.lastPage,
+        total: incomingData.total,
       }
     }
   }
@@ -75,8 +75,8 @@ export function mergePagination<T>(preData: PageData<T>, incomingData: Page<T>):
       list: _list,
       pagination: {
         current: incomingData.current,
-        pageSize: preData.pagination.pageSize,
-        lastPage: incomingData.lastPage || true,
+        pageSize: incomingData.pageSize,
+        lastPage: incomingData.lastPage,
         total: incomingData.total
       }
     }

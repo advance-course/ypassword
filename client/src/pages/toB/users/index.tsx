@@ -5,7 +5,7 @@ import { userListApi, userTypeDesc } from 'pages/index/api';
 import "./index.scss";
 
 export default function Users() {  
-  const {list, loading, errMsg, setIncreasing, setLoading} = usePagination(userListApi, {current: 1});
+  const {list, loading, errMsg, setIncreasing, setLoading} = usePagination(userListApi, {current: 1, pageSize: 9});
   console.log(list);
 
   usePullDownRefresh(() => {
@@ -13,7 +13,10 @@ export default function Users() {
   })
 
   useReachBottom(() => {
-    setIncreasing(true);
+    console.log('reachBottom:', list.pagination.lastPage)
+    if (!list.pagination.lastPage) {
+      setIncreasing(true);
+    }
   })
 
   return (

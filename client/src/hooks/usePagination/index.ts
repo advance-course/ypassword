@@ -17,7 +17,7 @@ export default function usePagination<T>(
 ) {
   const [state, setState] = useState({
     loading: true,
-    increasing: true,
+    increasing: false,
     errMsg: '',
     params: {...defPaginationParams, ...param},
     list: defPageData as PageData<T>
@@ -61,7 +61,7 @@ export default function usePagination<T>(
   }
 
   function setParams(option: PaginationParam = {}, refreshing?: boolean) {
-    const _param = refreshing ? {...params, ...option, ...defPaginationParams} : {...params, option};
+    const _param = refreshing ? {...params, ...option, ...defPaginationParams} : {...params, ...option};
     dispatch({params: _param});
     if (refreshing) {
       setTimeout(() => {
