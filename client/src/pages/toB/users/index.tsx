@@ -7,6 +7,13 @@ import { userListApi, userTypeDesc } from 'pages/index/api';
 import _ from 'lodash'
 import "./index.scss";
 
+const tagStyle = {
+  1: 'supermana',
+  2: 'mana',
+  3: 'normal',
+  4: 'vip'
+}
+
 export default function Users() {  
   const {list, loading, errMsg, setIncreasing, setLoading, increasing, setParams} = usePagination(userListApi, {current: 1, pageSize: 20});
 
@@ -31,8 +38,8 @@ export default function Users() {
         <View className="user_ctx" key={item._id} onClick={() => {}}>
           <Image className="avatar" src={item.avatarUrl!} />
           <View className="content_wrap">
-            <Text className="nickname">{item.nickName}</Text>
-            <Text className="user_type">{userTypeDesc[item.type]}</Text>
+            <Text className={`nickname ${tagStyle[item.type]}`}>{item.nickName}</Text>
+            <Text className={`user_type ${tagStyle[item.type]}`}>{userTypeDesc[item.type]}</Text>
           </View>
         </View>
       ))}

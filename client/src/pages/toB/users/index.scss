@@ -30,8 +30,21 @@
   .user_type {
     font-size: 12Px;
     border: 1px solid #efefef;
-    padding: 5Px;
+    padding: 2px 5Px;
     color: #999;
     border-radius: 4Px;
+
+    &.supermana {
+      color: #eb483b;
+      border-color: #eb483b;
+    }
+    &.mana {
+      color: #69a0f2;
+      border-color: #69a0f2
+    }
+    &.vip {
+      color: #9e5cd2;
+      border-color: #9e5cd2
+    }
   }
 }
