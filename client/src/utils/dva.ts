@@ -35,11 +35,27 @@ export function createApp(options: Options) {
 }
 
 export interface EffectsCommandMap {
-  put: <A extends Action>(action: A) => any;
-  call: Function;
-  select: Function;
-  take: Function;
-  cancel: Function;
+  put: <A extends Action>(action: A) => any,
+  call: Function,
+  select: Function,
+  take: Function,
+  cancel: Function,
+  actionChannel: Function,
+  all: Function,
+  apply: Function,
+  cancelled: Function,
+  cps: Function,
+  flush: Function,
+  fork: Function,
+  getContext: Function,
+  join: Function,
+  race: Function,
+  setContext: Function,
+  spawn: Function,
+  takeEvery: Function,
+  takeLatest: Function,
+  takem: Function,
+  throttle: Function,
   [key: string]: any;
 }
 export interface EffectsMapObject {
@@ -51,7 +67,7 @@ export interface ReducerEnhancer {
 export interface SubscriptionAPI {
   dispatch: Dispatch<any>;
 }
-export type ActionWithPayload = { action: Action; payload: any };
+export type ActionWithPayload = { type: string; payload: any };
 export type EffectType = "takeEvery" | "takeLatest" | "watcher" | "throttle";
 export type EffectWithType = [Effect, { type: EffectType }];
 export type Effect = (

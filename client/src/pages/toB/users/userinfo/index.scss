@@ -1,0 +1,39 @@
+.editor_container {
+  padding: 0 15Px;
+
+  .base_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200Px;
+  }
+
+  .avatar {
+    width: 60Px;
+    height: 60Px;
+    
+    border: 2Px solid #ffe100;
+    border-radius: 40Px;
+  }
+
+  .name_wrap {
+    height: 20Px;
+    display: flex;
+    margin: 12Px 0;
+    align-items: center;
+    .gender {
+      width: 14Px;
+      height: 14Px;
+    }
+    .nickname {
+      font-size: 16Px;
+      margin-left: 10Px;
+    }
+  }
+
+  .pc {
+    font-size: 12Px;
+    color: #999;
+  }
+}

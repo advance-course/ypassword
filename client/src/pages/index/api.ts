@@ -32,8 +32,27 @@ export const userTypeDesc = {
   1: '超级管理员',
   2: '管理员',
   3: '普通用户',
-  4: 'VIP'
+  4: '尊贵VIP'
 }
+
+export const userTypes = [
+  {
+    value: 1,
+    desc: '超级管理员',
+  },
+  {
+    value: 2,
+    desc: '管理员',
+  },
+  {
+    value: 3,
+    desc: '普通用户',
+  },
+  {
+    value: 4,
+    desc: '尊贵VIP',
+  },
+]
 
 /** 用户登录 */
 export function loginApi()  {
@@ -51,4 +70,11 @@ export function registerApi(params: WxUserinfo) {
 
 export function userListApi(params: PaginationParam) {
   return http.get<Page<UserInfo>>('user/v1/list', params);
+}
+
+export function userUpdateApi(userid: string, params: UserInfo) {
+  return http.get<string>('user/v1/update/info', {
+    userid,
+    ...params
+  })
 }
