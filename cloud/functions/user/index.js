@@ -43,7 +43,7 @@ exports.main = async (event, context) => {
       ctx.body = { success: false, code: 200, message: '当前用户已经存在！', data: null }
       return
     }
-    const info = { ..._info, ...event };
+    const info = { ..._info, ...event, createTime: new Date().getTime() };
     delete info.$url;
     try {
       const res = await user.add({ data: info });
