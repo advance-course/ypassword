@@ -84,7 +84,7 @@ export default function Layout() {
   }
 
   return (
-    <View>
+    <View style={{height: '100%'}}>
       {current === 0 && <Home />}
       {current === 1 && <List />}
       {current === 2 && <Category />}
@@ -100,8 +100,8 @@ export default function Layout() {
         tabList={[
           {text: "首页", iconPath: "home"},
           {text: "账户", iconPath: "RectangleCopy62"},
-          {text: "分类", iconPath: "RectangleCopy162", badge: 5},
-          {text: "我的", iconPath: "RectangleCopy49", dot: true}
+          {text: "分类", iconPath: "RectangleCopy162"},
+          {text: "我的", iconPath: "RectangleCopy49"}
         ]}
       />
     </View>

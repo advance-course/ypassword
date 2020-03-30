@@ -32,5 +32,13 @@
       "userid": "2b4144565e7c93cd000bf9f57588473e",
       "avatarUrl": "hello"
     }
+  },
+  {
+    "name": "用户列表",
+    "value": {
+      "$url": "v1/list",
+      "current": 1,
+      "keyword": "欧阳"
+    }
   }
 ]
