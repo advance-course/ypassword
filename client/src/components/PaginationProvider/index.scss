@@ -1,0 +1,19 @@
+.pagination_provider {
+  padding: 0 15Px;
+
+  .pagination_bottom {
+    height: 50Px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loading {
+    margin-right: 16Px;
+  }
+
+  .desc {
+    font-size: 14Px;
+    color: #666;
+  }
+}

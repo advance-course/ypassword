@@ -1,15 +1,19 @@
 import Taro, {useEffect} from '@tarojs/taro'
+import { CSSProperties } from 'react'
 import { View, Text } from '@tarojs/components'
-import Icon from 'components/myIcon'
+import MyIcon from 'components/myIcon'
+import Exception from 'components/Exception'
+import classnames from 'classnames'
+import './index.scss'
 
 export interface PaginationProviderProps {
   loading: boolean,
   errMsg?: string,
   increasing?: boolean,
   lastPage?: boolean,
-  style?: StyleSheet,
+  style?: CSSProperties,
   className?: string,
-  children?: Element
+  children?: any
 }
 
 export default function PaginationProvider(props: PaginationProviderProps) {
@@ -24,25 +28,32 @@ export default function PaginationProvider(props: PaginationProviderProps) {
   }, [loading])
 
   if (errMsg) {
-    Taro.showToast({title: errMsg, icon: 'none'})
-    return null;
+    return <Exception type="noData" message={errMsg} />
   }
 
+  const cls = classnames('pagination_provider', {
+    // @ts-ignore
+    [className]: !!className
+  })
+
   return (
-    <View className="pagination_provider">
+    <View className={cls} style={style}>
       {children}
-      {increasing && !lastPage && (
+      {!loading && increasing && !lastPage && (
         <View className="pagination_bottom">
-          <Icon name="" size={18} spin />
-          <Text>数据加载中...</Text>
+          <MyIcon className="loading" name="settings" size={26} spin />
+          <Text className="desc">数据加载中...</Text>
         </View>
       )}
-      {lastPage && (
+      {!loading && lastPage && (
       <View className="pagination_bottom">
-        <Icon name="" size={18} spin />
-        <Text>已经到底啦</Text>
+        <Text className="desc">已经到底啦</Text>
       </View>
       )}
     </View>
   )
 }
+
+PaginationProvider.options = {
+  addGlobalClass: true
+};
