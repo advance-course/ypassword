@@ -106,18 +106,35 @@ exports.main = async (event, context) => {
    * 查询用户信息分页列表
    * @param {current} 当前页，默认值1
    * @param {pageSize} 每一页大小 默认值10
+   * @param {keyword} 通过关键字模糊匹配用户
    */
   app.router('v1/list', async (ctx) => {
-    const {current = 1, pageSize = 10} = event;
+    const {current = 1, pageSize = 10, keyword = ''} = event;
     try {
-      const count = await user.count();
+      let x = user;
+      if (keyword) {
+        x = await user.where(db.command.or([
+          {
+            nickName: db.RegExp({
+              regexp: keyword
+            })
+          },
+          {
+            _id: db.RegExp({
+              regexp: keyword
+            })
+          }
+        ]))
+      }
+      
+      const count = x.count();
       const total = count.total;
       let lastPage = false;
       if (current * pageSize >= total) {
         lastPage = true;
       }
       const start = pageSize * (current - 1);
-      const list = await user.skip(start).limit(pageSize).get();
+      const list = await x.skip(start).limit(pageSize).get();
 
       const result = { pageSize, current, lastPage, total, list: list.data };
       ctx.body = {

@@ -4,8 +4,8 @@ import models from 'store/index';
 import {createApp} from 'utils/dva'
 import {View} from '@tarojs/components';
 import 'taro-ui/dist/style/index.scss';
-import './app.scss';
 import 'assets/css/stylesheet.scss'
+import './app.scss';
 
 const dvaApp = createApp({initialState: {}, models});
 const store = dvaApp.getStore();
