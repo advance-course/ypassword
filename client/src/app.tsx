@@ -28,6 +28,7 @@ class App extends Component {
 
       // B端页面
       "pages/toB/users/index",
+      "pages/toB/users/userinfo/index",
       "pages/toB/roles/index",
       "pages/toB/resources/index",
       "pages/toB/banner/index",

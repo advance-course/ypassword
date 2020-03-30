@@ -60,7 +60,7 @@ exports.main = async (event, context) => {
     try {
       const info = await user.where({
         openid: OPENID,
-      }).field({ openid: false }).get()
+      }).field({ openid: false, userInfo: false }).get()
 
       if (info.data.length) {
         ctx.body = { success: true, code: 200, message: '请求成功', data: info.data[0], }
@@ -79,7 +79,7 @@ exports.main = async (event, context) => {
    */
   app.router('v1/info', async(ctx, next) => {
     try {
-      const res = await user.doc(event.userid).field({openid: false}).get();
+      const res = await user.doc(event.userid).field({openid: false, userInfo: false}).get();
       ctx.body = { success: true, code: 200, message: '请求成功', data: res.data }
     } catch (e) {
       ctx.body = { success: false, code: errCode, message: errMsg }
@@ -134,7 +134,7 @@ exports.main = async (event, context) => {
         lastPage = true;
       }
       const start = pageSize * (current - 1);
-      const list = await x.skip(start).limit(pageSize).get();
+      const list = await x.field({openid: false, userInfo: false}).skip(start).limit(pageSize).get();
 
       const result = { pageSize, current, lastPage, total, list: list.data };
       ctx.body = {

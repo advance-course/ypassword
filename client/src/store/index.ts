@@ -1,4 +1,10 @@
 import login from "pages/List/model";
 import global from './global';
 
-export default [login, global];
+import toBUserinfo from 'pages/toB/users/model';
+
+export default [
+  login, 
+  global, 
+  toBUserinfo
+];
