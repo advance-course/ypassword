@@ -2,6 +2,7 @@ import Taro, { Config, useState } from '@tarojs/taro';
 import {View} from '@tarojs/components';
 import {AtButton, AtInput} from 'taro-ui';
 import JSEncrypt from 'utils/rsa';
+import './index.scss'
 
 export interface Key {
   publickKey?: string,
@@ -41,7 +42,7 @@ export default function RSAKeys() {
   }
 
   return (
-    <View>
+    <View className="rsa_container">
       <View>公钥</View>
       <View>{key.publickKey || ""}</View>
 
