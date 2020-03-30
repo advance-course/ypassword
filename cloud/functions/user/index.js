@@ -126,9 +126,8 @@ exports.main = async (event, context) => {
           }
         ]))
       }
-      
-      const count = x.count();
-      const total = count.total;
+      const count = await x.count();
+      const total = count.total || 0;
       let lastPage = false;
       if (current * pageSize >= total) {
         lastPage = true;

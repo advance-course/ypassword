@@ -9,8 +9,8 @@ import './index.scss'
 export interface PaginationProviderProps {
   loading: boolean,
   errMsg?: string,
-  increasing?: boolean,
-  lastPage?: boolean,
+  increasing: boolean,
+  lastPage: boolean,
   style?: CSSProperties,
   className?: string,
   children?: any
@@ -18,6 +18,7 @@ export interface PaginationProviderProps {
 
 export default function PaginationProvider(props: PaginationProviderProps) {
   const { loading, errMsg, increasing, lastPage, style, className, children } = props;
+  console.log(increasing, lastPage)
 
   useEffect(() => {
     if (loading) {
@@ -36,20 +37,37 @@ export default function PaginationProvider(props: PaginationProviderProps) {
     [className]: !!className
   })
 
-  return (
-    <View className={cls} style={style}>
-      {children}
-      {!loading && increasing && !lastPage && (
+  if (loading) {
+    return null;
+  }
+
+  const renderFooter = () => {
+    if (increasing && lastPage) {
+      return (
         <View className="pagination_bottom">
           <MyIcon className="loading" name="settings" size={26} spin />
           <Text className="desc">数据加载中...</Text>
         </View>
-      )}
-      {!loading && lastPage && (
-      <View className="pagination_bottom">
-        <Text className="desc">已经到底啦</Text>
-      </View>
-      )}
+      )
+    }
+
+    if (lastPage) {
+      return (
+        <View className="pagination_bottom">
+          <Text className="desc">已经到底啦</Text>
+        </View>
+      )
+    }
+
+    return (
+      <View className="pagination_bottom" />
+    )
+  }
+
+  return (
+    <View className={cls} style={style}>
+      {children}
+      {renderFooter()}
     </View>
   )
 }
