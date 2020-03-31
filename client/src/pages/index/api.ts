@@ -19,13 +19,18 @@ export interface UserInfo extends WxUserinfo {
   isFingerprintLock?: boolean,
   /** 是否启用九宫格解锁 */
   isNinecaseLock?: boolean,
-  /** 
+  /**
    * 1： 超级管理员
    * 2： 管理员
    * 3： 普通用户
    * 4： 付费用户
    */
   type: 1 | 2 | 3 | 4,
+}
+
+export interface CategoryParam {
+  name: string,
+  imgUrl: string
 }
 
 export const userTypeDesc = {
@@ -40,8 +45,8 @@ export function loginApi()  {
   return http.get<UserInfo>('user/v1/login');
 }
 
-/** 
- * @desc 用户注册 
+/**
+ * @desc 用户注册
  * @param {params} WxUserinfo
  * @return userid
  * */
@@ -51,4 +56,12 @@ export function registerApi(params: WxUserinfo) {
 
 export function userListApi(params: PaginationParam) {
   return http.get<Page<UserInfo>>('user/v1/list', params);
+}
+
+/**
+ * @desc 添加自定义分类
+ * @param {params} CategoryParam
+ */
+export function addCategoryApi(params: CategoryParam) {
+  return http.post<string>('category/add', params)
 }
