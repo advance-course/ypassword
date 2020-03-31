@@ -18,6 +18,7 @@ class App extends Component {
       "pages/FingerprintLock/index",
       "pages/DrawUnlock/index",
       "pages/Profile/subpages/RSAKey/index",
+      "pages/Profile/subpages/PrivateKey/index",
       "pages/Auth/index",
       "pages/UserInfo/index",
       "pages/Account/Detail/index",

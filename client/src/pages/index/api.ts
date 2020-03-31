@@ -19,7 +19,7 @@ export interface UserInfo extends WxUserinfo {
   isFingerprintLock?: boolean,
   /** 是否启用九宫格解锁 */
   isNinecaseLock?: boolean,
-  publickKey?: string, // 公钥
+  publicKey?: string, // 公钥
   privateKey?: string  // 私钥
   /** 
    * 1： 超级管理员

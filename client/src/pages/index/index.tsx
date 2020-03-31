@@ -70,8 +70,8 @@ export default function Layout() {
         dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
         dispatch({ type: 'global/setUserId', userId: res.data._id })
         const rsa = Taro.getStorageSync('rsa');
-        if (!rsa) {
-          Taro.setStorageSync('rsa', {publickKey: res.data.publickKey || '', privateKey: res.data.privateKey || ''})
+        if (!rsa && res.data.publicKey) {
+          Taro.setStorageSync('rsa', {publicKey: res.data.publicKey || '', privateKey: res.data.privateKey || ''})
         }
       }).catch(err => {
         if ([401, 40101, 40102, 40103].includes(err.code)) {

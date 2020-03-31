@@ -1,4 +1,4 @@
-import Taro, { Config, useState, useEffect } from '@tarojs/taro';
+import Taro, { Config, useState, useEffect, useDidShow } from '@tarojs/taro';
 import {View, Text, Block, Input, Button} from '@tarojs/components';
 import {AtButton} from 'taro-ui';
 import JSEncrypt from 'utils/rsa';
@@ -8,7 +8,7 @@ import { GlobalState } from 'store/global';
 import './index.scss'
 
 export interface Key {
-  publickKey?: string,
+  publicKey?: string,
   privateKey?: string
 }
 
@@ -25,11 +25,21 @@ export default function RSAKeys() {
     const res = Taro.getStorageSync('rsa');
     if (res) {
       setKey(res);
+      console.log(res);
       setCreateDisabled(true)
-      if (res.publickKey && res.privateKey) {
-        crypt.setPublicKey(res.publickKey)
+      if (res.publicKey && res.privateKey) {
+        crypt.setPublicKey(res.publicKey)
         crypt.setPrivateKey(res.privateKey)
       }
+    }
+  }, [])
+
+  useDidShow(() => {
+    const res = Taro.getStorageSync('rsa');
+    if (res.publicKey && !res.privateKey) {
+      Taro.navigateTo({url: '/pages/Profile/subpages/PrivateKey/index'})
+    } else {
+      setKey(res);
     }
   })
 
@@ -42,18 +52,18 @@ export default function RSAKeys() {
     _crypt.getKey(() => {
       Taro.hideLoading();
       const rsa = {
-        publickKey: crypt.getPublicKey(),
+        publicKey: crypt.getPublicKey(),
         privateKey: crypt.getPrivateKey()
       }
       setKey(rsa)
-      crypt.setPublicKey(rsa.publickKey)
+      crypt.setPublicKey(rsa.publicKey)
       crypt.setPrivateKey(rsa.privateKey)
       Taro.setStorage({ key: 'rsa', data: rsa })
       const userinfo: UserInfo = Taro.getStorageSync('userInfo')
       if (userinfo._id) {
-        userinfo.publickKey = rsa.publickKey;
+        userinfo.publicKey = rsa.publicKey;
         Taro.setStorage({key: 'userInfo', data: userinfo});
-        userUpdateApi(userinfo._id, { publickKey: rsa.publickKey });
+        userUpdateApi(userinfo._id, { publicKey: rsa.publicKey });
       }
     });
   }
@@ -100,10 +110,10 @@ export default function RSAKeys() {
       
       <AtButton className="create" type="primary" onClick={createKeys} disabled={createDisabled}>生成专属公钥私钥对</AtButton>
       
-      {key.publickKey && (
+      {key.publicKey && (
         <Block>
           <View className="title">您的专属公钥</View>
-          <View className="key">{key.publickKey || ""}</View>
+          <View className="key">{key.publicKey || ""}</View>
         </Block>
       )}
 
@@ -119,7 +129,7 @@ export default function RSAKeys() {
         </Block>
       )}
       
-      {key.privateKey && key.publickKey && (
+      {key.privateKey && key.publicKey && (
         <Block>
           <View className="title lock">加密处理体验</View>
           <View className="lock_info">
