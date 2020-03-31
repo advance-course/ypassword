@@ -3,6 +3,7 @@
  */
 import Taro from '@tarojs/taro'
 import { Model } from "utils/dva";
+import JSEncrypt from 'utils/rsa';
 
 function getStorage(key:string):any {
   return Taro.getStorageSync(key)
@@ -11,6 +12,8 @@ function getStorage(key:string):any {
 function setStorage(key:string, value:any):void {
   Taro.setStorageSync(key, value)
 }
+
+const crypt = new JSEncrypt()
 
 export interface GlobalState {
   // 用户id
@@ -26,7 +29,8 @@ export interface GlobalState {
   /** 是否九宫格锁 */
   isNinecaseLock: boolean,
   /** app当前是否处于加锁状态 */
-  isLocking: boolean
+  isLocking: boolean,
+  crypt: typeof crypt
 }
 
 export interface setUserId {
@@ -49,6 +53,7 @@ export default {
     isFingerprintLock: getStorage('isFingerprintLock') || false,
     isNinecaseLock: getStorage('isNinecaseLock') || false,
     isLocking: true,
+    crypt
   },
   effects: {
   },

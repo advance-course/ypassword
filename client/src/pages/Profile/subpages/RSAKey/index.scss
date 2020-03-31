@@ -1,3 +1,69 @@
 .rsa_container {
-  padding: 0 15Px;
+  padding: 0 15Px 40Px;
+
+  .text_wrap {
+    font-size: 14Px;
+    line-height: 1.6;
+    margin: 20Px 0;
+  }
+
+  .create {
+    margin: 40Px auto;
+    width: 200Px;
+    height: 40Px;
+    line-height: 40Px;
+  }
+
+  .title {
+    font-size: 16Px;
+    margin: 10Px 0;
+
+    &.lock {
+      margin-top: 40Px;
+    }
+  }
+
+  .key {
+    font-size: 12Px;
+    word-break: break-all;
+    line-height: 1.6;
+    color: #999;
+    border: 1px solid #999;
+    padding: 10Px;
+    margin: 10Px 0;
+    border-radius: 4Px;
+
+    &.mitext {
+      margin: 30Px 0;
+    }
+  }
+
+  .warn {
+    color: #d2704e;
+    font-size: 12Px;
+    margin: 10Px 0;
+  }
+
+  .lock_info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    .input {
+      flex: 1;
+      background-color: #efefef;
+      font-size: 12Px;
+      padding: 0 15Px;
+      height: 40Px;
+      line-height: 40Px;
+      border-radius: 4Px;
+    }
+    .btn {
+      font-size: 14Px;
+      width: 60Px;
+      height: 40Px;
+      line-height: 40Px;
+      font-size: 14Px;
+      margin: 0 10Px;
+    }
+  }
 }

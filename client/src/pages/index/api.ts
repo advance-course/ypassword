@@ -12,20 +12,22 @@ export interface WxUserinfo {
 }
 
 export interface UserInfo extends WxUserinfo {
-  _id: string,
+  _id?: string,
   /** 是否启用加锁 */
   isLock?: boolean,
   /** 是否启用指纹解锁 */
   isFingerprintLock?: boolean,
   /** 是否启用九宫格解锁 */
   isNinecaseLock?: boolean,
+  publickKey?: string, // 公钥
+  privateKey?: string  // 私钥
   /** 
    * 1： 超级管理员
    * 2： 管理员
    * 3： 普通用户
    * 4： 付费用户
    */
-  type: 1 | 2 | 3 | 4,
+  type?: 1 | 2 | 3 | 4,
 }
 
 export const userTypeDesc = {
