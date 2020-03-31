@@ -66,6 +66,33 @@ export default function RSAKeys() {
     setDetext(crypt.decrypt(miText));
   }
 
+  function copy() {
+    Taro.setClipboardData({
+      data: key.privateKey || '',
+      success: () => {
+        Taro.showToast({title: '成功复制到剪切板', icon: 'success'})
+      }
+    })
+  }
+
+  function save() {
+    Taro.showModal({
+      title: '重要操作提示',
+      content: '在将私钥交由我给您保管之前，您需要对我完全信任。我们不会用您的私钥做任何操作，请您完全放心',
+      confirmText: '我想好了',
+      success: (res) => {
+        if (res.confirm) {
+          const userinfo: UserInfo = Taro.getStorageSync('userInfo')
+          if (userinfo._id) {
+            userUpdateApi(userinfo._id, { publickKey: key.privateKey }).then(res => {
+              Taro.showToast({ title: '存储成功！', icon: 'success' })
+            });
+          }
+        }
+      }
+    })
+  }
+
   return (
     <View className="rsa_container">
       <View className="text_wrap"><Text className="introduce">「天谴之月」使用RSA加密保护您的账号。</Text></View>
@@ -85,6 +112,10 @@ export default function RSAKeys() {
           <View className="title">您的专属私钥</View>
           <View className="warn">私钥请您务必妥善保管，它是解密您加密数据的唯一凭证，遗失后您的数据将无人能够读取</View>
           <View className="key">{key.privateKey || ''}</View>
+          <View className="btn_group">
+            <Button className="btn" onClick={copy}>点击复制私钥</Button>
+            <Button className="btn" onClick={save}>我帮您保存</Button>
+          </View>
         </Block>
       )}
       

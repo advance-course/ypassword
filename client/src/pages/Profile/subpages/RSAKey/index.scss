@@ -66,4 +66,19 @@
       margin: 0 10Px;
     }
   }
+
+  .btn_group {
+    margin: 10Px 0;
+    display: flex;
+    height: 40Px;
+    align-items: center;
+
+    .btn {
+      font-size: 12Px;
+      height: 30Px;
+      line-height: 30Px;
+      font-size: 14Px;
+      margin: 0 10Px;
+    }
+  }
 }
