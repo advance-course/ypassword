@@ -18,15 +18,6 @@ const banners = [{
 }]
 
 export default function Index() {
-  useEffect(() => {
-    Taro.getSetting().then(res => {
-      // console.log(res);
-      if (!res.authSetting || !res.authSetting['scope.userInfo']) {
-        Taro.navigateTo({ url: '../Auth/index' });
-      }
-    })
-  }, []);
-
   return (
     <View className="container">
       <Swiper circular autoplay>

@@ -29,12 +29,6 @@ export default function Layout() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    Taro.getSetting().then(res => {
-      if (!res.authSetting || !res.authSetting["scope.userInfo"]) {
-        return Taro.navigateTo({ url: "../Auth/index" });
-      }
-    });
-
     login();
   }, []);
 
@@ -74,7 +68,11 @@ export default function Layout() {
         userInfoRef.current = res.data
         Taro.setStorageSync('userInfo', res.data)
         dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
-        dispatch({ type: 'global/setUserId', userId: res.data._id })  
+        dispatch({ type: 'global/setUserId', userId: res.data._id })
+        const rsa = Taro.getStorageSync('rsa');
+        if (!rsa) {
+          Taro.setStorageSync('rsa', {publickKey: res.data.publickKey || '', privateKey: res.data.privateKey || ''})
+        }
       }).catch(err => {
         if ([401, 40101, 40102, 40103].includes(err.code)) {
           Taro.navigateTo({url: '/pages/Auth/index'})

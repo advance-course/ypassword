@@ -84,7 +84,7 @@ export default function RSAKeys() {
         if (res.confirm) {
           const userinfo: UserInfo = Taro.getStorageSync('userInfo')
           if (userinfo._id) {
-            userUpdateApi(userinfo._id, { publickKey: key.privateKey }).then(res => {
+            userUpdateApi(userinfo._id, { privateKey: key.privateKey }).then(res => {
               Taro.showToast({ title: '存储成功！', icon: 'success' })
             });
           }
