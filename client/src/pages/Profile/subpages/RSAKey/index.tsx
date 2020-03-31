@@ -86,7 +86,6 @@ export default function RSAKeys() {
           <View className="warn">私钥请您务必妥善保管，它是解密您加密数据的唯一凭证，遗失后您的数据将无人能够读取</View>
           <View className="key">{key.privateKey || ''}</View>
         </Block>
-        
       )}
       
       {key.privateKey && key.publickKey && (
