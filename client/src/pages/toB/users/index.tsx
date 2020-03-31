@@ -39,14 +39,14 @@ export default function Users() {
   }
 
   return (
-    <PaginationProvider className="container" loading={loading} errMsg={errMsg} lastPage={list.pagination.lastPage} increasing={increasing}>
+    <PaginationProvider className="container" loading={loading} errMsg={errMsg} lastPage={!!list.pagination.lastPage} increasing={increasing}>
       <AtSearchBar value="" onChange={searchHandler} placeholder="输入名称或者id搜索用户" />
       {list.list.map((item) => (
         <View className="user_ctx" key={item._id} onClick={() => navgate(item)}>
           <Image className="avatar" src={item.avatarUrl!} />
           <View className="content_wrap">
-            <Text className={`nickname ${tagStyle[item.type]}`}>{item.nickName}</Text>
-            <Text className={`user_type ${tagStyle[item.type]}`}>{userTypeDesc[item.type]}</Text>
+            <Text className={`nickname ${tagStyle[item.type || 3]}`}>{item.nickName}</Text>
+            <Text className={`user_type ${tagStyle[item.type || 3]}`}>{userTypeDesc[item.type || 3]}</Text>
           </View>
         </View>
       ))}

@@ -14,7 +14,7 @@ const genders = {
 function UserinfoEditor() {
   const {currentUser} = useSelector<any, ToBUserinfo>(state => state.toBUserinfo)
   const dispatch = useDispatch()
-  const {avatarUrl, nickName, province, city, type, gender = 1} = currentUser;
+  const {avatarUrl, nickName, province, city, type = 3, gender = 1} = currentUser;
   const [visible, setVisible] = useState(false)
 
   const changeUserType = (item) => {
