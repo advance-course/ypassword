@@ -28,11 +28,6 @@ export interface UserInfo extends WxUserinfo {
   type: 1 | 2 | 3 | 4,
 }
 
-export interface CategoryParam {
-  name: string,
-  imgUrl: string
-}
-
 export const userTypeDesc = {
   1: '超级管理员',
   2: '管理员',
@@ -56,12 +51,4 @@ export function registerApi(params: WxUserinfo) {
 
 export function userListApi(params: PaginationParam) {
   return http.get<Page<UserInfo>>('user/v1/list', params);
-}
-
-/**
- * @desc 添加自定义分类
- * @param {params} CategoryParam
- */
-export function addCategoryApi(params: CategoryParam) {
-  return http.post<string>('category/add', params)
 }

@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
     try {
       const res = await categoryDb.add({
         data: {
-          userID: event.userid,
+          userID: event.userID,
           name: event.name,
           imgUrl: event.imgUrl
         }
