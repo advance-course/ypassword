@@ -19,6 +19,5 @@ export default function PrivateKey() {
       <Textarea className="key" placeholder="请补全" onInput={(e) => setPrivateKey(e.detail.value)} value={privateKey} maxlength={-1} />
       <AtButton className="btn" onClick={sure} type="primary">确认</AtButton>
     </View>
-    
   )
 }
