@@ -5,6 +5,7 @@ import "./index.scss";
 import { useSelector, useDispatch } from '@tarojs/redux';
 import { AccountState } from 'pages/Accounts/model';
 import { createUUID } from 'utils';
+import { GlobalState } from 'store/global';
 
 const defProps = {
   key: '',
@@ -14,6 +15,7 @@ const defProps = {
 export default function AccountDetail() {
   const _params: com.Account = this.$router.params;
   const accounts = useSelector<any, AccountState>(state => state.account);
+  const {crypt} = useSelector<any, GlobalState>(state => state.global)
   const dispatch = useDispatch()
   const [params, setParams] = useState(_params);
   const { uuid, title = '', username, password, ...other } = params;
