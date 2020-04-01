@@ -6,7 +6,11 @@ import { ITouchEvent } from '@tarojs/components/types/common';
 import "taro-ui/dist/style/components/icon.scss";
 import "./index.scss";
 
-export default function CardItem(props) {
+export interface AccountListProps {
+  list: com.Account[]
+}
+
+export default function AccountList(props: AccountListProps) {
   const {list = []} = props;
   const [activeIndex, setActiveIndex] = useState();
   const [beforeIndex, setBeforeIndex] = useState();
@@ -84,7 +88,7 @@ export default function CardItem(props) {
           })
 
           return (
-            <View key={item} className={cls} onClick={() => itemClick(index)}>
+            <View key={`${item.title}${item.username}`} className={cls} onClick={() => itemClick(index)}>
               <View className="box_item">
                   <View className="who_icon">{item.title}</View>
                   <View className="info">
@@ -94,11 +98,11 @@ export default function CardItem(props) {
                   <View className={iconCls} onClick={(e) => iconClickHandler(item, e)} />
               </View>
               <View className="detail_item">
-                  <View className="detail" onClick={(e) => copyHandler(item.username, e)}>
+                  <View className="detail" onClick={(e) => copyHandler(item.username || '', e)}>
                     <View className="tip">用户名称</View>
                     <View className="content">{item.username}</View>
                   </View>
-                  <View className="detail" onClick={e => copyHandler(item.password, e)}>
+                  <View className="detail" onClick={e => copyHandler(item.password || '', e)}>
                     <View className="tip">密码</View>
                     <View className="content">{item.password}</View>
                   </View>

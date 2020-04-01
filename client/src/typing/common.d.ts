@@ -1,8 +1,7 @@
 declare namespace com {
   /** 
    * 1: 账号密码
-   * 2: 银行卡
-   * 3：信用卡
+   * 2: 银行卡 | 信用卡
    */
   type AccountType = 1 | 2;
 

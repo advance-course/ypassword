@@ -22,7 +22,7 @@ export default function AccountDetail() {
         ))}
       </AtList>
       <View className="float_button">
-        <AtFab size="normal" onClick={() => Taro.navigateTo({ url: `/pages/Account/Editor/index?${qs.stringify(this.$router.params)}`})}>
+        <AtFab size="normal" onClick={() => Taro.navigateTo({ url: `/pages/Accounts/subpages/Editor/index?${qs.stringify(this.$router.params)}`})}>
           <Text className="at-icon at-icon-menu"></Text>
         </AtFab>
       </View>
