@@ -47,14 +47,15 @@ exports.main = async (event, context) => {
   })
 
   app.router('update', async (ctx, next) => {
-    const {_id, ...rest} = event
+    const {_id, name, imgUrl} = event
     try {
-      const res = await categoryDb.where({
-        _id: _id
-      }).update({
-        data: _.set({
-          ...rest
-        })
+      // 如果需要替换更新一条记录，可以在记录上使用 set 方法，替换更新意味着用传入的对象替换指定的记录
+      // 使用 update 方法可以局部更新一个记录或一个集合中的记录，局部更新意味着只有指定的字段会得到更新，其他字段不受影响。
+      const res = await categoryDb.doc(_id).update({
+        data: {
+          name: name,
+          imgUrl: imgUrl
+        }
       })
       ctx.body = { success: true, code: 200, message: '更新成功', data: res }
     } catch(e) {

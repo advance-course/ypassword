@@ -9,8 +9,6 @@ export default function Category() {
 
   const _params = this.$router.params
 
-  console.log('_______params', _params)
-
   const [params, setParams] = useState({
     name: '',
     imgUrl: '',
@@ -56,10 +54,9 @@ export default function Category() {
       mask: true
     })
 
-    console.log('----> add func')
-
     if (_params.type === 'edit') {
       console.log('修改分类-->')
+      console.log('params', params)
       updateCategoryApi(params).then(res => {
         Taro.hideLoading()
         if (res.success) {
@@ -71,6 +68,7 @@ export default function Category() {
         console.log(err)
       })
     } else {
+      console.log('添加分类-->')
       addCategoryApi(params).then((res) => {
         Taro.hideLoading()
         if (res.success) {
