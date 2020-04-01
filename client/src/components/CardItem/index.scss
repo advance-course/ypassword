@@ -18,9 +18,14 @@
   .detail {
     color: #FFF;
     background-color: #8698b1;
-    border: 1rpx solid #c6c5cd;
     padding: 5Px 15Px;
-    border-radius: 8Px;
+    border-radius: 4Px;
+    .tip {
+      font-size: 10Px;
+    }
+    .content {
+      font-size: 14Px;
+    }
   }
 
   .detail + .detail {
@@ -54,8 +59,8 @@
     z-index: 1;
 
     margin: 15Px;
-    border-radius: 8Px;
-    border: 1Px solid #dedbdd;
+    border-radius: 4Px;
+    border: 1Px solid #efefef;
     background-color: #FFF;
 
     overflow: hidden;
@@ -146,10 +151,9 @@
   @keyframes NormalToActive {
     from {
       height: 37Px;
-      border-radius: 8Px;
+      border-radius: 4Px;
       margin: 15Px;
-      border-color: #dedbdd;
-      background-color: #FFF;
+      border-color: #efefef;
     }
     to {
       // height: auto;
@@ -157,20 +161,20 @@
       border-radius: 0;
       margin: 20Px 0 0;
       padding: 15Px 25Px;
-      border-color: #DDD;
-      background-color: #FFF;
+      border-left-width: 0;
+      border-right-width: 0;
       box-shadow: 
-        0Px -3Px 8Px #dddddd,
-        0Px 3Px 8Px #dddddd;
+        0Px -3Px 8Px #efefef,
+        0Px 3Px 8Px #efefef;
     }
   }
 
   // 正常到非激活
   @keyframes NormalToUnactive {
     from {
-      border-radius: 8Px;
+      border-radius: 4Px;
       margin: 15Px;
-      border-color: #dedbdd;
+      border-color: #efefef;
       background-color: #FFF;
     }
     to {
@@ -196,11 +200,11 @@
       border-radius: 0;
       margin: 20Px 0 0;
       padding: 15Px 25Px;
-      border-color: #DDD;
+      border-color: #efefef;
       background-color: #FFF;
       box-shadow: 
-        0Px -3Px 8Px #dddddd,
-        0Px 3Px 8Px #dddddd;
+        0Px -3Px 8Px #efefef,
+        0Px 3Px 8Px #efefef;
     }
   }
 
@@ -214,9 +218,9 @@
     }
 
     to {
-      border-radius: 8Px;
+      border-radius: 4Px;
       margin: 15Px;
-      border-color: #dedbdd;
+      border-color: #efefef;
       background-color: #FFF;
     }
   }
@@ -229,7 +233,7 @@
       border-radius: 0;
       margin: 20Px 0 0;
       padding: 15Px 25Px;
-      border-color: #DDD;
+      border-color: #efefef;
       background-color: #FFF;
       box-shadow: 
         0Px -3Px 8Px #dddddd,
@@ -238,9 +242,9 @@
 
     to {
       height: 37Px;
-      border-radius: 8Px;
+      border-radius: 4Px;
       margin: 15Px;
-      border-color: #dedbdd;
+      border-color: #efefef;
       background-color: #FFF;
     }
   }
@@ -253,7 +257,7 @@
       border-radius: 0;
       margin: 20Px 0 0;
       padding: 15Px 25Px;
-      border-color: #DDD;
+      border-color: #efefef;
       background-color: #FFF;
       box-shadow: 
         0Px -3Px 8Px #dddddd,

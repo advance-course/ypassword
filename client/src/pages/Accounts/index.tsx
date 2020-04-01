@@ -15,12 +15,12 @@ export default function Index() {
     <View className="accounts_container">
       <View className="search_bar">
         <Input className="search" placeholder="输入标题搜索" onInput={(e) => setSearchText(e.detail.value)} />
-        <Button className="btn async" onClick={() => console.log('hello wlord2 async info')}>
+        <Button className="btn async" onClick={() => Taro.navigateTo({url: '/pages/Account/Editor/index'})}>
           <MyIcon name="allocat" size={20} />
         </Button>
         <Button 
           className="btn add"
-          onClick={() => console.log('hello world.')}
+          onClick={() => Taro.navigateTo({url: '/pages/Account/Editor/index'})}
         ><MyIcon name="add-circle" size={20} /></Button>
       </View>
 

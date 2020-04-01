@@ -30,11 +30,6 @@ export const auth = [
     path: '/pages/toB/categoryIcon/index'
   },
   {
-    icon: 'RectangleCopy66',
-    title: '新增账号',
-    path: '/pages/Account/Editor/index'
-  },
-  {
     icon: 'monitor',
     title: '每日签到',
     path: '/pages/checkin/index'
