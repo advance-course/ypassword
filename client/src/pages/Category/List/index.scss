@@ -1,0 +1,27 @@
+.container {
+  height: 100%;
+  .btn-add {
+    margin: 10px auto;
+  }
+  .item {
+    width: 100%;
+    display: flex;
+    background: white;
+    align-items:center;/*垂直居中*/
+    border-bottom: 1px solid #f1f1f1;
+    padding: 10px;
+    box-sizing: border-box;
+    .img{
+      width: 100px;
+      height: 100px;
+    }
+    .name {
+      flex: 1;
+      line-height: 100px;
+    }
+    button {
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+  }
+}

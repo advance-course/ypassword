@@ -25,6 +25,7 @@ class App extends Component {
       "pages/Settings/Lock/index",
       "pages/checkin/index",
       "pages/webview/index",
+      "pages/Category/Edit/index",
 
       // B端页面
       "pages/toB/users/index",
@@ -41,7 +42,7 @@ class App extends Component {
 
       // examples
       "pages/examples/icon/index",
-      
+
       // 不可变数据集案例
       "pages/Immutable/index",
       "pages/Immutable/examples/demo-01/index",

@@ -33,17 +33,17 @@ exports.main = async (event, context) => {
     }
   })
 
-  // app.router('del', async (ctx, next) => {
-  //   try {
-  //     const res = await categoryDb.where({
-  //       _id: event._id
-  //     }).remove()
-  //     ctx.body = { success: true, code: 200, message: '删除成功', data: res._id }
-  //   } catch(e) {
-  //     console.error(e)
-  //     ctx.body = { success: false, code: e.errCode, message: e.errMsg }
-  //   }
-  // })
+  app.router('del', async (ctx, next) => {
+    try {
+      const res = await categoryDb.where({
+        _id: event._id
+      }).remove()
+      ctx.body = { success: true, code: 200, message: '删除成功', data: res._id }
+    } catch(e) {
+      console.error(e)
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
 
   // app.router('update', async (ctx, nex) => {
   //   try {
