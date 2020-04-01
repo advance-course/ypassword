@@ -8,6 +8,7 @@ import { AtButton } from 'taro-ui';
 export default function List () {
 
   const [list, setList] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
 
@@ -18,14 +19,17 @@ export default function List () {
   }, [])
 
   useEffect(() => {
-    fetchList()
-  }, [])
+    if (loading) {
+      fetchList().then(res => {
+        setLoading(false)
+        setList(res.data.data)
+      })
+    }
+  }, [loading])
 
   function fetchList () {
     return queryCategoryListApi({
       userID: userInfo._id
-    }).then(res => {
-      setList(res.data.data)
     })
   }
 
@@ -36,6 +40,7 @@ export default function List () {
     }).then(res => {
       if (res.success) {
         Taro.showToast({title: '删除成功', duration: 1000 })
+        setLoading(true)
       }
     })
   }
