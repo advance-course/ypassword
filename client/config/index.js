@@ -51,6 +51,9 @@ const config = {
     }
   },
   mini: {
+    imageUrlLoaderOption: {
+      limit: 1024
+    },
     module: {
       postcss: {
         autoprefixer: {

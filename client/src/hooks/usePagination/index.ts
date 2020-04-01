@@ -39,7 +39,7 @@ export default function usePagination<T>(
   }
 
   function fetchList(params: PaginationParam = {}) {
-    const _param = setParams(params);
+    const _param = params ? setParams(params) : state.params;
     return api(_param).then(res => {
       dispatch({
         list: mergePagination(list, res.data),
@@ -62,11 +62,9 @@ export default function usePagination<T>(
 
   function setParams(option: PaginationParam = {}, refreshing?: boolean) {
     const _param = refreshing ? {...params, ...option, ...defPaginationParams} : {...params, ...option};
-    dispatch({params: _param});
+    state.params = _param;
     if (refreshing) {
-      setTimeout(() => {
-        dispatch({loading: true})
-      }, 300)
+      dispatch({ loading: true })
     }
     return _param;
   }

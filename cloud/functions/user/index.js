@@ -32,7 +32,9 @@ exports.main = async (event, context) => {
       isLock: true,  // 是否启用加锁
       isFingerprintLock: false, // 是否启用指纹解锁
       isNinecaseLock: false, // 是否启用九宫格解锁
-      type: 3  // 1: 超级管理员  2: 管理员  3：普通用户  4：付费用户
+      type: 3,  // 1: 超级管理员  2: 管理员  3：普通用户  4：付费用户
+      publicKey: '', // 公钥
+      privateKey: ''  // 私钥
     }
 
     let userInfo = await user.where({
@@ -43,7 +45,7 @@ exports.main = async (event, context) => {
       ctx.body = { success: false, code: 200, message: '当前用户已经存在！', data: null }
       return
     }
-    const info = { ..._info, ...event };
+    const info = { ..._info, ...event, createTime: new Date().getTime() };
     delete info.$url;
     try {
       const res = await user.add({ data: info });
@@ -60,7 +62,7 @@ exports.main = async (event, context) => {
     try {
       const info = await user.where({
         openid: OPENID,
-      }).field({ openid: false }).get()
+      }).field({ openid: false, userInfo: false }).get()
 
       if (info.data.length) {
         ctx.body = { success: true, code: 200, message: '请求成功', data: info.data[0], }
@@ -79,7 +81,7 @@ exports.main = async (event, context) => {
    */
   app.router('v1/info', async(ctx, next) => {
     try {
-      const res = await user.doc(event.userid).field({openid: false}).get();
+      const res = await user.doc(event.userid).field({openid: false, userInfo: false}).get();
       ctx.body = { success: true, code: 200, message: '请求成功', data: res.data }
     } catch (e) {
       ctx.body = { success: false, code: errCode, message: errMsg }
@@ -106,18 +108,34 @@ exports.main = async (event, context) => {
    * 查询用户信息分页列表
    * @param {current} 当前页，默认值1
    * @param {pageSize} 每一页大小 默认值10
+   * @param {keyword} 通过关键字模糊匹配用户
    */
   app.router('v1/list', async (ctx) => {
-    const {current = 1, pageSize = 10} = event;
+    const {current = 1, pageSize = 10, keyword = ''} = event;
     try {
-      const count = await user.count();
-      const total = count.total;
+      let x = user;
+      if (keyword) {
+        x = await user.where(db.command.or([
+          {
+            nickName: db.RegExp({
+              regexp: keyword
+            })
+          },
+          {
+            _id: db.RegExp({
+              regexp: keyword
+            })
+          }
+        ]))
+      }
+      const count = await x.count();
+      const total = count.total || 0;
       let lastPage = false;
       if (current * pageSize >= total) {
         lastPage = true;
       }
       const start = pageSize * (current - 1);
-      const list = await user.skip(start).limit(pageSize).get();
+      const list = await x.field({openid: false, userInfo: false}).skip(start).limit(pageSize).get();
 
       const result = { pageSize, current, lastPage, total, list: list.data };
       ctx.body = {

@@ -1,0 +1,24 @@
+.private_container {
+  padding: 0 15Px;
+
+  .desc {
+    font-size: 16Px;
+    margin: 20Px;
+  }
+
+  .key {
+    font-size: 12Px;
+    height: 400Px;
+    word-break: break-all;
+    line-height: 1.6;
+    color: #999;
+    border: 1px solid #999;
+    padding: 10Px;
+    margin: 10Px 0;
+    border-radius: 4Px;
+  }
+
+  .btn {
+    margin: 20Px;
+  }
+}

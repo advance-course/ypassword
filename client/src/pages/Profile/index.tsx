@@ -6,9 +6,7 @@ import { UserInfo } from 'pages/Auth/interface';
 import './index.scss';
 
 export default function Profile() {
-
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
-
   useEffect(() => {
     Taro.getStorage({ key: 'userInfo' }).then(res => {
       setUserInfo(res.data);
@@ -16,8 +14,8 @@ export default function Profile() {
   }, [userInfo]);
 
   return (
-    <View>
-      <View className="userInfoContainer"  >
+    <View className="profile_container">
+      <View className="userInfoContainer">
         <Image src={userInfo.avatarUrl} className="avatar" />
         <Label className="username">{userInfo.nickName}</Label>
         <Label className="city">{userInfo.city}</Label>

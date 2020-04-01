@@ -4,8 +4,8 @@ import models from 'store/index';
 import {createApp} from 'utils/dva'
 import {View} from '@tarojs/components';
 import 'taro-ui/dist/style/index.scss';
-import './app.scss';
 import 'assets/css/stylesheet.scss'
+import './app.scss';
 
 const dvaApp = createApp({initialState: {}, models});
 const store = dvaApp.getStore();
@@ -18,6 +18,7 @@ class App extends Component {
       "pages/FingerprintLock/index",
       "pages/DrawUnlock/index",
       "pages/Profile/subpages/RSAKey/index",
+      "pages/Profile/subpages/PrivateKey/index",
       "pages/Auth/index",
       "pages/UserInfo/index",
       "pages/Account/Detail/index",
@@ -29,6 +30,7 @@ class App extends Component {
 
       // B端页面
       "pages/toB/users/index",
+      "pages/toB/users/userinfo/index",
       "pages/toB/roles/index",
       "pages/toB/resources/index",
       "pages/toB/banner/index",

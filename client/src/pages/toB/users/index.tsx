@@ -1,36 +1,56 @@
 import Taro, {Config, usePullDownRefresh, useReachBottom} from "@tarojs/taro";
 import {View, Image, Text} from "@tarojs/components";
+import PaginationProvider from 'components/PaginationProvider'
+import { AtSearchBar } from 'taro-ui'
+import { useDispatch } from '@tarojs/redux';
 import usePagination from 'hooks/usePagination';
-import { userListApi, userTypeDesc } from 'pages/index/api';
+import { userListApi, userTypeDesc, UserInfo } from 'pages/index/api';
+import _ from 'lodash'
 import "./index.scss";
 
+const tagStyle = {
+  1: 'supermana',
+  2: 'mana',
+  3: 'normal',
+  4: 'vip'
+}
+
 export default function Users() {  
-  const {list, loading, errMsg, setIncreasing, setLoading} = usePagination(userListApi, {current: 1, pageSize: 9});
-  console.log(list);
+  const {list, loading, errMsg, setIncreasing, setLoading, increasing, setParams} = usePagination(userListApi, {current: 1, pageSize: 20});
+  const dispatch = useDispatch()
 
   usePullDownRefresh(() => {
     setLoading(true);
   })
 
   useReachBottom(() => {
-    console.log('reachBottom:', list.pagination.lastPage)
     if (!list.pagination.lastPage) {
       setIncreasing(true);
     }
   })
 
+  const searchHandler = _.debounce((value: string) => {
+    setParams({keyword: value}, true);
+  }, 600)
+
+  const navgate = (userinfo: UserInfo) => {
+    dispatch({ type: 'toBUserinfo/setUserInfo', payload: userinfo });
+    Taro.navigateTo({url: '/pages/toB/users/userinfo/index'})
+  }
+
   return (
-    <View className="container">
+    <PaginationProvider className="container" loading={loading} errMsg={errMsg} lastPage={!!list.pagination.lastPage} increasing={increasing}>
+      <AtSearchBar value="" onChange={searchHandler} placeholder="输入名称或者id搜索用户" />
       {list.list.map((item) => (
-        <View className="user_ctx" key={item._id} onClick={() => {}}>
+        <View className="user_ctx" key={item._id} onClick={() => navgate(item)}>
           <Image className="avatar" src={item.avatarUrl!} />
           <View className="content_wrap">
-            <Text className="nickname">{item.nickName}</Text>
-            <Text className="user_type">{userTypeDesc[item.type]}</Text>
+            <Text className={`nickname ${tagStyle[item.type || 3]}`}>{item.nickName}</Text>
+            <Text className={`user_type ${tagStyle[item.type || 3]}`}>{userTypeDesc[item.type || 3]}</Text>
           </View>
         </View>
       ))}
-    </View>
+    </PaginationProvider>
   );
 }
 
