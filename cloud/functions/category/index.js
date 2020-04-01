@@ -33,6 +33,47 @@ exports.main = async (event, context) => {
     }
   })
 
+  // app.router('del', async (ctx, next) => {
+  //   try {
+  //     const res = await categoryDb.where({
+  //       _id: event._id
+  //     }).remove()
+  //     ctx.body = { success: true, code: 200, message: '删除成功', data: res._id }
+  //   } catch(e) {
+  //     console.error(e)
+  //     ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+  //   }
+  // })
+
+  // app.router('update', async (ctx, nex) => {
+  //   try {
+  //     const res = await categoryDb.where({
+  //       _id: event._id
+  //     }).update({
+  //       data: {
+  //         ...event
+  //       }
+  //     })
+  //     ctx.body = { success: true, code: 200, message: '更新成功', data: res }
+  //   } catch(e) {
+  //     console.error(e)
+  //     ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+  //   }
+  // })
+
+  app.router('list', async (ctx, next) => {
+    try {
+      const res = await categoryDb.get({
+        data: {
+          userID: event.userID
+        }
+      })
+      ctx.body = { success: true, code: 200, message: '', data: res }
+    } catch (e) {
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
+
   return app.serve()
 
 }

@@ -10,7 +10,7 @@ export interface CategoryParam {
  * @desc 查询分类列表
  * @param params
  */
-export function queryCategoryApi(params) {
+export function queryCategoryListApi(params) {
   return http.get<string>('category/list', params)
 }
 
