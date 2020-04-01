@@ -1,7 +1,7 @@
 import Taro, { Config, useEffect } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import qs from 'qs';
-import { AtIcon, AtList, AtListItem, AtFab } from "taro-ui";
+import { AtList, AtListItem, AtFab } from "taro-ui";
 import "./index.scss";
 
 export default function AccountDetail() {

@@ -76,9 +76,9 @@ export default function RSAKeys() {
     setDetext(crypt.decrypt(miText));
   }
 
-  function copy() {
+  function copy(content: string) {
     Taro.setClipboardData({
-      data: key.privateKey || '',
+      data: content,
       success: () => {
         Taro.showToast({title: '成功复制到剪切板', icon: 'success'})
       }
@@ -123,7 +123,7 @@ export default function RSAKeys() {
           <View className="warn">私钥请您务必妥善保管，它是解密您加密数据的唯一凭证，遗失后您的数据将无人能够读取</View>
           <View className="key">{key.privateKey || ''}</View>
           <View className="btn_group">
-            <Button className="btn" onClick={copy}>点击复制私钥</Button>
+            <Button className="btn" onClick={() => copy(key.privateKey || '')}>点击复制私钥</Button>
             <Button className="btn" onClick={save}>我帮您保存</Button>
           </View>
         </Block>
@@ -137,7 +137,7 @@ export default function RSAKeys() {
             <Button className="btn" type="primary" onClick={encryption}>加密</Button>
           </View>
 
-          <View className="key mitext">
+          <View className="key mitext" onClick={() => copy(miText || '')} >
             {miText || '这里将会暂时加密之后的数据'}
           </View>
 
