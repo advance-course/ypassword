@@ -36,3 +36,10 @@ export function delCategoryApi(params) {
 export function updateCategoryApi(params) {
   return http.post<string>('category/update', params)
 }
+
+/**
+ * @desc 查询指定分类
+ */
+export function queryTheCategoryApi(params) {
+  return http.post<string>('category/query', params)
+}

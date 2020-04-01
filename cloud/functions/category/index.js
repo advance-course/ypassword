@@ -8,6 +8,7 @@ cloud.init({
 })
 
 const db = cloud.database()
+const _ = db.command
 
 const categoryDb = db.collection('category')
 
@@ -45,25 +46,41 @@ exports.main = async (event, context) => {
     }
   })
 
-  // app.router('update', async (ctx, nex) => {
-  //   try {
-  //     const res = await categoryDb.where({
-  //       _id: event._id
-  //     }).update({
-  //       data: {
-  //         ...event
-  //       }
-  //     })
-  //     ctx.body = { success: true, code: 200, message: '更新成功', data: res }
-  //   } catch(e) {
-  //     console.error(e)
-  //     ctx.body = { success: false, code: e.errCode, message: e.errMsg }
-  //   }
-  // })
+  app.router('update', async (ctx, next) => {
+    const {_id, ...rest} = event
+    try {
+      const res = await categoryDb.where({
+        _id: _id
+      }).update({
+        data: _.set({
+          ...rest
+        })
+      })
+      ctx.body = { success: true, code: 200, message: '更新成功', data: res }
+    } catch(e) {
+      console.error(e)
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
 
   app.router('list', async (ctx, next) => {
     try {
       const res = await categoryDb.get({
+        data: {
+          userID: event.userID
+        }
+      })
+      ctx.body = { success: true, code: 200, message: '', data: res }
+    } catch (e) {
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
+
+  app.router('query', async (ctx, next) => {
+    try {
+      const res = await categoryDb.where({
+        _id: event._id
+      }).get({
         data: {
           userID: event.userID
         }

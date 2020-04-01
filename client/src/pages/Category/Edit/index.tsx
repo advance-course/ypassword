@@ -2,22 +2,42 @@ import Taro, {useState, useEffect} from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtList, AtInput, AtButton } from 'taro-ui';
 import LogoSelect from "components/LogoSelect";
-import { addCategoryApi } from './api'
+import { addCategoryApi, queryTheCategoryApi, updateCategoryApi } from '../api'
 import { UserInfo } from 'pages/Auth/interface';
 export default function Category() {
+  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
+
+  const _params = this.$router.params
+
+  console.log('_______params', _params)
+
   const [params, setParams] = useState({
     name: '',
     imgUrl: '',
     userID: ''
   })
 
-  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
-
   useEffect(() => {
     Taro.getStorage({ key: 'userInfo' }).then(res => {
       setUserInfo(res.data)
     })
-  }, [userInfo])
+  }, [])
+
+  useEffect(() => {
+    if (_params.type === 'edit') {
+      handleQuery().then(res => {
+        let item = res.data.data[0]
+        setParams(item)
+      })
+    }
+  }, [])
+
+  function handleQuery () {
+    return queryTheCategoryApi({
+      _id: _params._id,
+      userID: _params.userID
+    })
+  }
 
   function handleSelectImage(select: any) {
     // console.log("=========", select);
@@ -36,16 +56,32 @@ export default function Category() {
       mask: true
     })
 
-    addCategoryApi(params).then((res) => {
-      Taro.hideLoading()
-      if (res.success) {
-        Taro.showToast({title: '添加成功', duration: 1000 })
-        Taro.navigateBack()
-      }
-    }).catch(err => {
-      Taro.hideLoading()
-      console.log(err)
-    })
+    console.log('----> add func')
+
+    if (_params.type === 'edit') {
+      console.log('修改分类-->')
+      updateCategoryApi(params).then(res => {
+        Taro.hideLoading()
+        if (res.success) {
+          Taro.showToast({title: '更新成功', duration: 1000 })
+          Taro.navigateBack()
+        }
+      }).catch(err => {
+        Taro.hideLoading()
+        console.log(err)
+      })
+    } else {
+      addCategoryApi(params).then((res) => {
+        Taro.hideLoading()
+        if (res.success) {
+          Taro.showToast({title: '添加成功', duration: 1000 })
+          Taro.navigateBack()
+        }
+      }).catch(err => {
+        Taro.hideLoading()
+        console.log(err)
+      })
+    }
   }
 
   return (

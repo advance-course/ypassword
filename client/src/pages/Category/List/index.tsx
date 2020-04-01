@@ -1,6 +1,6 @@
 import Taro, { useState, useEffect, navigateTo } from '@tarojs/taro';
 import { View } from '@tarojs/components';
-import { queryCategoryListApi, delCategoryApi } from '../Edit/api'
+import { queryCategoryListApi, delCategoryApi } from '../api'
 import { UserInfo } from 'pages/Auth/interface';
 import './index.scss'
 import { AtButton } from 'taro-ui';
@@ -40,15 +40,29 @@ export default function List () {
     })
   }
 
-  // onClick={() => navigateTo({ url: './Edit/index' })}
+  function handleEdit (type, item) {
+    let url = `/pages/Category/Edit/index?type=${type}`
+    switch (type) {
+      case 'add':
+        break;
+      case 'edit':
+        url = `${url}&_id=${item._id}&userID=${userInfo._id}`
+        break;
+    }
+    console.log('url', url)
+    Taro.navigateTo({
+      url: url
+    })
+  }
+
   return (
     <View className="container">
-    <AtButton className="btn-add" type='secondary' onClick={() => navigateTo({ url: '/pages/Category/Edit/index' })}>添加分类</AtButton>
+    <AtButton className="btn-add" type='secondary' onClick={() => handleEdit('add', null)}>添加分类</AtButton>
     {list.map((item) => (
         <View key={item._id} className="item">
           <Image src={item.imgUrl} className="img" />
           <Text className="name">{item.name}</Text>
-          <AtButton type='secondary' size='small'>编辑</AtButton>
+          <AtButton type='secondary' size='small' onClick={() => handleEdit('edit', item)}>编辑</AtButton>
           <AtButton type='secondary' size='small' onClick={() => handleDel(item)}>删除</AtButton>
         </View>
       )
