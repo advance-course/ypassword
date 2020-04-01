@@ -6,33 +6,39 @@ import { Model } from "utils/dva";
 
 export interface AccountState {
   uuids: string[],
-  accounts: {[key: string]: com.Account},
-  counter: number
+  accounts: {[key: string]: com.Account}
 }
 
 export default {
   namespace: "account",
   state: {
     uuids: [],
-    accounts: {},
-    counter: 0
+    accounts: {}
   },
   effects: {
     *addAccount({payload}, {put}) {
-      yield put({type: 'add', payload});
+      yield put({type: 'save', payload});
       Taro.navigateBack();
     },
-    *decrement(_, {put}) {
-      yield put({type: 'reduce'});
-    }
   },
   reducers: {
-    add: (state, action: any) => {
+    init: (state) => {
+      const ids = Taro.getStorageSync('accounts_ids') || [];
+      const accounts = {}
+      ids.forEach(id => {
+        accounts[id] = Taro.getStorageSync(id);
+      })
+      console.log('从本地缓存初始化账户信息', ids, accounts);
+      return { ...state, uuids: ids, accounts }
+    },
+    save: (state, action: any) => {
       let ids = state.uuids
       const {payload} = action
       if (!ids.includes(payload.uuid)) {
         ids = [...state.uuids, payload.uuid]
       }
+      Taro.setStorageSync('accounts_ids', ids)
+      Taro.setStorageSync(payload.uuid, payload)
       return {
         ...state,
         uuids: ids,
@@ -41,10 +47,6 @@ export default {
           [action.payload.uuid]: action.payload
         }
       }
-    },
-    reduce: (state, action: any) => ({
-      ...state,
-      counter: state.counter - 1
-    })
+    }
   }
 } as Model<AccountState>;

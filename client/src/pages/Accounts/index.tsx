@@ -1,7 +1,7 @@
-import Taro, { useState } from '@tarojs/taro';
+import Taro, { useState, useEffect } from '@tarojs/taro';
 import { View, Button, Input } from '@tarojs/components';
 import AccountList from './components/List';
-import { useSelector } from '@tarojs/redux';
+import { useSelector, useDispatch } from '@tarojs/redux';
 import { AccountState } from './model';
 import MyIcon from 'components/myIcon';
 import "./index.scss";
@@ -9,7 +9,12 @@ import "./index.scss";
 export default function Index() {
   const [searchText, setSearchText] = useState('');
   const account = useSelector<any, AccountState>(state => state.account);
+  const dispatch = useDispatch()
   const {uuids, accounts} = account;
+
+  useEffect(() => {
+    dispatch({ type: 'account/init' })
+  }, [])
 
   return (
     <View className="accounts_container">
