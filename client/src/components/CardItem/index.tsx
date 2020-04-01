@@ -36,7 +36,6 @@ export default function CardItem(props) {
 
     return (
     <View className="container">
-        <View className="mask" onClick={blurClick} />
         {
           list.map((item, index) => {
             // 之前是激活元素

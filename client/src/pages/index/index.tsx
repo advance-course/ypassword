@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "@tarojs/redux";
 import { View } from "@tarojs/components";
 
 import Home from "pages/Home";
-import List from "pages/List";
+import Accounts from "pages/Accounts";
 import Profile from "pages/Profile";
 import Category from "pages/Category";
 
@@ -14,7 +14,7 @@ import "./index.scss";
 
 export const titles = {
   0: '首页',
-  1: '列表',
+  1: '账户',
   2: '分类',
   3: '我的'
 }
@@ -84,7 +84,7 @@ export default function Layout() {
   return (
     <View style={{height: '100%'}}>
       {current === 0 && <Home />}
-      {current === 1 && <List />}
+      {current === 1 && <Accounts />}
       {current === 2 && <Category />}
       {current === 3 && <Profile />}
       <RealTabBar

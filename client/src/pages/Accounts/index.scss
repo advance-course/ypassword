@@ -1,8 +1,33 @@
-page {
-  background-color: #ebebf1;
-}
-.container {
-  // padding: 15Px;
+.accounts_container {
+  padding: 1Px 0;
+  background: #FFF;
+  height: 100%;
+
+  .search_bar {
+    padding: 0 15Px;
+    height: 30Px;
+    margin: 10Px 0;
+    display: flex;
+
+    .search {
+      flex: 1;
+      padding: 0 15Px;
+      height: 30Px;
+      background: #efefef;
+      border-radius: 4Px;
+      font-size: 12Px;
+    }
+
+    .btn {
+      width: 30Px;
+      height: 30Px;
+      padding: 0;
+      margin-left: 10Px;
+      line-height: 30Px;
+      border-radius: 4Px;
+      font-size: 12Px;
+    }
+  }
 
   .account_item {
     background-color: #FDFDFD;

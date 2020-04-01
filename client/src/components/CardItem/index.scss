@@ -42,14 +42,6 @@
     flex: 1;
   }
 
-  .mask {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-
   .animate {
     animation-duration: .3s;
     animation-timing-function: ease;
@@ -61,7 +53,7 @@
     position: relative;
     z-index: 1;
 
-    margin: 10Px;
+    margin: 15Px;
     border-radius: 8Px;
     border: 1Px solid #dedbdd;
     background-color: #FFF;
@@ -142,7 +134,7 @@
     &.unactive {
       height: 37Px;
       border-radius: 0;
-      margin: 10Px;
+      margin: 15Px;
       border-color: transparent;
       background-color: transparent;
     }
@@ -155,7 +147,7 @@
     from {
       height: 37Px;
       border-radius: 8Px;
-      margin: 10Px;
+      margin: 15Px;
       border-color: #dedbdd;
       background-color: #FFF;
     }
@@ -177,13 +169,13 @@
   @keyframes NormalToUnactive {
     from {
       border-radius: 8Px;
-      margin: 10Px;
+      margin: 15Px;
       border-color: #dedbdd;
       background-color: #FFF;
     }
     to {
       border-radius: 0;
-      margin: 10Px;
+      margin: 15Px;
       border-color: transparent;
       background-color: transparent;
     }
@@ -194,7 +186,7 @@
     from {
       height: 37Px;
       border-radius: 0;
-      margin: 10Px;
+      margin: 15Px;
       border-color: transparent;
       background-color: transparent;
     }
@@ -216,14 +208,14 @@
   @keyframes UnactiveToNormal {
     from {
       border-radius: 0;
-      margin: 10Px;
+      margin: 15Px;
       border-color: transparent;
       background-color: transparent;
     }
 
     to {
       border-radius: 8Px;
-      margin: 10Px;
+      margin: 15Px;
       border-color: #dedbdd;
       background-color: #FFF;
     }
@@ -247,7 +239,7 @@
     to {
       height: 37Px;
       border-radius: 8Px;
-      margin: 10Px;
+      margin: 15Px;
       border-color: #dedbdd;
       background-color: #FFF;
     }
@@ -271,7 +263,7 @@
     to {
       height: 37Px;
       border-radius: 0;
-      margin: 10Px;
+      margin: 15Px;
       border-color: transparent;
       background-color: transparent;
     }
@@ -336,5 +328,4 @@
       font-size: 0Px;
     }
   }
-
 }
