@@ -16,7 +16,7 @@ export default function AccountDetail() {
   const accounts = useSelector<any, AccountState>(state => state.account);
   const dispatch = useDispatch()
   const [params, setParams] = useState(_params);
-  const { title = '', username, password, ...other } = params;
+  const { uuid, title = '', username, password, ...other } = params;
 
   const [visible, setVisible] = useState(false);
   const [properties, setProperties] = useState(defProps);
@@ -48,6 +48,8 @@ export default function AccountDetail() {
   return (
     <View className="container">
       <AtList>
+        <AtInput name="uuid" title="uuid" type='text' disabled value={uuid} onChange={() => {}} />
+
         <AtInput 
           onChange={(v: string) => { setParams({ ...params, title: v }) }} 
           name="title" 

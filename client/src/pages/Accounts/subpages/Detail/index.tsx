@@ -3,9 +3,16 @@ import { View, Text } from "@tarojs/components";
 import qs from 'qs';
 import { AtList, AtListItem, AtFab } from "taro-ui";
 import "./index.scss";
+import { useSelector } from '@tarojs/redux';
+import { AccountState } from 'pages/Accounts/model';
 
 export default function AccountDetail() {
-  const {title = '', username, password, ...other}: com.Account = this.$router.params;
+  const {uuid = ''}: com.Account = this.$router.params;
+  if (!uuid) {
+    return null;
+  }
+  const {accounts} = useSelector<any, AccountState>(state => state.account);
+  const {title = '', username, password, uuid: _uuid, ...other} = accounts[uuid]
   useEffect(() => {
     Taro.setNavigationBarTitle({ title });  
   }, []);
@@ -14,6 +21,7 @@ export default function AccountDetail() {
   return (
     <View className="container">
       <AtList>
+        <AtListItem title="uuid" extraText={uuid}/>
         <AtListItem title="标题" extraText={title} />
         <AtListItem title="账号" extraText={username} />
         <AtListItem title="密码" extraText={password} />

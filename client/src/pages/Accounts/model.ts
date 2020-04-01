@@ -23,13 +23,16 @@ export default {
   },
   reducers: {
     init: (state) => {
-      const ids = Taro.getStorageSync('accounts_ids') || [];
-      const accounts = {}
-      ids.forEach(id => {
-        accounts[id] = Taro.getStorageSync(id);
-      })
-      console.log('从本地缓存初始化账户信息', ids, accounts);
-      return { ...state, uuids: ids, accounts }
+      if (!state.uuids.length) {
+        const ids = Taro.getStorageSync('accounts_ids') || [];
+        const accounts = {}
+        ids.forEach(id => {
+          accounts[id] = Taro.getStorageSync(id);
+        })
+        console.log('从本地缓存初始化账户信息', ids, accounts);
+        return { ...state, uuids: ids, accounts }
+      }
+      return state;
     },
     save: (state, action: any) => {
       let ids = state.uuids
