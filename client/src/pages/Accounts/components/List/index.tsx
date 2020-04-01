@@ -10,7 +10,10 @@ import "./index.scss";
 export interface AccountListProps {
   list: com.Account[]
 }
-
+/**
+ * 由于Taro 2.0.7 在编译上存在一些bug，无法将阻止冒泡转化编译成 catchtap，因此最终效果上会有一些问题
+ * 每次build之后，需要在dist对应的文件中修改 bindtap 为 catchtap
+ */
 export default function AccountList(props: AccountListProps) {
   const {list = []} = props;
   const [activeIndex, setActiveIndex] = useState();
@@ -30,7 +33,7 @@ export default function AccountList(props: AccountListProps) {
     Taro.navigateTo({ url: `/pages/Accounts/subpages/Detail/index?${qs.stringify(item)}` })
   }
 
-  const copyHandler = (content: string, e: ITouchEvent) => {
+  function copyHandler(content: string, e: ITouchEvent) {
     e.stopPropagation();
     Taro.setClipboardData({
       data: content,
@@ -99,14 +102,14 @@ export default function AccountList(props: AccountListProps) {
                   <View className={iconCls} onClick={(e) => iconClickHandler(item, e)} />
               </View>
               <View className="detail_item">
-                  <View className="detail" onClick={(e) => copyHandler(item.username || '', e)}>
-                    <View className="tip">用户名称</View>
-                    <View className="content">{item.username}</View>
-                  </View>
-                  <View className="detail" onClick={e => copyHandler(item.password || '', e)}>
-                    <View className="tip">密码</View>
-                    <View className="content">{item.password}</View>
-                  </View>
+                <View className="detail" onClick={copyHandler.bind(this, item.username)}>
+                  <View className="tip">用户名称</View>
+                  <View className="content">{item.username}</View>
+                </View>
+                <View className="detail" onClick={e => copyHandler(item.password || '', e)}>
+                  <View className="tip">密码</View>
+                  <View className="content">{item.password}</View>
+                </View>
               </View>
             </View>)
         })

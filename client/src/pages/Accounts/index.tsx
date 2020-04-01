@@ -17,7 +17,7 @@ export default function Index() {
         <Button className="btn async" onClick={() => Taro.navigateTo({url: '/pages/Accounts/subpages/Editor/index'})}>
           <MyIcon name="allocat" size={20} />
         </Button>
-        <Button 
+        <Button
           className="btn add"
           onClick={() => Taro.navigateTo({url: '/pages/Accounts/subpages/Editor/index'})}
         ><MyIcon name="add-circle" size={20} /></Button>

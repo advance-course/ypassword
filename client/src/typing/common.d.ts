@@ -10,19 +10,19 @@ declare namespace com {
     username?: string,
     password?: string,
     /**
-     * 账户归属：表示该账户是属于某个网站，或者App等
+     * 账户归属：表示该账户是属于某个网站，或者App等，数据中，根据归属来分类
      * */
     who?: string,
-
-    /**
-     * type
-     */
-    type?: AccountType,
     /**
      * 目标的图标
      */
     icon?: string,
 
+    /**
+     * type
+     */
+    type?: AccountType,
+    
     /** 其他一些可能存在的字段 */
     phone?: string,
     email?: string,
