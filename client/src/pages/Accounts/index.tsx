@@ -3,8 +3,8 @@ import { View, Button, Input } from '@tarojs/components';
 import AccountList from './components/List';
 import { useSelector } from '@tarojs/redux';
 import { AccountState } from './model';
-import "./index.scss";
 import MyIcon from 'components/myIcon';
+import "./index.scss";
 
 export default function Index() {
   const [searchText, setSearchText] = useState('');

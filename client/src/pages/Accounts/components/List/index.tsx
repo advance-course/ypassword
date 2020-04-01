@@ -2,6 +2,7 @@ import Taro, { useState } from "@tarojs/taro"
 import { View } from "@tarojs/components"
 import classNames from 'classnames';
 import { ITouchEvent } from '@tarojs/components/types/common';
+import qs from 'qs';
 
 import "taro-ui/dist/style/components/icon.scss";
 import "./index.scss";
@@ -24,9 +25,9 @@ export default function AccountList(props: AccountListProps) {
     setActiveIndex(index);
   }
 
-  const iconClickHandler = (item, e: ITouchEvent) => {
+  const iconClickHandler = (item: com.Account, e: ITouchEvent) => {
     e.stopPropagation();
-    console.log('xxx')
+    Taro.navigateTo({ url: `/pages/Accounts/subpages/Detail/index?${qs.stringify(item)}` })
   }
 
   const copyHandler = (content: string, e: ITouchEvent) => {

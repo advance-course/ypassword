@@ -17,7 +17,7 @@ export default function AccountDetail() {
   const [properties, setProperties] = useState(defProps);
 
   useEffect(() => {
-    Taro.setNavigationBarTitle({ title });
+    Taro.setNavigationBarTitle({ title: title || '新增' });
   }, []);
   
   function addPropertiesHandler() {
@@ -29,56 +29,52 @@ export default function AccountDetail() {
     setVisible(false);
   }
 
-  // console.log(params);
-
   const keys = Object.keys(other);
   return (
     <View className="container">
       <AtList>
         <AtInput 
-          name="title"
-          title="标题"
-          type='text'
-          placeholder='请输入标题'
-          value={title}
-          onChange={(v: string) => {
-            setParams({...params, title: v})
-          }}
+          onChange={(v: string) => { setParams({ ...params, title: v }) }} 
+          name="title" 
+          title="标题" 
+          type='text' 
+          placeholder='请输入标题' 
+          value={title} 
         />
 
         <AtInput
+          onChange={(v: string) => {
+            setParams({ ...params, username: v })
+          }}
           name="acount"
           title="账号"
           type='text'
           placeholder='请输入账号'
           value={username}
-          onChange={(v: string) => {
-            setParams({ ...params, username: v })
-          }}
         />
 
         <AtInput
+          onChange={(v: string) => {
+            setParams({ ...params, username: v })
+          }}
           name="password"
           title="密码"
           type='text'
           placeholder='请输入账号'
           value={password}
-          onChange={(v: string) => {
-            setParams({ ...params, username: v })
-          }}
         />
 
         {keys.map((item) => (
           <AtInput
+            onChange={(v: string) => {
+              setParams({ ...params, [item]: v })
+            }}
             key={item}
             name="other"
             title={item}
             type='text'
             placeholder='请输入内容'
             value={params[item]}
-            onChange={(v: string) => {
-              setParams({ ...params, [item]: v })
-            }}
           />
         ))}
       </AtList>
