@@ -8,14 +8,17 @@ import "taro-ui/dist/style/components/icon.scss";
 import "./index.scss";
 
 export interface AccountListProps {
-  list: com.Account[]
+  ids: string[],
+  accounts: {
+    [key: string]: com.Account
+  }
 }
 /**
  * 由于Taro 2.0.7 在编译上存在一些bug，无法将阻止冒泡转化编译成 catchtap，因此最终效果上会有一些问题
  * 每次build之后，需要在dist对应的文件中修改 bindtap 为 catchtap
  */
 export default function AccountList(props: AccountListProps) {
-  const {list = []} = props;
+  const {ids = [], accounts} = props;
   const [activeIndex, setActiveIndex] = useState();
   const [beforeIndex, setBeforeIndex] = useState();
 
@@ -51,7 +54,7 @@ export default function AccountList(props: AccountListProps) {
   return (
     <View className="container">
       {
-        list.map((item, index) => {
+        ids.map((id, index) => {
           // 之前是激活元素
           const before_is_active = beforeIndex === index;
           // 之前是非激活元素
@@ -90,6 +93,8 @@ export default function AccountList(props: AccountListProps) {
             'at-icon-chevron-right': normal_to_active || unactive_to_active,
             'at-icon-clock': current_none_active || active_to_normal || unactive_to_normal || normal_to_unactive || active_to_unactive,
           })
+
+          const item = accounts[id];
 
           return (
             <View key={`${item.title}${item.username}`} className={cls} onClick={() => itemClick(index)}>

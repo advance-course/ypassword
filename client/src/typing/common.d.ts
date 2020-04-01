@@ -6,6 +6,7 @@ declare namespace com {
   type AccountType = 1 | 2;
 
   interface Account {
+    uuid?: string,
     title?: string,
     username?: string,
     password?: string,

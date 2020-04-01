@@ -2,6 +2,9 @@ import Taro, { Config, useEffect, useState } from "@tarojs/taro";
 import { View } from "@tarojs/components";
 import { AtInput, AtList, AtButton, AtFloatLayout } from "taro-ui";
 import "./index.scss";
+import { useSelector, useDispatch } from '@tarojs/redux';
+import { AccountState } from 'pages/Accounts/model';
+import { createUUID } from 'utils';
 
 const defProps = {
   key: '',
@@ -10,6 +13,8 @@ const defProps = {
 
 export default function AccountDetail() {
   const _params: com.Account = this.$router.params;
+  const accounts = useSelector<any, AccountState>(state => state.account);
+  const dispatch = useDispatch()
   const [params, setParams] = useState(_params);
   const { title = '', username, password, ...other } = params;
 
@@ -27,6 +32,16 @@ export default function AccountDetail() {
     })
     setProperties(defProps);
     setVisible(false);
+  }
+
+  function save() {
+    if (!params.uuid) {
+      params.uuid = createUUID();
+    }
+    dispatch({
+      type: 'account/addAccount',
+      payload: params
+    });
   }
 
   const keys = Object.keys(other);
@@ -55,7 +70,7 @@ export default function AccountDetail() {
 
         <AtInput
           onChange={(v: string) => {
-            setParams({ ...params, username: v })
+            setParams({ ...params, password: v })
           }}
           name="password"
           title="密码"
@@ -80,7 +95,7 @@ export default function AccountDetail() {
       </AtList>
 
       <View className="btn_wrapper">
-        <AtButton type="primary" className="add_btn">保存修改</AtButton>
+        <AtButton type="primary" className="add_btn" onClick={save}>保存修改</AtButton>
         <AtButton className="add_btn" onClick={() => setVisible(true)}>新增字段</AtButton>
       </View>
       

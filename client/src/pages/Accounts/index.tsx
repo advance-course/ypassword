@@ -8,7 +8,8 @@ import "./index.scss";
 
 export default function Index() {
   const [searchText, setSearchText] = useState('');
-  const accounts = useSelector<any, AccountState>(state => state.account);
+  const account = useSelector<any, AccountState>(state => state.account);
+  const {uuids, accounts} = account;
 
   return (
     <View className="accounts_container">
@@ -23,7 +24,7 @@ export default function Index() {
         ><MyIcon name="add-circle" size={20} /></Button>
       </View>
 
-      <AccountList list={accounts.accounts} />
+      <AccountList ids={uuids} accounts={accounts} />
     </View>
   );
 }
