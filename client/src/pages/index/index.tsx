@@ -5,8 +5,8 @@ import { View } from "@tarojs/components";
 
 import Home from "pages/Home";
 import Accounts from "pages/Accounts";
+import Feeds from 'pages/Feeds'
 import Profile from "pages/Profile";
-import Articles from "pages/extra/articles";
 
 import { GlobalState, SetBooleanStatus } from "store/global";
 import {loginApi} from './api';
@@ -15,7 +15,7 @@ import "./index.scss";
 export const titles = {
   0: '首页',
   1: '账户',
-  2: '不知非攻',
+  2: '订阅号',
   3: '我的'
 }
 
@@ -85,7 +85,7 @@ export default function Layout() {
     <View style={{height: '100%', background: '#FFF'}}>
       {current === 0 && <Home />}
       {current === 1 && <Accounts />}
-      {current === 2 && <Articles />}
+      {current === 2 && <Feeds />}
       {current === 3 && <Profile />}
       <RealTabBar
         onClick={(current: number) => { setCurrent(current); setInitial(false); }}
@@ -98,7 +98,7 @@ export default function Layout() {
         tabList={[
           {text: "首页", iconPath: "home"},
           {text: "账户", iconPath: "RectangleCopy62"},
-          {text: "不知非攻", iconPath: "RectangleCopy162"},
+          {text: "订阅号", iconPath: "RectangleCopy162"},
           {text: "我的", iconPath: "RectangleCopy49"}
         ]}
       />

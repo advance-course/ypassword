@@ -1,0 +1,40 @@
+.container {
+  padding: 1Px 15Px 15Px;
+  background: #ededed;
+  min-height: 100%;
+  
+  .gzh_card {
+    margin: 15Px 0;
+    border-radius: 4Px;
+    display: flex;
+    align-items: center;
+    padding: 15Px;
+    background-color: #FFF;
+  }
+
+  .left {
+    width: 50Px;
+    height: 50Px;
+    margin-right: 15Px;
+  }
+
+  .logo {
+    width: 50Px;
+    height: 50Px;
+    border-radius: 25Px;
+  }
+
+  .right {
+    flex: 1
+  }
+
+  .name {
+    font-size: 16Px;
+    color: #333;
+  }
+  .desc {
+    font-size: 14Px;
+    margin-top: 10Px;
+    color: #666;
+  }
+}

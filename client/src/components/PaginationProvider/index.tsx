@@ -7,7 +7,7 @@ import classnames from 'classnames'
 import './index.scss'
 
 export interface PaginationProviderProps {
-  loading: boolean,
+  loading?: boolean,
   errMsg?: string,
   increasing: boolean,
   lastPage: boolean,
@@ -18,7 +18,6 @@ export interface PaginationProviderProps {
 
 export default function PaginationProvider(props: PaginationProviderProps) {
   const { loading, errMsg, increasing, lastPage, style, className, children } = props;
-  console.log(increasing, lastPage)
 
   useEffect(() => {
     if (loading) {
@@ -32,10 +31,10 @@ export default function PaginationProvider(props: PaginationProviderProps) {
     return <Exception type="noData" message={errMsg} />
   }
 
-  const cls = classnames('pagination_provider', {
+  const cls = classnames({
     // @ts-ignore
     [className]: !!className
-  })
+  }, 'pagination_provider')
 
   if (loading) {
     return null;
