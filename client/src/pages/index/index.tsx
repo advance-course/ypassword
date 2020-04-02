@@ -6,7 +6,7 @@ import { View } from "@tarojs/components";
 import Home from "pages/Home";
 import Accounts from "pages/Accounts";
 import Profile from "pages/Profile";
-import Category from "pages/Category/List";
+import Articles from "pages/extra/articles";
 
 import { GlobalState, SetBooleanStatus } from "store/global";
 import {loginApi} from './api';
@@ -15,7 +15,7 @@ import "./index.scss";
 export const titles = {
   0: '首页',
   1: '账户',
-  2: '分类',
+  2: '不知非攻',
   3: '我的'
 }
 
@@ -34,27 +34,27 @@ export default function Layout() {
 
   useEffect(() => {
     // 首次使用
-    if (isFirstUse) {
-      Taro.checkIsSupportSoterAuthentication({
-        success(res) {
-          if (res.supportMode.indexOf('fingerPrint') > -1 && !global.isNinecaseLock) {
-            dispatch({type: 'global/setIsLock', isLock: true})
-            dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true})
-          }
-        }
-      })
+    // if (isFirstUse) {
+    //   Taro.checkIsSupportSoterAuthentication({
+    //     success(res) {
+    //       if (res.supportMode.indexOf('fingerPrint') > -1 && !global.isNinecaseLock) {
+    //         dispatch({type: 'global/setIsLock', isLock: true})
+    //         dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true})
+    //       }
+    //     }
+    //   })
 
-      dispatch({type: 'global/setIsFirstUse', isFirstUse: false})
-    }
+    //   dispatch({type: 'global/setIsFirstUse', isFirstUse: false})
+    // }
   }, [])
 
   useEffect(():any => {
     // 如果加锁功能是启动状态，并且是九宫格解锁方式，则跳转到九宫格解锁页面
-    if (isLock && isLocking) {
-      isFingerprintLock && Taro.redirectTo({url: '/pages/FingerprintLock/index'})
+    // if (isLock && isLocking) {
+    //   isFingerprintLock && Taro.redirectTo({url: '/pages/FingerprintLock/index'})
 
-      isNinecaseLock && Taro.redirectTo({url: '/pages/DrawUnlock/index'})
-    }
+    //   isNinecaseLock && Taro.redirectTo({url: '/pages/DrawUnlock/index'})
+    // }
   }, []);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function Layout() {
     <View style={{height: '100%'}}>
       {current === 0 && <Home />}
       {current === 1 && <Accounts />}
-      {current === 2 && <Category />}
+      {current === 2 && <Articles />}
       {current === 3 && <Profile />}
       <RealTabBar
         onClick={(current: number) => { setCurrent(current); setInitial(false); }}
@@ -98,7 +98,7 @@ export default function Layout() {
         tabList={[
           {text: "首页", iconPath: "home"},
           {text: "账户", iconPath: "RectangleCopy62"},
-          {text: "分类", iconPath: "RectangleCopy162"},
+          {text: "不知非攻", iconPath: "RectangleCopy162"},
           {text: "我的", iconPath: "RectangleCopy49"}
         ]}
       />

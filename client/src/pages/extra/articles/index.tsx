@@ -5,11 +5,7 @@ import './index.scss';
 export default function Articles() {
   return (
     <View>
-      <Text>公众号文章阅读</Text>
+      <Text>公众号文章阅读2</Text>
     </View>
   )
-}
-
-Articles.config = {
-  "navigationBarTitleText": "公众号文章阅读"
 }

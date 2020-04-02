@@ -26,6 +26,10 @@ class App extends Component {
       "pages/Settings/Lock/index",
       "pages/checkin/index",
       "pages/webview/index",
+      
+      // 分类
+      "pages/Category/index",
+      "pages/Category/List/index",
       "pages/Category/Edit/index",
 
       // B端页面
@@ -38,7 +42,6 @@ class App extends Component {
       "pages/toB/categoryIcon/index",
 
       // 额外功能，主功能之外的扩展
-      "pages/extra/articles/index",
       "pages/extra/author/index",
       "pages/extra/devteam/index",
 

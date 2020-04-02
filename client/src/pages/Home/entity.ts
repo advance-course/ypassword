@@ -35,11 +35,6 @@ export const auth = [
     path: '/pages/checkin/index'
   },
   {
-    icon: 'RectangleCopy74',
-    title: '不知非攻',
-    path: '/pages/extra/articles/index'
-  },
-  {
     icon: 'dialogue',
     title: '联系作者',
     path: '/pages/extra/author/index'

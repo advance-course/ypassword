@@ -189,7 +189,7 @@ export default function GestureLock(props: typeof lockConfig) {
       <View className="gesture_preview">
         {
           Array.from({length:9}).map((v, i) => (
-            <View key={i} className="pointer_wrap">
+            <View key={`${i}_${Date.now()}`} className="pointer_wrap">
               <View className={classNames('pointer', {
                 'active': pwdArr.indexOf(i) > -1
                 })}

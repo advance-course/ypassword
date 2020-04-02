@@ -21,8 +21,8 @@ export default function IconIndex() {
         <Text className="title">所有图标</Text>  
       </View>
       <View className="icons_wrapper">
-        {icons.map((name, i) => (
-          <View key={i} className='itemContainer'>
+        {icons.map((name) => (
+          <View key={name} className='itemContainer'>
             <MyIcon name={name} />
             <Text className='itemStyle'>{name}</Text>
           </View>

@@ -23,10 +23,16 @@ export default function Index() {
         <Button className="btn async" onClick={() => Taro.navigateTo({url: '/pages/Accounts/subpages/Editor/index'})}>
           <MyIcon name="allocat" size={20} />
         </Button>
+
         <Button
           className="btn add"
           onClick={() => Taro.navigateTo({url: '/pages/Accounts/subpages/Editor/index'})}
         ><MyIcon name="add-circle" size={20} /></Button>
+
+        <Button
+          className="btn category"
+          onClick={() => Taro.navigateTo({ url: '/pages/Category/List/index' })}
+        ><MyIcon name="RectangleCopy74" size={20} /></Button>
       </View>
 
       <AccountList ids={uuids} accounts={accounts} />

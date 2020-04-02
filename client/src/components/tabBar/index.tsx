@@ -41,7 +41,7 @@ export default function RealTabBar({
       <View className="tab-bar-wrap">
         {tabList.map((item, index) => (
           <View
-            key={index}
+            key={item.iconPath}
             className="tab-bar-wrap-item"
             onClick={tabItemClick.bind(this, index)}
           >
