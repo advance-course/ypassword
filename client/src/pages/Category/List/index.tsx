@@ -62,16 +62,18 @@ export default function List () {
 
   return (
     <View className="container">
-    <AtButton className="btn-add" type='secondary' onClick={() => handleEdit('add', null)}>添加分类</AtButton>
-    {list.map((item) => (
-        <View key={item._id} className="item">
-          <Image src={item.imgUrl} className="img" />
-          <Text className="name">{item.name}</Text>
-          <AtButton type='secondary' size='small' onClick={() => handleEdit('edit', item)}>编辑</AtButton>
-          <AtButton type='secondary' size='small' onClick={() => handleDel(item)}>删除</AtButton>
-        </View>
-      )
-    )}
+      <View className="operate" >
+        <AtButton type='primary' size="small" onClick={() => handleEdit('add', null)}>新增分类</AtButton>
+      </View>
+      {list.map((item) => (
+          <View key={item._id} className="item">
+            <Image src={item.imgUrl} className="img" />
+            <Text className="name">{item.name}</Text>
+            <AtButton type='secondary' size='small' onClick={() => handleEdit('edit', item)}>编辑</AtButton>
+            <AtButton type='secondary' size='small' onClick={() => handleDel(item)}>删除</AtButton>
+          </View>
+        )
+      )}
     </View>
   )
 }

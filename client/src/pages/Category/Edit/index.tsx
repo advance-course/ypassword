@@ -6,6 +6,7 @@ import { addCategoryApi, queryTheCategoryApi, updateCategoryApi } from '../api'
 import { UserInfo } from 'pages/Auth/interface';
 export default function Category() {
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
+  const [btnText, setBtnText] = useState('新增分类')
 
   const _params = this.$router.params
 
@@ -23,6 +24,7 @@ export default function Category() {
 
   useEffect(() => {
     if (_params.type === 'edit') {
+      setBtnText('更新分类')
       handleQuery().then(res => {
         let item = res.data.data[0]
         setParams(item)
@@ -88,6 +90,7 @@ export default function Category() {
         <AtInput
           name="name"
           title="名称"
+          value={params.name}
           onChange={(v: string) => {
             setParams({...params, name: v})
           }}
@@ -100,7 +103,7 @@ export default function Category() {
         <LogoSelect title="选择logo" selectText="选择logo按钮" onSelectCallback={handleSelectImage} />
       </AtList>
       <View className="btnView">
-        <AtButton className="add_btn" onClick={addCategory}>新增分类</AtButton>
+        <AtButton className="add_btn" onClick={addCategory}>{btnText}</AtButton>
       </View>
     </View>
   )
