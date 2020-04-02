@@ -21,7 +21,7 @@ export const auth = [
   },
   {
     icon: 'RectangleCopy153',
-    title: '文章配置',
+    title: '文章管理',
     path: '/pages/toB/articles/index'
   },
   {

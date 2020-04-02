@@ -82,7 +82,7 @@ export default function Layout() {
   }
 
   return (
-    <View style={{height: '100%'}}>
+    <View style={{height: '100%', background: '#FFF'}}>
       {current === 0 && <Home />}
       {current === 1 && <Accounts />}
       {current === 2 && <Articles />}

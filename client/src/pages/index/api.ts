@@ -73,3 +73,10 @@ export function registerApi(params: WxUserinfo) {
 export function userListApi(params: PaginationParam) {
   return http.get<Page<UserInfo>>('user/v1/list', params);
 }
+
+export function userUpdateApi(userid: string, params: UserInfo) {
+  return http.get<string>('user/v1/update/info', {
+    userid,
+    ...params
+  })
+}

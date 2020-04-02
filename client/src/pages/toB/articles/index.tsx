@@ -1,8 +1,9 @@
-import Taro, {Config} from "@tarojs/taro";
+import Taro, {Config, useState} from "@tarojs/taro";
 import {View} from "@tarojs/components";
 import "./index.scss";
 
-export default function Articles() {  
+export default function Articles() {
+  const [article, setArticle] = useState();
   return (
     <View>
       公众号文章配置管理
