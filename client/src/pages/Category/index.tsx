@@ -1,16 +1,26 @@
-import Taro, {useState} from '@tarojs/taro';
+import Taro, {useState, useEffect} from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtList, AtInput, AtButton } from 'taro-ui';
 import LogoSelect from "components/LogoSelect";
-import { addCategoryApi } from 'pages/index/api'
+import { addCategoryApi } from './api'
+import { UserInfo } from 'pages/Auth/interface';
 export default function Category() {
   const [params, setParams] = useState({
     name: '',
-    imgUrl: ''
+    imgUrl: '',
+    userID: ''
   })
 
+  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
+
+  useEffect(() => {
+    Taro.getStorage({ key: 'userInfo' }).then(res => {
+      setUserInfo(res.data)
+    })
+  }, [userInfo])
+
   function handleSelectImage(select: any) {
-    console.log("=========", select);
+    // console.log("=========", select);
     setParams({
       ...params,
       imgUrl: select.url
@@ -18,15 +28,21 @@ export default function Category() {
   }
 
   function addCategory () {
+    //同步设置
+    params.userID = userInfo._id
+
     Taro.showLoading({
       title: '正在提交...',
       mask: true
     })
+
     addCategoryApi(params).then((res) => {
-      console.log('add category result', res)
-      Taro.hideLoading();
-      Taro.showToast({title: '添加成功', duration: 1000 })
+      Taro.hideLoading()
+      if (res.success) {
+        Taro.showToast({title: '添加成功', duration: 1000 })
+      }
     }).catch(err => {
+      Taro.hideLoading()
       console.log(err)
     })
   }

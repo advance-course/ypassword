@@ -26,7 +26,7 @@ export default function AccountDetail() {
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: title || '新增' });
   }, []);
-  
+
   function addPropertiesHandler() {
     setParams({
       ...params,
@@ -102,7 +102,7 @@ export default function AccountDetail() {
         <AtButton type="primary" className="add_btn" onClick={save}>保存修改</AtButton>
         <AtButton className="add_btn" onClick={() => setVisible(true)}>新增字段</AtButton>
       </View>
-      
+
 
       <AtFloatLayout
         isOpened={visible}

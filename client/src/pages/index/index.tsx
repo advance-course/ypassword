@@ -6,7 +6,7 @@ import { View } from "@tarojs/components";
 import Home from "pages/Home";
 import Accounts from "pages/Accounts";
 import Profile from "pages/Profile";
-import Category from "pages/Category";
+import Category from "pages/Category/List";
 
 import { GlobalState, SetBooleanStatus } from "store/global";
 import {loginApi} from './api';
@@ -52,7 +52,7 @@ export default function Layout() {
     // 如果加锁功能是启动状态，并且是九宫格解锁方式，则跳转到九宫格解锁页面
     if (isLock && isLocking) {
       isFingerprintLock && Taro.redirectTo({url: '/pages/FingerprintLock/index'})
-  
+
       isNinecaseLock && Taro.redirectTo({url: '/pages/DrawUnlock/index'})
     }
   }, []);
