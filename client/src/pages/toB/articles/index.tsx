@@ -51,7 +51,7 @@ export default function Articles() {
   }, 600)
 
   return (
-    <PaginationProvider className="container" lastPage={!!list.pagination.lastPage} increasing={increasing}>
+    <PaginationProvider length={list.list.length} className="container" lastPage={!!list.pagination.lastPage} increasing={increasing}>
       <AtSearchBar className="serachbar" value="" onChange={searchHandler} placeholder="输入文章标题搜索" />
 
       {list.list.map((item) => (
@@ -88,5 +88,6 @@ export default function Articles() {
 Articles.config = {
   navigationBarTitleText: "文章管理",
   enablePullDownRefresh: true,
-  navigationBarBackgroundColor: '#ededed'
+  navigationBarBackgroundColor: '#ededed',
+  backgroundColor: '#ededed'
 } as Config;

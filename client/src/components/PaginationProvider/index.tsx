@@ -13,11 +13,12 @@ export interface PaginationProviderProps {
   lastPage: boolean,
   style?: CSSProperties,
   className?: string,
-  children?: any
+  children?: any,
+  length?: number
 }
 
 export default function PaginationProvider(props: PaginationProviderProps) {
-  const { loading, errMsg, increasing, lastPage, style, className, children } = props;
+  const { loading, errMsg, increasing, lastPage, style, className, children, length } = props;
 
   useEffect(() => {
     if (loading) {
@@ -27,17 +28,29 @@ export default function PaginationProvider(props: PaginationProviderProps) {
     }
   }, [loading])
 
-  if (errMsg) {
-    return <Exception type="noData" message={errMsg} />
-  }
-
   const cls = classnames({
     // @ts-ignore
     [className]: !!className
   }, 'pagination_provider')
 
+  if (errMsg) {
+    return (
+      <View className={cls} style={style}>
+        <Exception type="noData" message={errMsg} />
+      </View>
+    )
+  }
+
   if (loading) {
     return null;
+  }
+
+  if (length === 0) {
+    return (
+      <View className={cls} style={style}>
+        <Exception type="noData" message="您关注的公众号暂时没有发布文章" />
+      </View>
+    )
   }
 
   const renderFooter = () => {

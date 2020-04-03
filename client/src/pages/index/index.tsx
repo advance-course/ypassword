@@ -83,12 +83,15 @@ export default function Layout() {
 
   if (current === 0) {
     Taro.setNavigationBarColor({backgroundColor: '#ffe100', frontColor: '#000000'})
+    Taro.setBackgroundColor({backgroundColor: '#ffe100'})
   }
   if (current === 1) {
     Taro.setNavigationBarColor({backgroundColor: '#ededed', frontColor: '#000000'})
+    Taro.setBackgroundColor({backgroundColor: '#ededed'})
   }
   if (current === 2 || current === 3) {
     Taro.setNavigationBarColor({ backgroundColor: '#FFF', frontColor: '#000000' })
+    Taro.setBackgroundColor({backgroundColor: '#FFF'})
   }
   
   return (
