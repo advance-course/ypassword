@@ -10,6 +10,6 @@ export default function Webview() {
 
 Webview.config = {
   navigationBarTitleText: "",
-  navigationBarBackgroundColor: "#ffe100",
+  navigationBarBackgroundColor: "#FFF",
   navigationBarTextStyle: "black"
 } as Config;
