@@ -1,4 +1,4 @@
-import Taro, {Config, useEffect, usePullDownRefresh, useReachBottom} from "@tarojs/taro";
+import Taro, {Config, useEffect, usePullDownRefresh, useReachBottom, useRouter} from "@tarojs/taro";
 import {View, Image, Text} from "@tarojs/components";
 import { useSelector, useDispatch } from '@tarojs/redux';
 import { ArticleState } from 'pages/toB/articles/model';
@@ -6,16 +6,23 @@ import PaginationProvider from 'components/PaginationProvider';
 import { AtSearchBar } from 'taro-ui';
 import _ from 'lodash';
 import "./index.scss";
+import { PaginationParam } from 'hooks/usePagination/entity';
 
 export default function Articles() {
-  const {list, increasing} = useSelector<any, ArticleState>(state => state.article);
+  const {params, list, increasing} = useSelector<any, ArticleState>(state => state.article);
   const dispatch = useDispatch()
+  const router = useRouter()
 
   useEffect(() => {
-    if (list.list.length == 0) {
+    const def: PaginationParam = { pageSize: 20, current: 1 }
+    const {gzhaoId} = router.params
+    if (gzhaoId) {
+      def.gzhaoId = gzhaoId
+    }
+    if (list.list.length == 0 || params.gzhaoId != gzhaoId) {
       dispatch({
         type: 'article/fetchList', 
-        payload: {pageSize: 20, current: 1}
+        payload: def
       })
     }
   }, []);
@@ -43,8 +50,6 @@ export default function Articles() {
     })
   }, 600)
 
-  const x = encodeURIComponent('https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI4NjE3MzQzNg==&scene=124&uin=&key=&devicetype=iMac17%2C1+OSX+OSX+10.15.4+build(19E266)&version=12040093&lang=zh_CN&nettype=WIFI&a8scene=0&fontScale=100&winzoom=1.000000')
-
   return (
     <PaginationProvider className="container" lastPage={!!list.pagination.lastPage} increasing={increasing}>
       <AtSearchBar className="serachbar" value="" onChange={searchHandler} placeholder="输入文章标题搜索" />
@@ -52,7 +57,7 @@ export default function Articles() {
       {list.list.map((item) => (
         <View key={item._id} className="item_wrap">
           <View className="top_warp">
-            <View className="top_left" onClick={() => Taro.navigateTo({url: `/pages/webview/index?url=${x}}`})}>
+            <View className="top_left">
               <Image className="gzhaoImg" src={item.gzhaoLogo!} mode="aspectFit" />
               <Text className="gzhaoName">{item.gzhaoName}</Text>
             </View>
