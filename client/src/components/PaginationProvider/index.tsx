@@ -41,10 +41,6 @@ export default function PaginationProvider(props: PaginationProviderProps) {
     )
   }
 
-  if (loading) {
-    return null;
-  }
-
   if (length === 0) {
     return (
       <View className={cls} style={style}>

@@ -9,7 +9,7 @@ import "./index.scss";
 import { PaginationParam } from 'hooks/usePagination/entity';
 
 export default function Articles() {
-  const {params, list, increasing} = useSelector<any, ArticleState>(state => state.article);
+  const {params, list, increasing, loading} = useSelector<any, ArticleState>(state => state.article);
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -51,7 +51,13 @@ export default function Articles() {
   }, 600)
 
   return (
-    <PaginationProvider length={list.list.length} className="container" lastPage={!!list.pagination.lastPage} increasing={increasing}>
+    <PaginationProvider 
+      length={list.list.length} 
+      className="container" 
+      lastPage={!!list.pagination.lastPage} 
+      increasing={increasing}
+      loading={loading}
+    >
       <AtSearchBar className="serachbar" value="" onChange={searchHandler} placeholder="输入文章标题搜索" />
 
       {list.list.map((item) => (

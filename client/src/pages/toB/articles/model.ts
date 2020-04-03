@@ -4,6 +4,7 @@ import { PaginationParam, PageData, defPageData, defPaginationParams, Page, merg
 import { articleListApi } from 'pages/toB/articles/api'
 
 export interface ArticleState {
+  loading: boolean,
   increasing: boolean,
   params: PaginationParam,
   list: PageData<article.Item>
@@ -12,6 +13,7 @@ export interface ArticleState {
 export default {
   namespace: 'article',
   state: {
+    loading: true,
     increasing: false,
     params: defPaginationParams,
     list: defPageData
@@ -25,9 +27,9 @@ export default {
       if (def.current && def.current > 1) {
         yield put({type: 'increasing', payload: true})
       }
-
       yield put({type: 'updateParams', payload: def})
-      Taro.showLoading({title: '加载中...'})
+      yield put({type: 'loading', payload: true})
+      
       try {
         const res = yield call(articleListApi, def);
         const list: Page<article.Item> = res.data;
@@ -36,12 +38,11 @@ export default {
           type: 'updateList',
           payload: _list
         })
-        Taro.hideLoading();
         Taro.stopPullDownRefresh();
       } catch (e) {
-        Taro.hideLoading();
         Taro.showToast({title: e.message});
         yield put({ type: 'increasing', payload: false })
+        yield put({type: 'loading', payload: false})
       }
     }
   },
@@ -50,9 +51,16 @@ export default {
       return {
         ...state,
         list: action.payload,
-        increasing: false
+        increasing: false,
+        loading: false
       }
     }, 
+    loading(state, action: any) {
+      return {
+        ...state,
+        loading: action.payload
+      }
+    },
     increasing(state, action: any) {
       return {
         ...state,
