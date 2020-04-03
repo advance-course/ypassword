@@ -1,31 +1,17 @@
 .container {
   height: 100%;
   background: white;
-  padding: 0 15px;
+  padding: 0 10Px;
   .operate {
     height: 60Px;
     display: flex;
     align-items: center;
-  }
-  .item {
-    width: 100%;
-    display: flex;
-    background: white;
-    align-items:center;/*垂直居中*/
-    border-bottom: 1px solid #f1f1f1;
-    padding: 10px;
-    box-sizing: border-box;
-    .img{
-      width: 100px;
-      height: 100px;
-    }
-    .name {
-      flex: 1;
-      line-height: 100px;
-    }
-    button {
-      vertical-align: middle;
-      margin-right: 10px;
+    justify-content: flex-end;
+    .btn{
+      width: 30Px;
+      height: 30Px;
+      line-height: 30Px;
+      padding: 0;
     }
   }
 }

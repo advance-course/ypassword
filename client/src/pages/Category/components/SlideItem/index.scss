@@ -1,0 +1,52 @@
+ movable-area {
+  height: 60Px;
+  width: calc(100vw - 100Px);
+}
+
+ movable-view {
+  height: 60Px;
+  width: 100vw;
+  background: #fff;
+  z-index: 999;
+}
+.item {
+  position: relative;
+  width: 100vw;
+  height: 60Px;
+  z-index: 999;
+  display: flex;
+  background: white;
+  align-items:center;/*垂直居中*/
+  border-bottom: 1px solid #f1f1f1;
+  padding: 10Px;
+  box-sizing: border-box;
+  .card-wraper{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8rpx 0 20rpx 20rpx;
+    box-sizing: border-box;
+    .img{
+      width: 40Px;
+      height: 40Px;
+      margin-right: 10Px;
+    }
+    .name {
+      flex: 1;
+    }
+  }
+  .delete-btn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 100Px;
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #FFFFFF;
+    line-height: 60Px;
+    z-index: 1;
+    background: #E66671;
+    text-align: center;
+  }
+}

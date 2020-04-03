@@ -1,5 +1,5 @@
 import Taro, {useState, useEffect} from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import { AtList, AtInput, AtButton } from 'taro-ui';
 import LogoSelect from "components/LogoSelect";
 import { addCategoryApi, queryTheCategoryApi, updateCategoryApi } from '../api'
