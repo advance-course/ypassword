@@ -1,9 +1,8 @@
 import Taro, {Config, useEffect, usePullDownRefresh, useReachBottom, useRouter} from "@tarojs/taro";
-import {View, Image, Text} from "@tarojs/components";
+import {View, Image, Text, Input, Button} from "@tarojs/components";
 import { useSelector, useDispatch } from '@tarojs/redux';
 import { ArticleState } from 'pages/toB/articles/model';
 import PaginationProvider from 'components/PaginationProvider';
-import { AtSearchBar } from 'taro-ui';
 import _ from 'lodash';
 import "./index.scss";
 import { PaginationParam } from 'hooks/usePagination/entity';
@@ -58,7 +57,11 @@ export default function Articles() {
       increasing={increasing}
       loading={loading}
     >
-      <AtSearchBar className="serachbar" value="" onChange={searchHandler} placeholder="输入文章标题搜索" />
+      {/* <AtSearchBar className="serachbar" value="" onChange={searchHandler} placeholder="输入文章标题搜索" /> */}
+      <View className="search_wrap">
+        <Input className="searchbar" placeholder="搜索" onInput={(e) => searchHandler(e.detail.value)} />
+        <Button className="add" onClick={() => Taro.navigateTo({url: '/pages/toB/articles/subpages/Editor/index'})}>新增</Button>
+      </View>
 
       {list.list.map((item) => (
         <View key={item._id} className="item_wrap">

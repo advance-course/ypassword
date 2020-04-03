@@ -8,7 +8,7 @@ declare namespace article {
     original?: boolean,
     tag?: string,
     thumb?: string,
-    time?: number,
+    time?: string,
     title?: string,
     url?: string
   }

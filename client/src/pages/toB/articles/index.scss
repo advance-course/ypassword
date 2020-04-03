@@ -2,8 +2,25 @@
   min-height: 100%;
   background-color: #ededed;
 
-  .serachbar {
-    background-color: #ededed;
+  .search_wrap {
+    padding-top: 10Px;
+    display: flex;
+  }
+
+  .searchbar {
+    background-color: #FFF;
+    height: 30Px;
+    border-radius: 4Px;
+    font-size: 12Px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .add {
+    height: 30Px;
+    width: 60Px;
+    font-size: 12Px;
+    margin-left: 10Px;
   }
 
   .addbtn {
