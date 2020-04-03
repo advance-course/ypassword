@@ -14,8 +14,8 @@ import "./index.scss";
 
 export const titles = {
   0: '首页',
-  1: '账户',
-  2: '订阅号',
+  1: '订阅号',
+  2: '账户',
   3: '我的'
 }
 
@@ -81,24 +81,35 @@ export default function Layout() {
     }
   }
 
+  if (current === 0) {
+    Taro.setNavigationBarColor({backgroundColor: '#ffe100', frontColor: '#000000'})
+  }
+  if (current === 1) {
+    Taro.setNavigationBarColor({backgroundColor: '#ededed', frontColor: '#000000'})
+  }
+  if (current === 2 || current === 3) {
+    Taro.setNavigationBarColor({ backgroundColor: '#FFF', frontColor: '#000000' })
+  }
+  
   return (
-    <View style={{height: '100%', background: '#FFF'}}>
+    <View className="container">
       {current === 0 && <Home />}
-      {current === 1 && <Accounts />}
-      {current === 2 && <Feeds />}
+      {current === 1 && <Feeds />}
+      {current === 2 && <Accounts />}
       {current === 3 && <Profile />}
+      <View className="space" />
       <RealTabBar
         onClick={(current: number) => { setCurrent(current); setInitial(false); }}
         initial={initial}
         current={current}
-        backgroundColor="#edeaed"
+        backgroundColor="#ededed"
         color="#999"
         tintColor="#000"
         fixed
         tabList={[
           {text: "首页", iconPath: "home"},
-          {text: "账户", iconPath: "RectangleCopy62"},
-          {text: "订阅号", iconPath: "RectangleCopy162"},
+          {text: "订阅号", iconPath: "RectangleCopy62"},
+          {text: "账户", iconPath: "RectangleCopy162"},
           {text: "我的", iconPath: "RectangleCopy49"}
         ]}
       />
