@@ -3,7 +3,7 @@ import {View, Image, Text, Input, Button} from "@tarojs/components";
 import { useSelector, useDispatch } from '@tarojs/redux';
 import { ArticleState } from 'pages/toB/articles/model';
 import PaginationProvider from 'components/PaginationProvider';
-import _ from 'lodash';
+import debounce from 'lodash/debounce';
 import "./index.scss";
 import { PaginationParam } from 'hooks/usePagination/entity';
 
@@ -42,7 +42,7 @@ export default function Articles() {
     }
   })
 
-  const searchHandler = _.debounce((value: string) => {
+  const searchHandler = debounce((value: string) => {
     dispatch({
       type: 'article/fetchList',
       payload: {keyword: value, current: 1}

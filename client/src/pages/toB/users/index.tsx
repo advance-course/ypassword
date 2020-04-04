@@ -5,7 +5,7 @@ import { AtSearchBar } from 'taro-ui'
 import { useDispatch } from '@tarojs/redux';
 import usePagination from 'hooks/usePagination';
 import { userListApi, userTypeDesc, UserInfo } from 'pages/index/api';
-import _ from 'lodash'
+import debounce from 'lodash/debounce'
 import "./index.scss";
 
 const tagStyle = {
@@ -29,7 +29,7 @@ export default function Users() {
     }
   })
 
-  const searchHandler = _.debounce((value: string) => {
+  const searchHandler = debounce((value: string) => {
     setParams({keyword: value}, true);
   }, 600)
 

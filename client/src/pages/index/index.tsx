@@ -100,7 +100,6 @@ export default function Layout() {
       {current === 1 && <Feeds />}
       {current === 2 && <Accounts />}
       {current === 3 && <Profile />}
-      <View className="space" />
       <RealTabBar
         onClick={(current: number) => { setCurrent(current); setInitial(false); }}
         initial={initial}

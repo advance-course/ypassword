@@ -4,6 +4,8 @@
 import Taro from '@tarojs/taro'
 import { Model } from "utils/dva";
 import JSEncrypt from 'utils/rsa';
+import {getSystemInfo} from 'utils'
+import { SystemInfo } from 'utils/fp/getSystemInfo';
 
 function getStorage(key:string):any {
   return Taro.getStorageSync(key)
@@ -30,7 +32,8 @@ export interface GlobalState {
   isNinecaseLock: boolean,
   /** app当前是否处于加锁状态 */
   isLocking: boolean,
-  crypt: typeof crypt
+  crypt: typeof crypt,
+  systemInfo: SystemInfo
 }
 
 export interface setUserId {
@@ -53,7 +56,8 @@ export default {
     isFingerprintLock: getStorage('isFingerprintLock') || false,
     isNinecaseLock: getStorage('isNinecaseLock') || false,
     isLocking: true,
-    crypt
+    crypt,
+    systemInfo: getSystemInfo()
   },
   effects: {
   },

@@ -2,6 +2,7 @@ import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import {gzhaoList} from './entity'
 import './index.scss'
+import PlaceholderView from 'components/PlaceholderView'
 
 export default function Feeds() {
   return (
@@ -18,6 +19,7 @@ export default function Feeds() {
           </View>
         </View>
       ))}
+      <PlaceholderView />
     </View>
   )
 }
