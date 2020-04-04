@@ -1,14 +1,3 @@
- movable-area {
-  height: 60Px;
-  width: calc(100vw - 100Px);
-}
-
- movable-view {
-  height: 60Px;
-  width: 100vw;
-  background: #fff;
-  z-index: 999;
-}
 .item {
   position: relative;
   width: 100vw;
@@ -16,17 +5,27 @@
   z-index: 999;
   display: flex;
   background: white;
-  align-items:center;/*垂直居中*/
-  border-bottom: 1px solid #f1f1f1;
+  align-items: center; /*垂直居中*/
+  border-bottom: 1Px solid #f1f1f1;
   padding: 10Px;
   box-sizing: border-box;
-  .card-wraper{
+  .movable-area {
+    height: 60Px;
+    width: calc(100vw - 100Px);
+  }
+  .movable-view {
+    height: 60Px;
+    width: 100vw;
+    background: #fff;
+    z-index: 999;
+  }
+  .card-wraper {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 8rpx 0 20rpx 20rpx;
+    padding: 8rPx 0 20rPx 20rPx;
     box-sizing: border-box;
-    .img{
+    .img {
       width: 40Px;
       height: 40Px;
       margin-right: 10Px;
@@ -42,11 +41,11 @@
     right: 0;
     width: 100Px;
     font-family: PingFangSC-Regular;
-    font-size: 24rpx;
-    color: #FFFFFF;
+    font-size: 24rPx;
+    color: #ffffff;
     line-height: 60Px;
     z-index: 1;
-    background: #E66671;
+    background: #e66671;
     text-align: center;
   }
 }

@@ -95,11 +95,14 @@ export default function Category() {
             setParams({...params, name: v})
           }}
         ></AtInput>
-        <Image
-          className="image"
-          src={params.imgUrl}
-          mode='widthFix'>
-        </Image>
+        <View>
+          {params.imgUrl &&
+          <Image
+            className="image"
+            src={params.imgUrl}
+            mode='widthFix'>
+          </Image>}
+        </View>
         <LogoSelect title="选择logo" selectText="选择logo按钮" onSelectCallback={handleSelectImage} />
       </AtList>
       <View className="btnView">

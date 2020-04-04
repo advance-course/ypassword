@@ -1,8 +1,25 @@
 import Taro, { useState } from "@tarojs/taro";
-import { View, MovableArea, MovableView } from "@tarojs/components";
+import {
+  View,
+  MovableArea,
+  MovableView,
+  Image,
+  Text
+} from "@tarojs/components";
 import "./index.scss";
 
-export default function MovableDelete() {
+export interface ItemProps {
+  item: {
+    name: String;
+    imgUrl: String;
+    _id: String;
+  },
+  delItem,
+  editItem
+}
+
+export default function MovableDelete(props: ItemProps) {
+  const { item, delItem, editItem } = props;
   const [x, setX] = useState(0);
   const [startX, setStartX] = useState(0);
 
@@ -38,20 +55,26 @@ export default function MovableDelete() {
     }
   }
 
-  function showDeleteButton(e) {
+  function showDeleteButton() {
     setX(120);
   }
 
-  function hideDeleteButton(e) {
+  function hideDeleteButton() {
     setX(0);
   }
 
-  function handleTap(e) {}
+  function handleDel() {
+    delItem(item);
+  }
+
+  function handleEdit () {
+    editItem('edit', item)
+  }
 
   return (
     <View className="item">
-      <MovableArea>
-        <MovableView
+      <MovableArea className="movable-area" onClick={handleEdit}>
+        <MovableView className="movable-view"
           friction={100}
           out-of-bounds={true}
           x={x}
@@ -61,11 +84,14 @@ export default function MovableDelete() {
           direction="horizontal"
         >
           <View className="card-wraper">
-            <View>测试一下啦</View>
+            <Image className="img" src={item.imgUrl}></Image>
+            <Text className="name">{item.name}</Text>
           </View>
         </MovableView>
       </MovableArea>
-      <View className="delete-btn">删除</View>
+      <View className="delete-btn" onClick={handleDel}>
+        删除
+      </View>
     </View>
   );
 }

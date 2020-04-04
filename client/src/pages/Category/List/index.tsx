@@ -4,11 +4,11 @@ import { queryCategoryListApi, delCategoryApi } from "../api";
 import { UserInfo } from "pages/Auth/interface";
 import "./index.scss";
 import MyIcon from "components/myIcon";
-import MovableItem from '../components/SlideItem/index'
+import SlideItem from '../components/SlideItem/index'
 
 export default function List() {
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
 
@@ -60,8 +60,6 @@ export default function List() {
     });
   }
 
-  //             onClick={() => handleEdit("edit", item)}
-  // onClick={() => handleDel(item)}
   return (
     <View className="container">
       <View className="operate">
@@ -70,14 +68,15 @@ export default function List() {
         </Button>
       </View>
       <View className="category-list">
-        <MovableItem></MovableItem>
+        {list.map((item, index) => (
+          <SlideItem
+          key={item._id}
+          item={item}
+          delItem={handleDel}
+          editItem={handleEdit}
+          ></SlideItem>
+        ))}
       </View>
-      {/* {list.map(item => (
-        <View key={item._id} className="item">
-          <Image src={item.imgUrl} className="img" />
-          <Text className="name">{item.name}</Text>
-        </View>
-      ))} */}
     </View>
   );
 }
