@@ -1,10 +1,9 @@
-import Taro, { useEffect, navigateTo } from '@tarojs/taro';
+import Taro, { useEffect } from '@tarojs/taro';
 import { View, Swiper, SwiperItem, Text, Image } from '@tarojs/components';
-import "./index.scss";
 import { useDispatch, useSelector } from '@tarojs/redux';
 import { BookState } from 'pages/Home/model';
-import PlaceholderView from 'components/PlaceholderView';
 import MyIcon from 'components/myIcon';
+import "./index.scss";
 
 export default function Index() {
   const dispatch = useDispatch()

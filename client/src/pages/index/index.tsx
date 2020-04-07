@@ -8,12 +8,15 @@ import Accounts from "pages/Accounts";
 import Feeds from 'pages/Feeds'
 import Profile from "pages/Profile";
 
+import PlaceholderView from 'components/PlaceholderView';
+
 import { GlobalState, SetBooleanStatus } from "store/global";
 import {loginApi} from './api';
 import "./index.scss";
 
+
 export const titles = {
-  0: '首页',
+  0: '发现',
   1: '订阅号',
   2: '账户',
   3: '我的'
@@ -102,6 +105,9 @@ export default function Layout() {
         {current === 2 && <Accounts />}
         {current === 3 && <Profile />}
       </View>
+    
+      <View style={{height: '60Px', background: 'rgba(0, 0, 0, 0)'}} />
+      <PlaceholderView />
       
       <RealTabBar
         onClick={(current: number) => { setCurrent(current); setInitial(false); }}
@@ -112,7 +118,7 @@ export default function Layout() {
         tintColor="#000"
         fixed
         tabList={[
-          {text: "首页", iconPath: "home"},
+          {text: "发现", iconPath: "home"},
           {text: "订阅号", iconPath: "RectangleCopy62"},
           {text: "账户", iconPath: "RectangleCopy162"},
           {text: "我的", iconPath: "RectangleCopy49"}

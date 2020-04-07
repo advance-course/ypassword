@@ -3,6 +3,8 @@ import { View, Text } from "@tarojs/components";
 import MyIcon from "components/myIcon";
 import classNames from "classnames";
 import "./index.scss";
+import { useSelector } from '@tarojs/redux';
+import { GlobalState } from 'store/global';
 import PlaceholderView from 'components/PlaceholderView';
 
 interface TabItem {
@@ -37,8 +39,11 @@ export default function RealTabBar({
     current !== index && onClick(index);
     current !== index && setAnimated(true);
   };
+  const global = useSelector<any, GlobalState>(state => state.global)
+  const {placeHolderHeight} = global.systemInfo
+
   return (
-    <View className="tab-bar">
+    <View className="tab-bar" style={{height: `${120 + placeHolderHeight!}rpx`}}>
       <View className="tab-bar-wrap">
         {tabList.map((item, index) => (
           <View

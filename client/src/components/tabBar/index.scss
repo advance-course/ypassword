@@ -4,14 +4,17 @@ $iconGroupWidth: 60px;
 $iconGroupHeight: 60px;
 
 .tab-bar {
-  height: 120px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   font-size: 32px;
   background: #FFF;
   border-top: 1px solid #ececec;
 
   &-wrap {
     display: flex;
-    height: 100%;
+    height: 60Px;
     align-items: center;
     background: #ffffff;
 

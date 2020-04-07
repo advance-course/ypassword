@@ -5,9 +5,10 @@ import { GlobalState } from 'store/global';
 
 function PlaceholderView() {
   const global = useSelector<any, GlobalState>(state => state.global)
+  const {placeHolderHeight} = global.systemInfo
 
   return (
-    <View style={{height: global.systemInfo.placeHolderHeight}} />
+    <View style={{height: `${placeHolderHeight}rpx`, background: 'rgba(0, 0, 0, 0)'}} />
   )
 }
 

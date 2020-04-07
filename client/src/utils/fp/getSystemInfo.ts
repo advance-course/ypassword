@@ -90,6 +90,10 @@ export default function getSystemInfo(): SystemInfo {
   if (systemInfo.safeArea && systemInfo.safeArea.height) {
     systemInfo.placeHolderHeight = systemInfo.screenHeight - systemInfo.safeArea.height - systemInfo.statusBarHeight
   }
+  // 不知为何，小米mix2s算出来结果为-28
+  if (systemInfo.placeHolderHeight < 0) {
+    systemInfo.placeHolderHeight = 0
+  }
 
   return systemInfo;
 }
