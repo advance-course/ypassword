@@ -1,48 +1,77 @@
 .container {
   height: 100%;
   background-color: #ededed;
-  .sp_item {
-    width: 100%;
-    height: 150Px;
-    position: relative;
+  
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    flex: 1;
   }
-  .sp_img {
-    width: 100%;
+
+  .book {
+    box-sizing: border-box;
     height: 100%;
+    padding: 20Px;
   }
-  .sp_titleview {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    height: 30Px;
+
+  .inner_wrap {
+    box-sizing: border-box;
+    background-color: #FFF;
+    height: 100%;
+    border-radius: 8Px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .sp_titletext {
-    font-size: 14Px;
-    color: #FFF;
-  }
-  .wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 33.33%);
-  }
-  .auth {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    height: 120Px;
-    transition: .5s;
-    &:active {
-      background-color: #ffe100;
-    }
-    .title {
+    justify-content: space-between;
+  }
+
+  .top {
+    padding-top: 35Px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bottom {
+    padding-bottom: 35Px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cover {
+    width: 120Px;
+    height: 200Px;
+    border: 1px solid #ededed;
+    border-radius: 4Px;
+  }
+
+  .name {
+    font-size: 16Px;
+    margin-top: 15Px;
+  }
+
+  .author_avatar {
+    width: 40Px;
+    height: 40Px;
+    border-radius: 25Px;
+  }
+
+  .author {
+    font-size: 14Px;
+    color: #999;
+    margin-top: 8Px;
+  }
+
+  .recommend_warp {
+    margin-top: 12Px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .recommend {
       font-size: 14Px;
-      color: #333;
-      margin-top: 2Px;
+      color: #999;
     }
   }
 }
