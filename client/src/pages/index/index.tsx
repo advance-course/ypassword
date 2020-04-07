@@ -82,8 +82,8 @@ export default function Layout() {
   }
 
   if (current === 0) {
-    Taro.setNavigationBarColor({backgroundColor: '#ffe100', frontColor: '#000000'})
-    Taro.setBackgroundColor({backgroundColor: '#ffe100', backgroundColorTop: '#ffe100', backgroundColorBottom: '#ededed'})
+    Taro.setNavigationBarColor({backgroundColor: '#ededed', frontColor: '#000000'})
+    Taro.setBackgroundColor({backgroundColor: '#ededed', backgroundColorTop: '#ededed', backgroundColorBottom: '#ededed'})
   }
   if (current === 1) {
     Taro.setNavigationBarColor({backgroundColor: '#ededed', frontColor: '#000000'})

@@ -1,5 +1,5 @@
 import Taro, { useState, useEffect } from '@tarojs/taro';
-import { View, Label, Image } from '@tarojs/components';
+import { View, Label, Image, Block } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
 import { UserInfo } from 'pages/index/api';
 import './index.scss';
@@ -55,12 +55,22 @@ export default function Profile() {
         />
 
         {userInfo.type == 1 && (
-          <AtListItem
-            title="用户管理"
-            extraText=""
-            arrow="right"
-            onClick={() => Taro.navigateTo({ url: '/pages/toB/users/index' })}
-          />
+          <Block>
+            <AtListItem
+              title="用户管理"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/toB/users/index' })}
+            />
+
+            <AtListItem
+              title="文章管理"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/toB/articles/index' })}
+            />
+          </Block>
+          
         )}
 
         <AtListItem

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "新增书籍",
+    "value": {
+      "$url": "v1/add",
+      "author": "这波能反杀、",
+      "author_avatar": "http://wx.qlogo.cn/mmhead/Q3auHgzwzM6wRRzbU88llribqicWybcMUcibwLicrAticibV2xhdgRGyKN2A/0",
+      "cover": "https://mmbiz.qpic.cn/mmbiz_png/Kn1wMOibzLcHRAGGIYCJibQBvkWRMvho0VSdicicgmGMRjXZQ7fXVBLAulV5NrMNAuIqmnsErwrZzZF2hcSXHyfL3g/0?wx_fmt=png",
+      "introduction": "hello world",
+      "name": "React高手进阶",
+      "recommend": 0,
+      "reward_code": "",
+      "star": 5
+    }
+  },
+  {
+    "name": "列表",
+    "value": {
+      "$url": "v1/list"
+    }
+  }
+]
