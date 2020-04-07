@@ -44,9 +44,6 @@ export default function Index() {
           ))}
         </Swiper>
       ) : null}
-      
-      <View style={{height: '60Px'}} />
-      <PlaceholderView />
     </View>
   );
 }

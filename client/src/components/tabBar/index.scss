@@ -3,27 +3,11 @@ $squareHeight: 28px;
 $iconGroupWidth: 60px;
 $iconGroupHeight: 60px;
 
-@supports (bottom: constant(safe-area-inset-bottom)) {
-  .tab-bar {
-    padding-bottom: constant(safe-area-inset-bottom);
-  }
-}
-
-@supports (bottom: env(safe-area-inset-bottom)) {
-  .tab-bar {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
 .tab-bar {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
   height: 120px;
   font-size: 32px;
   background: #FFF;
-  border-top: 3px solid #ececec;
+  border-top: 1px solid #ececec;
 
   &-wrap {
     display: flex;

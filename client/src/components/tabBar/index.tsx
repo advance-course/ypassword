@@ -1,8 +1,9 @@
-import Taro, { useState, useMemo, useCallback, useEffect } from "@tarojs/taro";
+import Taro, { useState } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import MyIcon from "components/myIcon";
 import classNames from "classnames";
 import "./index.scss";
+import PlaceholderView from 'components/PlaceholderView';
 
 interface TabItem {
   text: string;
@@ -98,6 +99,7 @@ export default function RealTabBar({
           </View>
         ))}
       </View>
+      <PlaceholderView />
     </View>
   );
 }

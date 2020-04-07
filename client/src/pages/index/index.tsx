@@ -96,10 +96,13 @@ export default function Layout() {
   
   return (
     <View className="container">
-      {current === 0 && <Home />}
-      {current === 1 && <Feeds />}
-      {current === 2 && <Accounts />}
-      {current === 3 && <Profile />}
+      <View style={{flex: 1, overflow: 'scroll'}}>
+        {current === 0 && <Home />}
+        {current === 1 && <Feeds />}
+        {current === 2 && <Accounts />}
+        {current === 3 && <Profile />}
+      </View>
+      
       <RealTabBar
         onClick={(current: number) => { setCurrent(current); setInitial(false); }}
         initial={initial}
