@@ -1,8 +1,7 @@
 import Taro, { useState, useEffect } from '@tarojs/taro';
 import { View, Label, Image } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
-import { UserInfo } from 'pages/Auth/interface';
-
+import { UserInfo } from 'pages/index/api';
 import './index.scss';
 
 export default function Profile() {
@@ -16,7 +15,7 @@ export default function Profile() {
   return (
     <View className="profile_container">
       <View className="userInfoContainer">
-        <Image src={userInfo.avatarUrl} className="avatar" />
+        <Image src={userInfo.avatarUrl!} className="avatar" />
         <Label className="username">{userInfo.nickName}</Label>
         <Label className="city">{userInfo.city}</Label>
       </View>
@@ -34,25 +33,47 @@ export default function Profile() {
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Settings/Lock/index' })}
         />
-        <AtListItem
+        {/* <AtListItem
           title="不可变数据集案例"
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Immutable/index' })}
-        />
+        /> */}
 
-        <AtListItem
+        {/* <AtListItem
           title="Taro UI"
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Taroui/index' })}
-        />
+        /> */}
         
         <AtListItem
-          title="图标"
+          title="图标库"
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/examples/icon/index' })}
+        />
+
+        {userInfo.type == 1 && (
+          <AtListItem
+            title="用户管理"
+            extraText=""
+            arrow="right"
+            onClick={() => Taro.navigateTo({ url: '/pages/toB/users/index' })}
+          />
+        )}
+
+        <AtListItem
+          title="开发团队"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/extra/devteam/index' })}
+        />
+        <AtListItem
+          title="联系作者"
+          extraText=""
+          arrow="right"
+          onClick={() => Taro.navigateTo({ url: '/pages/extra/author/index' })}
         />
       </AtList>
     </View>
