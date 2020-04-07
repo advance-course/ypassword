@@ -18,3 +18,6 @@ export function createUUID() {
     return v.toString(16);
   });
 }
+
+
+export {default as getSystemInfo} from './fp/getSystemInfo'

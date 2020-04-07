@@ -1,20 +1,3 @@
-@supports (bottom: constant(safe-area-inset-bottom)) {
-  .container {
-    padding-bottom: constant(safe-area-inset-bottom);
-  }
-}
-
-@supports (bottom: env(safe-area-inset-bottom)) {
-  .container {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-
 .container {
   height: 100%;
-
-  .space {
-    height: 60Px;
-  }
 }
