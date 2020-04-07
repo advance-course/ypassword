@@ -20,10 +20,13 @@ export default function List() {
 
   useEffect(() => {
     if (loading) {
+      Taro.showLoading({title: '加载中...'})
       fetchList().then(res => {
         setLoading(false);
         setList(res.data.data);
-      });
+      })
+    } else {
+      Taro.hideLoading();
     }
   }, [loading]);
 

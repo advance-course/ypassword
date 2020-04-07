@@ -10,11 +10,11 @@
   padding: 10Px;
   box-sizing: border-box;
   .movable-area {
-    height: 60Px;
+    height: 100%;
     width: calc(100vw - 100Px);
   }
   .movable-view {
-    height: 60Px;
+    height: 100%;
     width: 100vw;
     background: #fff;
     z-index: 999;
@@ -22,6 +22,8 @@
   .card-wraper {
     position: relative;
     display: flex;
+    height: 100%;
+    width: calc(100vw - 20Px);
     align-items: center;
     padding: 8rPx 0 20rPx 20rPx;
     box-sizing: border-box;
@@ -32,6 +34,10 @@
     }
     .name {
       flex: 1;
+    }
+    .arrow-right {
+      width: 20Px;
+      height: 20Px;
     }
   }
   .delete-btn {
