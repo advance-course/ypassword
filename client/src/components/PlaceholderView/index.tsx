@@ -8,7 +8,7 @@ function PlaceholderView() {
   const {placeHolderHeight} = global.systemInfo
 
   return (
-    <View style={{height: `${placeHolderHeight}rpx`, background: 'rgba(0, 0, 0, 0)'}} />
+    <View style={{height: `${placeHolderHeight!/2}Px`, background: 'rgba(0, 0, 0, 0)'}} />
   )
 }
 

@@ -130,6 +130,6 @@ export default function Layout() {
 
 Layout.config = {
   navigationBarTitleText: "",
-  navigationBarBackgroundColor: "#ffe100",
+  navigationBarBackgroundColor: "#FFFFFF",
   navigationBarTextStyle: "black"
 } as Config;

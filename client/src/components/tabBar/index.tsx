@@ -43,7 +43,7 @@ export default function RealTabBar({
   const {placeHolderHeight} = global.systemInfo
 
   return (
-    <View className="tab-bar" style={{height: `${120 + placeHolderHeight!}rpx`}}>
+    <View className="tab-bar" style={{height: `${60 + placeHolderHeight!/2}Px`}}>
       <View className="tab-bar-wrap">
         {tabList.map((item, index) => (
           <View
