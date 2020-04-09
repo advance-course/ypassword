@@ -13,6 +13,9 @@ exports.main = async (event, context) => {
   });
 
   const db = cloud.database();
+  const _ = db.command
+  const $ = _.aggregate
+  
   const book = db.collection('book');
   const app = new TcbRouter({ event });
   
@@ -63,31 +66,40 @@ exports.main = async (event, context) => {
    */
   app.router('v1/list', async (ctx) => {
     const {current = 1, pageSize = 10, keyword = '', gzhaoId} = event;
+    const start = pageSize * (current - 1);
+    
     try {
-      let x = book;
-      if (gzhaoId) {
-        x = await book.where({gzhaoId})
-      }
-      if (keyword) {
-        x = await book.where(db.command.or([
-          {
-            title: db.RegExp({
-              regexp: keyword
-            })
-          }
-        ]))
-      }
+      const ins = book.aggregate()
+      const res = await ins
+      .limit(pageSize).skip(start)
+      .lookup({
+        from: 'book_recommend',
+        let: {
+          id: '$_id'
+        },
+        pipeline: $.pipeline().match(_.expr($.and([
+          $.eq(['$book_id', '$$id']),
+          $.eq(['$open_id', OPENID])
+        ]))).done(),
+        as: 'recommend_list'
+      })
+      .addFields({
+        isRecommend: $.gt([$.size('$recommend_list'), 0])
+      })
+      .project({
+        recommend_list: 0
+      })
+      .end()
 
-      const count = await x.count();
-      const total = count.total || 0;
+      const countRes = await ins.count('total').end();
+      const total = countRes.list[0].total
+
       let lastPage = false;
       if (current * pageSize >= total) {
         lastPage = true;
       }
-      const start = pageSize * (current - 1);
-      const list = await x.skip(start).limit(pageSize).get();
 
-      const result = { pageSize, current, lastPage, total, list: list.data };
+      const result = { pageSize, current, lastPage, total, list: res.list };
       ctx.body = {
         success: true,
         code: 200,
