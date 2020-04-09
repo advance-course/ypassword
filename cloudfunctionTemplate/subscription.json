@@ -1,0 +1,25 @@
+[
+  {
+    "name": "列表",
+    "value": {
+      "$url": "v1/list"
+    }
+  },
+  {
+    "name": "新增",
+    "value": {
+      "$url": "v1/add",
+      "logo": "xx",
+      "name": "测试",
+      "desc": "xxtest",
+      "userid": "3a573aaa5e7ca795000eb0280fa67a08"
+    }
+  },
+  {
+    "name": "更新",
+    "value": {
+      "$url": "v1/update",
+      "logo": "xxxx"
+    }
+  }
+]
