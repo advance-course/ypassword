@@ -1,5 +1,5 @@
 import Taro, {useState, useEffect} from '@tarojs/taro';
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import { AtList, AtInput, AtButton } from 'taro-ui';
 import LogoSelect from "components/LogoSelect";
 import { addCategoryApi, queryTheCategoryApi, updateCategoryApi } from '../api'
@@ -48,8 +48,13 @@ export default function Category() {
   }
 
   function addCategory () {
-    //同步设置
+    //同步设置s
     params.userID = userInfo._id
+
+    if (!params.name || !params.imgUrl) {
+      Taro.showToast({title: '请填写必填项', duration: 1000, icon: 'none'})
+      return
+    }
 
     Taro.showLoading({
       title: '正在提交...',
@@ -95,14 +100,17 @@ export default function Category() {
             setParams({...params, name: v})
           }}
         ></AtInput>
-        <Image
-          className="image"
-          src={params.imgUrl}
-          mode='widthFix'>
-        </Image>
-        <LogoSelect title="选择logo" selectText="选择logo按钮" onSelectCallback={handleSelectImage} />
+        <View>
+          {params.imgUrl &&
+          <Image
+            className="image"
+            src={params.imgUrl}
+            mode='widthFix'>
+          </Image>}
+        </View>
+        <LogoSelect title="选择logo" selectText="选择logo" onSelectCallback={handleSelectImage} />
       </AtList>
-      <View className="btnView">
+      <View className="btn-view">
         <AtButton className="add_btn" onClick={addCategory}>{btnText}</AtButton>
       </View>
     </View>

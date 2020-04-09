@@ -1,0 +1,56 @@
+.item {
+  position: relative;
+  width: 100vw;
+  height: 60Px;
+  z-index: 999;
+  display: flex;
+  background: white;
+  align-items: center; /*垂直居中*/
+  border-bottom: 1Px solid #f1f1f1;
+  box-sizing: border-box;
+  .movable-area {
+    height: 100%;
+    width: calc(100vw - 100Px);
+  }
+  .movable-view {
+    height: 100%;
+    width: 100vw;
+    background: #fff;
+    z-index: 999;
+  }
+  .card-wraper {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: calc(100vw - 20Px);
+    align-items: center;
+    padding: 8rPx 0 20rPx 20rPx;
+    box-sizing: border-box;
+    .img {
+      width: 40Px;
+      height: 40Px;
+      margin-right: 10Px;
+    }
+    .name {
+      flex: 1;
+    }
+    .arrow-right {
+      width: 20Px;
+      height: 20Px;
+    }
+  }
+  .delete-btn {
+    position: absolute;
+    top: 1Px;
+    bottom: 1Px;
+    right: 0;
+    width: 100Px;
+    font-family: PingFangSC-Regular;
+    font-size: 24rPx;
+    color: #ffffff;
+    line-height: 60Px;
+    z-index: 1;
+    background: #e66671;
+    text-align: center;
+  }
+}
