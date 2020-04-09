@@ -1,4 +1,5 @@
 import Taro, { useEffect } from '@tarojs/taro';
+import classnames from 'classnames'
 import { View, Swiper, SwiperItem, Text, Image } from '@tarojs/components';
 import { useDispatch, useSelector } from '@tarojs/redux';
 import { BookState } from 'pages/Home/model';
@@ -18,11 +19,24 @@ export default function Index() {
     }
   }, [])
 
+  function recommendHandler(index: number, book: book.Item) {
+    if (book.isRecommend) {
+      return;
+    }
+    book.isRecommend = true;
+    book.recommend = book.recommend! + 1;
+    dispatch({
+      type: 'book/recommend',
+      payload: { index, book }
+    })
+    console.log(index, book);
+  }
+
   return (
     <View className="container">
       {list.list.length ? (
         <Swiper className="content">
-          {list.list.map((book) => (
+          {list.list.map((book, i) => (
             <SwiperItem className="book" key={book._id}>
               <View className="inner_wrap">
                 <View className="top">
@@ -33,9 +47,9 @@ export default function Index() {
                 <View className="bottom">
                   <Image className="author_avatar" src={book.author_avatar!} mode="aspectFill" />
                   <View className="author">{book.author}</View>
-                  <View className="recommend_warp">
-                    <MyIcon name="heart" size={30} color="#999" />
-                    <Text className="recommend">{book.recommend}</Text>
+                  <View className="recommend_warp" onClick={() => recommendHandler(i, book)}>
+                    <MyIcon name="heart" size={30} color={book.isRecommend ? "red" : '#999999'} style={{fontWeight: 'bold'}} />
+                    <Text className={classnames('recommend', {active: book.isRecommend})}>{book.recommend}</Text>
                   </View>
                 </View>
               </View>

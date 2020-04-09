@@ -23,3 +23,13 @@ export function bookAddApi(params: book.Item) {
 export function bookUpdateApi(params: book.Item) {
   return http.post<string>('user/v1/update', params);
 }
+
+/** 
+ * @desc 点赞 
+ * @param {book_id}
+ * */
+export function recommendBookApi(book_id: string) {
+  return http.post<string>('recommend/v1/add', {
+    book_id
+  })
+}

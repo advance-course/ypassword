@@ -71,6 +71,9 @@
     .recommend {
       font-size: 14Px;
       color: #999;
+      &.active {
+        color: red;
+      }
     }
   }
 }

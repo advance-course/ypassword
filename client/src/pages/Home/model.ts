@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import {Model} from 'utils/dva'
 import { PaginationParam, PageData, defPageData, defPaginationParams, Page, mergePagination } from 'hooks/usePagination/entity'
-import { bookListApi } from './api'
+import { bookListApi, recommendBookApi } from './api'
 
 export interface BookState {
   loading: boolean,
@@ -44,6 +44,23 @@ export default {
         yield put({ type: 'increasing', payload: false })
         yield put({type: 'loading', payload: false})
       }
+    },
+    *recommend({payload}, {call, put}) {
+      const {book} = payload;
+      try {
+        yield put({
+          type: 'addRecommend',
+          payload
+        })
+        yield call(recommendBookApi, book._id);
+        Taro.showToast({
+          title: '已点赞',
+          icon:'success'
+        })
+        // TODO 调用新增推荐的接口
+      } catch(e) {
+
+      }
     }
   },
   reducers: {
@@ -71,6 +88,18 @@ export default {
       return {
         ...state,
         params: action.payload
+      }
+    },
+    addRecommend(state, action: any) {
+      const {index, book} = action.payload;
+      const list = state.list.list;
+      list[index] = book;
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          list: [...list]
+        }
       }
     }
   }
