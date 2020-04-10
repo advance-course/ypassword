@@ -70,7 +70,15 @@ export default function Profile() {
               onClick={() => Taro.navigateTo({ url: '/pages/toB/articles/index' })}
             />
           </Block>
-          
+        )}
+
+        {userInfo.type !== 4 && (
+          <AtListItem
+            title="我的公众号"
+            extraText=""
+            arrow="right"
+            onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/Subscribtion/index' })}
+          />
         )}
 
         <AtListItem

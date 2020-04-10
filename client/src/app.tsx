@@ -19,6 +19,7 @@ class App extends Component {
       "pages/DrawUnlock/index",
       "pages/Profile/subpages/RSAKey/index",
       "pages/Profile/subpages/PrivateKey/index",
+      "pages/Profile/subpages/Subscribtion/index",
       "pages/Auth/index",
       "pages/UserInfo/index",
       "pages/Accounts/subpages/Detail/index",
