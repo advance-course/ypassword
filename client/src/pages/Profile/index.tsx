@@ -74,7 +74,7 @@ export default function Profile() {
 
         {userInfo.type !== 4 && (
           <AtListItem
-            title="我的公众号"
+            title="专属订阅号"
             extraText=""
             arrow="right"
             onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/Subscribtion/index' })}
