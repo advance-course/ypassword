@@ -21,5 +21,12 @@
       "$url": "v1/update",
       "logo": "xxxx"
     }
+  },
+  {
+    "name": "查询用户信息",
+    "value": {
+      "$url": "v1/info",
+      "userid": "3a573aaa5e81bfdf0023b72e5d5ef1af"
+    }
   }
 ]

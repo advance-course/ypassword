@@ -1,0 +1,59 @@
+.loading_wrap {
+  height: 30Px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20Px;
+  font-size: 14Px;
+  width: 100%;
+}
+
+.container {
+  height: 100%;
+  background: #ededed;
+  .review {
+    background-color: #FFF;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15Px;
+    padding: 20Px;
+
+    .left {
+      width: 70Px;
+      height: 70Px;
+      margin-right: 20Px;
+    }
+
+    .logo {
+      width: 70Px;
+      height: 70Px;
+      border-radius: 35Px;
+    }
+
+    .right {
+      flex: 1;
+    }
+
+    .name {
+      font-size: 20Px;
+      font-weight: bold;
+    }
+
+    .author {
+      font-size: 13Px;
+      color: #999;
+      margin-top: 2Px;
+    }
+    .desc {
+      font-size: 14Px;
+      line-height: 1.7;
+      color: #666;
+      margin-top: 10Px;
+    }
+  }
+
+  .btn_wrapper {
+    margin: 30Px auto;
+    width: 200Px;
+  }
+}

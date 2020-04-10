@@ -41,7 +41,7 @@ exports.main = async (event, context) => {
     }
   })
 
-  app.router('v1/user/subscription', async (ctx, next) => {
+  app.router('v1/info', async (ctx, next) => {
     const {userid} = event;
 
     try {
