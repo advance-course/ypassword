@@ -12,7 +12,8 @@ const tagStyle = {
   1: 'supermana',
   2: 'mana',
   3: 'normal',
-  4: 'vip'
+  4: 'vip',
+  5: 'author'
 }
 
 export default function Users() {  

@@ -27,14 +27,15 @@ export interface UserInfo extends WxUserinfo {
    * 3： 普通用户
    * 4： 付费用户
    */
-  type?: 1 | 2 | 3 | 4,
+  type?: 1 | 2 | 3 | 4 | 5,
 }
 
 export const userTypeDesc = {
   1: '超级管理员',
   2: '管理员',
   3: '普通用户',
-  4: '尊贵VIP'
+  4: '尊贵VIP',
+  5: '签约作者'
 }
 
 export const userTypes = [
@@ -53,6 +54,10 @@ export const userTypes = [
   {
     value: 4,
     desc: '尊贵VIP',
+  },
+  {
+    value: 5,
+    desc: '签约作者',
   },
 ]
 
