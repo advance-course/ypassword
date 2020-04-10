@@ -41,6 +41,25 @@ exports.main = async (event, context) => {
     }
   })
 
+  app.router('v1/user/subscription', async (ctx, next) => {
+    const {userid} = event;
+
+    try {
+      const res = await subscription.where({
+        userid
+      }).get()
+
+      let data = {}
+      if (res.data.length) {
+        data = res.data[0]
+      }
+
+      ctx.body = { success: true, code: 200, message: '操作成功', data }
+    } catch (e) {
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
+
   /**
    * @param {_id}
    * @desc 更新订阅号
