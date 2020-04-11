@@ -45,11 +45,11 @@ export default function Index() {
                 </View>
                 
                 <View className="bottom">
-                  <Image className="author_avatar" src={book.author_avatar!} mode="aspectFill" />
-                  <View className="author">{book.author}</View>
+                  <Image className="author_avatar" src={book.subscription!.logo!} mode="aspectFill" />
+                  <View className="author">{book.subscription!.author}</View>
                   <View className="recommend_warp" onClick={() => recommendHandler(i, book)}>
                     <MyIcon name="heart" size={30} color={book.isRecommend ? "red" : '#999999'} style={{fontWeight: 'bold'}} />
-                    <Text className={classnames('recommend', {active: book.isRecommend})}>{book.recommend}</Text>
+                    <Text className={classnames('recommend', {active: book.isRecommend})}>{book.recommend || 0}</Text>
                   </View>
                 </View>
               </View>
