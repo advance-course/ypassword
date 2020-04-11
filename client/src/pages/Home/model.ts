@@ -1,13 +1,16 @@
 import Taro from '@tarojs/taro'
 import {Model} from 'utils/dva'
 import { PaginationParam, PageData, defPageData, defPaginationParams, Page, mergePagination } from 'hooks/usePagination/entity'
-import { bookListApi, recommendBookApi } from './api'
+import { bookListApi, recommendBookApi, bookSubListApi, bookAddApi, bookUpdateApi } from './api'
+import { Result } from 'utils/http'
 
 export interface BookState {
   loading: boolean,
   increasing: boolean,
   params: PaginationParam,
-  list: PageData<book.Item>
+  list: PageData<book.Item>,
+  subList: book.Item[],
+  bookInfo: book.Item
 }
 
 export default {
@@ -16,7 +19,9 @@ export default {
     loading: true,
     increasing: false,
     params: defPaginationParams,
-    list: defPageData
+    list: defPageData,
+    subList: [],
+    bookInfo: {}
   },
   effects: {
     *fetchList({payload}, {call, put, select}) {
@@ -61,10 +66,48 @@ export default {
       } catch(e) {
 
       }
+    },
+    *fetchSubList({payload}, {call, put}) {
+      try {
+        const res: Result<book.Item[]> = yield call(bookSubListApi, payload);
+        yield put({
+          type: 'subList',
+          payload: res.data
+        })
+        Taro.stopPullDownRefresh();
+      } catch (e) {
+        Taro.showToast({
+          title: e.message,
+          icon: 'none'
+        })
+        Taro.stopPullDownRefresh();
+      }
+    },
+    *add({payload}, {call}) {
+      Taro.showLoading({title: '添加中...'})
+      try {
+        yield call(bookAddApi, payload)
+        Taro.hideLoading()
+        Taro.showToast({title: '添加成功', icon: 'success'})
+      } catch (e) {
+        Taro.hideLoading()
+        Taro.showToast({ title: e.message })
+      }
+    },
+    *update({payload}, {call}) {
+      Taro.showLoading({ title: '更新中...' })
+      try {
+        yield call(bookUpdateApi, payload)
+        Taro.hideLoading()
+        Taro.showToast({ title: '更新成功', icon: 'success' })
+      } catch (e) {
+        Taro.hideLoading()
+        Taro.showToast({ title: e.message })
+      }
     }
   },
   reducers: {
-    updateList(state, action: any) {
+    updateList(state, action) {
       return {
         ...state,
         list: action.payload,
@@ -72,25 +115,25 @@ export default {
         loading: false
       }
     }, 
-    loading(state, action: any) {
+    loading(state, action) {
       return {
         ...state,
         loading: action.payload
       }
     },
-    increasing(state, action: any) {
+    increasing(state, action) {
       return {
         ...state,
         increasing: action.payload
       }
     },
-    updateParams(state, action: any) {
+    updateParams(state, action) {
       return {
         ...state,
         params: action.payload
       }
     },
-    addRecommend(state, action: any) {
+    addRecommend(state, action) {
       const {index, book} = action.payload;
       const list = state.list.list;
       list[index] = book;
@@ -100,6 +143,18 @@ export default {
           ...state.list,
           list: [...list]
         }
+      }
+    },
+    subList(state, action) {
+      return {
+        ...state,
+        subList: action.payload
+      }
+    },
+    info(state, action) {
+      return {
+        ...state,
+        bookInfo: {...state.bookInfo, ...action.payload}
       }
     }
   }

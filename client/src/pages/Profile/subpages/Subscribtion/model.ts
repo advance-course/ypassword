@@ -1,9 +1,9 @@
 import Taro from '@tarojs/taro'
 import { Model } from 'utils/dva'
-import { subscriptionAddApi, subscriptionInfoApi, Subscription } from './api'
+import { subscriptionAddApi, subscriptionInfoApi } from './api'
 
 export interface SubscriptionState {
-  info: Subscription,
+  info: subscribe.Info,
   loading: boolean,
 }
 

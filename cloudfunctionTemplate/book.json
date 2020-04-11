@@ -18,5 +18,19 @@
     "value": {
       "$url": "v1/list"
     }
+  },
+  {
+    "name": "详情",
+    "value": {
+      "$url": "v1/info",
+      "_id": "79a2c43f5e8c1fd0005f5fe9345a9bcc"
+    }
+  },
+  {
+    "name": "签约作者书籍列表",
+    "value": {
+      "$url": "v1/sbscribe/list",
+      "userid": "dc65fe3e5e81617f001d5c2b1b0571db"
+    }
   }
 ]

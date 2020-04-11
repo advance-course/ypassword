@@ -2,7 +2,6 @@ import Taro, { Config, useEffect, useState } from '@tarojs/taro'
 import {View, Image} from '@tarojs/components'
 import { useSelector, useDispatch } from '@tarojs/redux'
 import { SubscriptionState } from 'pages/Profile/subpages/Subscribtion/model'
-import { Subscription } from 'pages/Profile/subpages/Subscribtion/api'
 import { AtList, AtInput, AtButton } from 'taro-ui'
 import './index.scss'
 
@@ -11,7 +10,7 @@ export default function Subscribtion() {
   const subscription = useSelector<any, SubscriptionState>(state => state.subscription)
   const {loading, info} = subscription;
 
-  const [params, setParams] = useState<Subscription>({})
+  const [params, setParams] = useState<subscribe.Info>({})
 
   useEffect(() => {
     Taro.getStorage({ key: 'userInfo' }).then(res => {

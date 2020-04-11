@@ -10,12 +10,12 @@ export interface Subscription {
   author?: string
 }
 
-export function subscriptionAddApi(params: Subscription) {
+export function subscriptionAddApi(params: subscribe.Info) {
   return http.post<string>('subscription/v1/add', params)
 }
 
 export function subscriptionInfoApi(userid: string) {
-  return http.get<Subscription>('subscription/v1/info', {
+  return http.get<subscribe.Info>('subscription/v1/info', {
     userid
   })
 }

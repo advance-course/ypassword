@@ -6,15 +6,6 @@ export function bookListApi(params: PaginationParam) {
   return http.get<Page<book.Item>>('book/v1/list', params);
 }
 
-/** 
- * @desc 新增书籍
- * @param {params} book.Item
- * @return bookId
- * */
-export function bookAddApi(params: book.Item) {
-  return http.post<string>('book/v1/add', params);
-}
-
 /**
  * @desc 更新文章配置
  * @param {params} book.Item
@@ -32,4 +23,17 @@ export function recommendBookApi(book_id: string) {
   return http.post<string>('recommend/v1/add', {
     book_id
   })
+}
+
+export function bookSubListApi(userid: string) {
+  return http.get<subscribe.Info[]>('book/v1/sbscribe/list', {
+    userid
+  })
+}
+
+/** 
+ * @desc 新增书籍配置
+ * */
+export function bookAddApi(params: subscribe.Info) {
+  return http.post<string>('article/v1/add', params);
 }

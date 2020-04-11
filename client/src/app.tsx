@@ -41,6 +41,8 @@ class App extends Component {
       "pages/toB/banner/index",
       "pages/toB/articles/index",
       "pages/toB/articles/subpages/Editor/index",
+      "pages/toB/books/index",
+      "pages/toB/books/subpages/Editor/index",
       "pages/toB/categoryIcon/index",
 
       // 额外功能，主功能之外的扩展

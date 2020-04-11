@@ -61,13 +61,23 @@ export interface EffectsCommandMap {
 export interface EffectsMapObject {
   [key: string]: Effect | EffectWithType;
 }
+export type Reducer2<S, A> = (state: S, action: A) => S
+
+export type ReducersMapObject2<S> = {
+  [key: string]: Reducer2<S, ActionWithPayload>
+}
+
 export interface ReducerEnhancer {
   (reducer: Reducer<any>): void;
 }
 export interface SubscriptionAPI {
   dispatch: Dispatch<any>;
 }
-export type ActionWithPayload = { type: string; payload: any };
+export type ActionWithPayload = { 
+  type: string; 
+  payload: any,
+  [key: string]: any
+};
 export type EffectType = "takeEvery" | "takeLatest" | "watcher" | "throttle";
 export type EffectWithType = [Effect, { type: EffectType }];
 export type Effect = (
@@ -85,7 +95,7 @@ export interface SubscriptionsMapObject {
 export interface Model<T> {
   namespace: string;
   state: T;
-  reducers?: ReducersMapObject | ReducersMapObjectWithEnhancer;
+  reducers?: ReducersMapObject2<T>;
   effects?: EffectsMapObject;
   subscriptions?: SubscriptionsMapObject;
 }

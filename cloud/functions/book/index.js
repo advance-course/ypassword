@@ -111,5 +111,30 @@ exports.main = async (event, context) => {
     }
   })
 
+  /**
+   * 查询书籍详细信息
+   * @param {id} 书籍id
+   */
+  app.router('v1/info', async (ctx) => {
+    const { _id } = event;
+    try {
+      const res = await book.doc(_id).get()
+
+      ctx.body = { success: true, code: 200, message: '更新成功', data: res.data }
+    } catch (e) {
+      ctx.body = { success: false, code: errCode, message: errMsg }
+    }
+  })
+
+  app.router('v1/sbscribe/list', async (ctx) => {
+    const {userid} = event;
+    try {
+      const res = await book.where({userid}).get();
+      ctx.body = { success: true, code: 200, message: '操作成功', data: res.data }
+    } catch (e) {
+      ctx.body = { success: false, code: errCode, message: errMsg }
+    }
+  })
+
   return app.serve();
 }

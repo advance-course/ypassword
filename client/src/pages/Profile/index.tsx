@@ -73,12 +73,21 @@ export default function Profile() {
         )}
 
         {userInfo.type !== 4 && (
-          <AtListItem
-            title="专属订阅号"
-            extraText=""
-            arrow="right"
-            onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/Subscribtion/index' })}
-          />
+          <Block>
+            <AtListItem
+              title="专属订阅号"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/Subscribtion/index' })}
+            />
+
+            <AtListItem
+              title="书籍管理"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/toB/books/index' })}
+            />
+          </Block>
         )}
 
         <AtListItem

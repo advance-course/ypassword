@@ -9,6 +9,8 @@ declare namespace book {
     recommend?: number,
     isRecommend?: boolean, // 当前用户是否推荐这本书是否推荐
     reward_code?: string,
-    star?: number
+    star?: number,
+    userid?: string,
+    subscription?: subscribe.Info
   }
 }
