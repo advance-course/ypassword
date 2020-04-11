@@ -133,9 +133,9 @@ export default function ArticleEditor() {
         onCancel={() => setVisible(false)} 
         onClose={() => setVisible(false)}
       >
-        {subList.map(book => (
-          <AtActionSheetItem onClick={() => selectedBook(book)} key={book._id}>
-            {book.name}
+        {subList.map(item => (
+          <AtActionSheetItem onClick={() => selectedBook(item)} key={item._id}>
+            {item.name}
           </AtActionSheetItem>
         ))}
       </AtActionSheet>
