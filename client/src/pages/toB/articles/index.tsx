@@ -49,48 +49,61 @@ export default function Articles() {
     })
   }, 600)
 
+  const add = () => {
+    dispatch({
+      type: 'article/info',
+      payload: 'reset'
+    })
+    Taro.navigateTo({url: '/pages/toB/articles/subpages/Editor/index'})
+  }
+
+  const editor = (article: article.Item) => {
+    dispatch({
+      type: 'article/info',
+      payload: article
+    })
+    Taro.navigateTo({ url: '/pages/toB/articles/subpages/Editor/index' })
+  }
+
   return (
-    <PaginationProvider 
-      length={list.list.length} 
-      className="container" 
-      lastPage={!!list.pagination.lastPage} 
-      increasing={increasing}
-      loading={loading}
-    >
-      {/* <AtSearchBar className="serachbar" value="" onChange={searchHandler} placeholder="输入文章标题搜索" /> */}
+    <View className="container">
       <View className="search_wrap">
         <Input className="searchbar" placeholder="搜索" onInput={(e) => searchHandler(e.detail.value)} />
-        <Button className="add" onClick={() => Taro.navigateTo({url: '/pages/toB/articles/subpages/Editor/index'})}>新增</Button>
+        <Button className="add" onClick={add}>新增</Button>
       </View>
-
-      {list.list.map((item) => (
-        <View key={item._id} className="item_wrap">
-          <View className="top_warp">
-            <View className="top_left">
-              <Image className="gzhaoImg" src={item.gzhaoLogo!} mode="aspectFit" />
-              <Text className="gzhaoName">{item.gzhaoName}</Text>
-            </View>
-            <View className="top_right time">{item.time}</View>
-          </View>
-          <View className="content_wrap" onClick={() => Taro.navigateTo({url: `/pages/webview/index?url=${item.url}`})}>
-            <View className="content_left">
-              <View className="title">{item.title}</View>
-              <View className="xinfo">
-                <Text className="author">{item.author}</Text>
-                {item.original && <Text className="tag">原创</Text>}
-                <Text className="tag">{item.tag}</Text>
+      <PaginationProvider
+        length={list.list.length}
+        lastPage={!!list.pagination.lastPage}
+        increasing={increasing}
+        loading={loading}
+      >
+        {list.list.map((item) => (
+          <View key={item._id} className="item_wrap">
+            <View className="top_warp" onClick={() => editor(item)}>
+              <View className="top_left">
+                <Image className="gzhaoImg" src={item.subscription!.logo!} mode="aspectFit" />
+                <Text className="gzhaoName">{item.subscription!.name}</Text>
               </View>
+              <View className="top_right time">{item.time}</View>
             </View>
-            {item.thumb && (
-              <View className="content_right">
-                <Image className="thumb" src={item.thumb!} mode="aspectFill" />
+            <View className="content_wrap" onClick={() => Taro.navigateTo({ url: `/pages/webview/index?url=${item.url}` })}>
+              <View className="content_left">
+                <View className="title">{item.title}</View>
+                <View className="xinfo">
+                  <Text className="author">{item.subscription!.author}</Text>
+                  {item.original && <Text className="tag">原创</Text>}
+                </View>
               </View>
-            )}
+              {item.thumb && (
+                <View className="content_right">
+                  <Image className="thumb" src={item.thumb!} mode="aspectFill" />
+                </View>
+              )}
+            </View>
           </View>
-        </View>
-      ))}
-    </PaginationProvider>
-    
+        ))}
+      </PaginationProvider>
+    </View>
   );
 }
 

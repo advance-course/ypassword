@@ -1,37 +1,77 @@
-import Taro, { Config, useEffect, useState, useRouter } from "@tarojs/taro";
+import Taro, { Config, useEffect, useState } from "@tarojs/taro";
 import { View } from "@tarojs/components";
-import { AtInput, AtList, AtButton, AtSwitch } from "taro-ui";
+import { AtInput, AtList, AtButton, AtSwitch, AtListItem, AtActionSheet, AtActionSheetItem } from "taro-ui";
 import "./index.scss";
 import { useSelector, useDispatch } from '@tarojs/redux';
-import { AccountState } from 'pages/Accounts/model';
+import { ArticleState } from 'pages/toB/articles/model';
+import { SubscriptionState } from 'pages/Profile/subpages/Subscribtion/model';
+import { BookState } from 'pages/Home/model';
 
 export default function ArticleEditor() {
-  const router = useRouter()
-  const _params = router.params as article.Item;
-  const article = useSelector<any, AccountState>(state => state.article);
+  const [visible, setVisible] = useState(false)
+  const {info} = useSelector<any, ArticleState>(state => state.article)
+  const { info: scb_info } = useSelector<any, SubscriptionState>(state => state.subscription)
+  const {subList} = useSelector<any, BookState>(state => state.book)
+
   const dispatch = useDispatch()
-  const [params, setParams] = useState(_params);
-  const {title, thumb, url, author, original, time, tag } = params;
+  const {title, thumb, url, original, time, book = {} } = info;
 
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: title || '新增' });
   }, []);
 
+  useEffect(() => {
+    if (scb_info._id) {
+      dispatch({
+        type: 'article/info',
+        payload: { subscription: scb_info }
+      })
+    } else {
+      Taro.getStorage({ key: 'userInfo' }).then(res => {
+        dispatch({
+          type: 'subscription/fetchInfo',
+          payload: res.data._id
+        })
+      })
+    }
+  }, [scb_info])
+
+  useEffect(() => {
+    if (subList.length == 0) {
+      Taro.getStorage({ key: 'userInfo' }).then(res => {
+        dispatch({
+          type: 'book/fetchSubList',
+          payload: res.data._id
+        })
+      })
+    }
+  }, []);
+
   function save() {
-    params.gzhaoId = 'xxx';
-    params.gzhaoName = '不知非攻';
-    params.gzhaoLogo = 'http://wx.qlogo.cn/mmhead/Q3auHgzwzM6wRRzbU88llribqicWybcMUcibwLicrAticibV2xhdgRGyKN2A/0'
+    if (!info.subscription || !info.subscription._id) {
+      return Taro.showToast({
+        title: '请先绑定专属订阅号'
+      })
+    }
     dispatch({
-      type: 'account/addAccount',
-      payload: params
+      type: 'article/add',
+      payload: info
     });
+  }
+
+  function selectedBook(book: book.Item) {
+    setVisible(false)
+    dispatch({
+      type: 'article/info',
+      payload: {book}
+    })
   }
 
   return (
     <View className="container">
       <AtList>
         <AtInput 
-          onChange={(v: string) => { setParams({ ...params, title: v }) }} 
+          onChange={(v: string) => { dispatch({ type: 'article/info', payload: { title: v }}) }} 
           name="title"
           title="文章标题"
           type='text' 
@@ -41,7 +81,7 @@ export default function ArticleEditor() {
 
         <AtInput
           onChange={(v: string) => {
-            setParams({ ...params, url: v })
+            dispatch({ type: 'article/info', payload: { url: v } })
           }}
           name="url"
           title="文章地址"
@@ -52,7 +92,7 @@ export default function ArticleEditor() {
 
         <AtInput
           onChange={(v: string) => {
-            setParams({ ...params, thumb: v })
+            dispatch({ type: 'article/info', payload: { thumb: v } })
           }}
           name="thumb"
           title="缩略图"
@@ -61,20 +101,9 @@ export default function ArticleEditor() {
           value={thumb}
         />
 
-        <AtInput
-          onChange={(v: string) => {
-            setParams({ ...params, author: v })
-          }}
-          name="author"
-          title="作者"
-          type='text'
-          placeholder='请输入文章作者'
-          value={author}
-        />
-
         <AtSwitch
           onChange={(v) => {
-            setParams({ ...params, original: v })
+            dispatch({ type: 'article/info', payload: { original: v } })
           }}
           title='原创' 
           checked={original}
@@ -82,19 +111,34 @@ export default function ArticleEditor() {
 
         <AtInput
           onChange={(v: string) => {
-            setParams({ ...params, time: v })
+            dispatch({ type: 'article/info', payload: { time: v } })
           }}
           name="time"
-          title="文章发布时间"
+          title="发布时间"
           type='text'
           placeholder='请输入文章发布时间'
           value={time}
         />
+        <AtListItem title='书籍归属' arrow='right' onClick={() => setVisible(true)} extraText={book.name} />
       </AtList>
 
       <View className="btn_wrapper">
-        <AtButton type="primary" className="add_btn" onClick={save}>确定</AtButton>
+        <AtButton type="primary" className="add_btn" onClick={save}>保存</AtButton>
       </View>
+
+      <AtActionSheet 
+        isOpened={visible} 
+        cancelText='取消' 
+        title='你的书籍' 
+        onCancel={() => setVisible(false)} 
+        onClose={() => setVisible(false)}
+      >
+        {subList.map(book => (
+          <AtActionSheetItem onClick={() => selectedBook(book)} key={book._id}>
+            {book.name}
+          </AtActionSheetItem>
+        ))}
+      </AtActionSheet>
     </View>
   );
 }

@@ -1,13 +1,14 @@
 import Taro from '@tarojs/taro'
 import {Model} from 'utils/dva'
 import { PaginationParam, PageData, defPageData, defPaginationParams, Page, mergePagination } from 'hooks/usePagination/entity'
-import { articleListApi } from 'pages/toB/articles/api'
+import { articleListApi, articleAddApi } from 'pages/toB/articles/api'
 
 export interface ArticleState {
   loading: boolean,
   increasing: boolean,
   params: PaginationParam,
-  list: PageData<article.Item>
+  list: PageData<article.Item>,
+  info: article.Item
 }
 
 export default {
@@ -16,7 +17,8 @@ export default {
     loading: true,
     increasing: false,
     params: defPaginationParams,
-    list: defPageData
+    list: defPageData,
+    info: {}
   },
   effects: {
     *fetchList({payload}, {call, put, select}) {
@@ -43,6 +45,18 @@ export default {
         Taro.showToast({title: e.message});
         yield put({ type: 'increasing', payload: false })
         yield put({type: 'loading', payload: false})
+      }
+    },
+    *add({payload}, {call}) {
+      Taro.showLoading({title: '新增中...'})
+      try {
+        yield call(articleAddApi, payload)
+        Taro.hideLoading()
+        Taro.showToast({title: '添加成功', icon: 'success'})
+        Taro.navigateBack()
+      } catch (e) {
+        Taro.hideLoading()
+        Taro.showToast({title: e.message})
       }
     }
   },
@@ -72,6 +86,13 @@ export default {
         ...state,
         params: action.payload
       }
+    },
+    info(state, action) {
+      let info = {}
+      if (action.payload != 'reset') {
+        info = { ...state.info, ...action.payload } 
+      }
+      return { ...state, info }
     }
   }
 } as Model<ArticleState>
