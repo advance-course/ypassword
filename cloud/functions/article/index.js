@@ -64,11 +64,22 @@ exports.main = async (event, context) => {
    * @param {keyword} 通过关键字模糊匹配用户
    */
   app.router('v1/list', async (ctx) => {
-    const {current = 1, pageSize = 10, keyword = '', gzhaoId} = event;
+    const {current = 1, pageSize = 10, keyword = '', userid, subscription_id} = event;
     try {
       let x = article;
-      if (gzhaoId) {
-        x = await article.where({gzhaoId})
+      if (userid) {
+        x = await article.where({
+          subscription: {
+            userid
+          }
+        })
+      }
+      if (subscription_id) {
+        x = await article.where({
+          subscription: {
+            _id: subscription_id
+          }
+        })
       }
       if (keyword) {
         x = await article.where(db.command.or([

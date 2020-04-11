@@ -10,20 +10,18 @@ import { PaginationParam } from 'hooks/usePagination/entity';
 export default function Articles() {
   const {params, list, increasing, loading} = useSelector<any, ArticleState>(state => state.article);
   const dispatch = useDispatch()
-  const router = useRouter()
 
   useEffect(() => {
-    const def: PaginationParam = { pageSize: 20, current: 1 }
-    const {gzhaoId} = router.params
-    if (gzhaoId) {
-      def.gzhaoId = gzhaoId
-    }
-    if (list.list.length == 0 || params.gzhaoId != gzhaoId) {
-      dispatch({
-        type: 'article/fetchList', 
-        payload: def
-      })
-    }
+    Taro.getStorage({ key: 'userInfo' }).then(res => {
+      const def: PaginationParam = { pageSize: 20, current: 1, userid: res.data._id }
+      
+      if (list.list.length == 0) {
+        dispatch({
+          type: 'article/fetchList',
+          payload: def
+        })
+      }
+    })
   }, []);
 
   usePullDownRefresh(() => {
