@@ -27,12 +27,22 @@ export default function Articles() {
     })
   })
 
+  function clickHandler(book: book.Item) {
+    dispatch({
+      type: 'book/info',
+      payload: book
+    })
+    Taro.navigateTo({
+      url: '/pages/toB/books/subpages/Editor/index'
+    })
+  }
+
   return (
     <View className="container">
       <Button className="add" onClick={() => Taro.navigateTo({ url: '/pages/toB/books/subpages/Editor/index' })}>新增书籍</Button>
       <View className="list_container">
         {subList.map((book) => (
-          <View className="book_item" key={book._id}>
+          <View className="book_item" key={book._id} onClick={() => clickHandler(book)}>
             <View className="left">
               <Image src={book.cover!} className="cover" mode="aspectFill" />
             </View>
@@ -42,7 +52,7 @@ export default function Articles() {
                 <View className="author">{book.subscription!.author}</View>
                 <View className="recommend_warp">
                   <MyIcon name="heart" size={18} color="#999999" />
-                  <Text className="recommend">{book.recommend}</Text>
+                  <Text className="recommend">{book.recommend || 0}</Text>
                 </View>
               </View>
             </View>

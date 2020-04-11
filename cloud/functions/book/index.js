@@ -31,7 +31,7 @@ exports.main = async (event, context) => {
       return
     }
 
-    const info = { ...event, createTime: Date.now() };
+    const info = { ...event, createTime: Date.now(), recommend: 0 };
     delete info.$url;
     try {
       const res = await book.add({ data: info });

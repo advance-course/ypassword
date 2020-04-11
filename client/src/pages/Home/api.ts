@@ -12,7 +12,7 @@ export function bookListApi(params: PaginationParam) {
  * @return string
  * */
 export function bookUpdateApi(params: book.Item) {
-  return http.post<string>('user/v1/update', params);
+  return http.post<string>('book/v1/update', params);
 }
 
 /** 
@@ -35,5 +35,5 @@ export function bookSubListApi(userid: string) {
  * @desc 新增书籍配置
  * */
 export function bookAddApi(params: subscribe.Info) {
-  return http.post<string>('article/v1/add', params);
+  return http.post<string>('book/v1/add', params);
 }

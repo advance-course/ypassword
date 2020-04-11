@@ -89,6 +89,7 @@ export default {
         yield call(bookAddApi, payload)
         Taro.hideLoading()
         Taro.showToast({title: '添加成功', icon: 'success'})
+        Taro.navigateBack()
       } catch (e) {
         Taro.hideLoading()
         Taro.showToast({ title: e.message })
