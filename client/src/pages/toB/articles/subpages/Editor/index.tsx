@@ -53,6 +53,14 @@ export default function ArticleEditor() {
         title: '请先绑定专属订阅号'
       })
     }
+    
+    if (info._id) {
+      return dispatch({
+        type: 'article/update',
+        payload: info
+      })
+    }
+
     dispatch({
       type: 'article/add',
       payload: info

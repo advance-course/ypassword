@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import {Model} from 'utils/dva'
 import { PaginationParam, PageData, defPageData, defPaginationParams, Page, mergePagination } from 'hooks/usePagination/entity'
-import { articleListApi, articleAddApi } from 'pages/toB/articles/api'
+import { articleListApi, articleAddApi, articleUpdateApi } from 'pages/toB/articles/api'
 
 export interface ArticleState {
   loading: boolean,
@@ -57,6 +57,17 @@ export default {
       } catch (e) {
         Taro.hideLoading()
         Taro.showToast({title: e.message})
+      }
+    },
+    *update({payload}, {call}) {
+      Taro.showLoading({ title: '更新中...' })
+      try {
+        yield call(articleUpdateApi, payload)
+        Taro.hideLoading()
+        Taro.showToast({ title: '更新成功', icon: 'success' })
+      } catch (e) {
+        Taro.hideLoading()
+        Taro.showToast({ title: e.message })
       }
     }
   },

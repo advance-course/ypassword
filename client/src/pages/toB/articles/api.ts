@@ -21,5 +21,5 @@ export function articleAddApi(params: article.Item) {
  * @return string
  * */
 export function articleUpdateApi(params: article.Item) {
-  return http.post<string>('user/v1/update', params);
+  return http.post<string>('article/v1/update', params);
 }
