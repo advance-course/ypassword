@@ -11,6 +11,7 @@ declare namespace book {
     reward_code?: string,
     star?: number,
     userid?: string,
-    subscription?: subscribe.Info
+    subscription?: subscribe.Info,
+    articles?: article.Item[]
   }
 }

@@ -37,3 +37,12 @@ export function bookSubListApi(userid: string) {
 export function bookAddApi(params: subscribe.Info) {
   return http.post<string>('book/v1/add', params);
 }
+
+/** 
+ * @desc 通过book_id查询文章列表
+ */
+export function articleListByBookApi(book_id: string) {
+  return http.get<article.Item[]>('article/v1/book/list', {
+    book_id
+  })
+}

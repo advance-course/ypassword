@@ -32,6 +32,16 @@ export default function Index() {
     console.log(index, book);
   }
 
+  function navToBookinfo(book: book.Item) {
+    dispatch({
+      type: 'book/fetchArticleByBook',
+      payload: book
+    })
+    Taro.navigateTo({
+      url: '/pages/Home/bookinfo/index'
+    })
+  }
+
   return (
     <View className="container">
       {list.list.length ? (
@@ -39,7 +49,7 @@ export default function Index() {
           {list.list.map((book, i) => (
             <SwiperItem className="book" key={book._id}>
               <View className="inner_wrap">
-                <View className="top">
+                <View className="top" onClick={() => navToBookinfo(book)}>
                   <Image className="cover" src={book.cover!} mode="aspectFill" />
                   <View className="name">{book.name}</View>
                 </View>

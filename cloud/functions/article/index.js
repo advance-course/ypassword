@@ -112,5 +112,19 @@ exports.main = async (event, context) => {
     }
   })
 
+  app.router('v1/book/list', async (ctx) => {
+    const {book_id} = event;
+    try {
+      const res = await article.where({
+        book: {
+          _id: book_id
+        }
+      }).get();
+      ctx.body = { success: true, code: 200, message: '操作成功', data: res.data }
+    } catch (e) {
+      ctx.body = { success: false, code: errCode, message: errMsg }
+    }
+  })
+
   return app.serve();
 }

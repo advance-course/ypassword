@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import {Model} from 'utils/dva'
 import { PaginationParam, PageData, defPageData, defPaginationParams, Page, mergePagination } from 'hooks/usePagination/entity'
-import { bookListApi, recommendBookApi, bookSubListApi, bookAddApi, bookUpdateApi } from './api'
+import { bookListApi, recommendBookApi, bookSubListApi, bookAddApi, bookUpdateApi, articleListByBookApi } from './api'
 import { Result } from 'utils/http'
 
 export interface BookState {
@@ -104,6 +104,20 @@ export default {
       } catch (e) {
         Taro.hideLoading()
         Taro.showToast({ title: e.message })
+      }
+    },
+    *fetchArticleByBook({payload}, {call, put}) {
+      const info: book.Item = payload;
+      try {
+        const res = yield call(articleListByBookApi, info._id)
+        info.articles = res.data
+
+        yield put({
+          type: 'info',
+          payload: info
+        })
+      } catch (e) {
+        Taro.showToast({title: e.message})
       }
     }
   },

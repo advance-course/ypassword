@@ -28,6 +28,8 @@ class App extends Component {
       "pages/checkin/index",
       "pages/webview/index",
       
+      "pages/Home/bookinfo/index",
+      
       // 分类
       "pages/Category/index",
       "pages/Category/List/index",
