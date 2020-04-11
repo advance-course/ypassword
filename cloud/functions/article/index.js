@@ -27,7 +27,9 @@ exports.main = async (event, context) => {
       ctx.body = { success: false, code: 200, message: '文章标题或链接不能为空', data: null }
       return
     }
-
+    if (event.userInfo) {
+      delete event.userInfo
+    }
     const info = { ...event, createTime: Date.now() };
     delete info.$url;
     try {
@@ -43,7 +45,7 @@ exports.main = async (event, context) => {
    * @desc 更新配置
    */
   app.router('v1/update', async (ctx) => {
-    const {_id, $url, ...other} = event;
+    const {_id, $url, userInfo, ...other} = event;
     try {
       await article.doc(_id).update({
         data: { ...other }

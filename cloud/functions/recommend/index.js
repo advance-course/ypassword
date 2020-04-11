@@ -26,6 +26,9 @@ exports.main = async (event, context) => {
    * @desc 相关字段
    */
   app.router('v1/add', async(ctx, next) => {
+    if (event.userInfo) {
+      delete event.userInfo
+    }
     const info = { ...event, open_id: OPENID, createTime: Date.now() };
     delete info.$url;
     try {

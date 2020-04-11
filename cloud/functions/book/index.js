@@ -30,7 +30,9 @@ exports.main = async (event, context) => {
       ctx.body = { success: false, code: 200, message: '书籍名称不能为空', data: null }
       return
     }
-
+    if (event.userInfo) {
+      delete event.userInfo
+    }
     const info = { ...event, createTime: Date.now(), recommend: 0 };
     delete info.$url;
     try {
@@ -46,7 +48,7 @@ exports.main = async (event, context) => {
    * @desc 更新配置
    */
   app.router('v1/update', async (ctx) => {
-    const {_id, $url, ...other} = event;
+    const {_id, $url, userInfo, ...other} = event;
     try {
       await book.doc(_id).update({
         data: { ...other }

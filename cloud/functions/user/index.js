@@ -45,6 +45,9 @@ exports.main = async (event, context) => {
       ctx.body = { success: false, code: 200, message: '当前用户已经存在！', data: null }
       return
     }
+    if (event.userInfo) {
+      delete event.userInfo
+    }
     const info = { ..._info, ...event, createTime: new Date().getTime() };
     delete info.$url;
     try {
@@ -90,7 +93,7 @@ exports.main = async (event, context) => {
 
   // 修改某用户信息的内容
   app.router('v1/update/info', async (ctx) => {
-    const {userid, $url, ...other} = event;
+    const {userid, $url, userInfo, ...other} = event;
     try {
       await user.doc(userid).update({
         data: {
