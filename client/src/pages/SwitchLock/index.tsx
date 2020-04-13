@@ -1,14 +1,11 @@
 import Taro, { useEffect } from "@tarojs/taro";
 import { useSelector, useDispatch } from "@tarojs/redux";
-import { View } from "@tarojs/components";
 
-import DrawUnlock from "pages/DrawUnlock";
-import FingerprintLock from "pages/FingerprintLock";
-import Accounts from "pages/Accounts";
+import Accounts from "pages/Accounts/index";
+import { GlobalState } from "store/global";
 
 export default function SwitchPage () {
-  console.log('run')
-  const { isFirstUse, isLock, isFingerprintLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
+  const { isFirstUse, isLock, isFingerprintLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,25 +13,25 @@ export default function SwitchPage () {
     if (isFirstUse) {
       Taro.checkIsSupportSoterAuthentication({
         success(res) {
-          if (res.supportMode.indexOf('fingerPrint') > -1 && !global.isNinecaseLock) {
-            dispatch({type: 'global/setIsLock', isLock: true})
-            dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true})
+          if (res.supportMode.indexOf('fingerPrint') > -1 && !isNinecaseLock) {
+            dispatch({type: 'global/setIsLock', isLock: true});
+            dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true});
           }
         }
       })
 
-      dispatch({type: 'global/setIsFirstUse', isFirstUse: false})
+      dispatch({type: 'global/setIsFirstUse', isFirstUse: false});
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isLock && isLocking) {
+      isFingerprintLock && Taro.redirectTo({url: '/pages/Lock/FingerprintLock/index'});
+      isNinecaseLock && Taro.redirectTo({url: '/pages/Lock/DrawUnlock/index'});
     }
   }, [])
 
   return (
-    <View>
-      {
-        (isLock && isLocking) ? (
-          isFingerprintLock ? <FingerprintLock></FingerprintLock>
-          : <DrawUnlock></DrawUnlock>
-        ) : <Accounts></Accounts>
-      }
-    </View>
+    !isLocking && <Accounts></Accounts>
   )
 }

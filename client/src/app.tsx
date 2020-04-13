@@ -14,9 +14,10 @@ class App extends Component {
   config: Config = {
     pages: [
       "pages/index/index",
-      "pages/PasswordRest/index",
-      "pages/FingerprintLock/index",
-      "pages/DrawUnlock/index",
+      "pages/Lock/PasswordRest/index",
+      "pages/Lock/FingerprintLock/index",
+      "pages/Lock/DrawUnlock/index",
+      // "pages/SwitchLock/index",
       "pages/Profile/subpages/RSAKey/index",
       "pages/Profile/subpages/PrivateKey/index",
       "pages/Profile/subpages/Subscribtion/index",

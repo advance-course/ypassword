@@ -2,7 +2,7 @@ import Taro, { Config } from '@tarojs/taro';
 import { View } from '@tarojs/components'
 import { useDispatch } from '@tarojs/redux';
 
-import GestureLock from '../../components/GestureLock'
+import GestureLock from '../../../components/GestureLock'
 import './index.scss';
 
 export default function DrawUnlock() {
@@ -12,6 +12,10 @@ export default function DrawUnlock() {
 
   function closeLock() {
     dispatch({type: 'global/setIsLocking', isLocking: false})
+      
+    return Taro.navigateTo({
+      url: '/pages/index/index'
+    })
   }
 
   function setLockPwd(pwd) {
@@ -23,7 +27,7 @@ export default function DrawUnlock() {
 
   function forgetPwd() {
     Taro.redirectTo({
-      url: '/pages/PasswordRest/index'
+      url: '/pages/Lock/PasswordRest/index'
     })
   }
   
