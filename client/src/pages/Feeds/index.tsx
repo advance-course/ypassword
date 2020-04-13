@@ -1,20 +1,36 @@
-import Taro from '@tarojs/taro'
+import Taro, { useEffect } from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
-import {gzhaoList} from './entity'
+import { useSelector, useDispatch } from '@tarojs/redux'
+import { FeedsState } from 'pages/Feeds/model'
+import { PaginationParam } from 'hooks/usePagination/entity'
 import './index.scss'
 
 export default function Feeds() {
+  const dispatch = useDispatch()
+  const feeds = useSelector<any, FeedsState>(state => state.feeds)
+  const {list} = feeds
+  
+  useEffect(() => {
+    if (!list.list.length) {
+      const def: PaginationParam = {pageSize: 20, current: 1}
+      dispatch({
+        type: 'feeds/fetchList',
+        payload: def
+      })
+    }
+  }, [])
+  
   return (
     <View className="container">
-      {gzhaoList.map(item => (
-        <View className="gzh_card" key={item.gzhaoId} onClick={() => Taro.navigateTo({url: `/pages/toB/articles/index?gzhaoId=${item.gzhaoId}`})}>
+      {list.list.map(item => (
+        <View className="gzh_card" key={item._id} onClick={() => Taro.navigateTo({url: `/pages/toB/articles/index?gzhaoId=${item._id}`})}>
           <View className="left">
-            <Image className="logo" src={item.gzhaoLogo} />
+            <Image className="logo" src={item.logo!} />
           </View>
 
           <View className="right">
-            <View className="name">{item.gzhaoName}</View>
-            <View className="desc">{item.gzhaoDesc}</View>
+            <View className="name">{item.name}</View>
+            <View className="desc">{item.desc}</View>
           </View>
         </View>
       ))}

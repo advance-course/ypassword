@@ -1,29 +1,32 @@
 import Taro from '@tarojs/taro'
 import { Model } from 'utils/dva'
 import { PaginationParam, PageData, defPageData, defPaginationParams, Page, mergePagination } from 'hooks/usePagination/entity'
-import { articleListApi, articleAddApi, articleUpdateApi } from 'pages/toB/articles/api'
+import { articleAddApi, articleUpdateApi } from 'pages/toB/articles/api'
+import { subscriptitonListApi } from 'pages/Feeds/api'
 
-export interface ArticleState {
+export interface FeedsState {
   loading: boolean,
   increasing: boolean,
   params: PaginationParam,
-  list: PageData<article.Item>,
-  info: article.Item
+  followList: subscribe.Info[], // 关注的公众号列表
+  list: PageData<subscribe.Info>, // 所有公众号列表
+  info: subscribe.Info // 当前选中的公众号
 }
 
 export default {
-  namespace: 'feed',
+  namespace: 'feeds',
   state: {
     loading: true,
     increasing: false,
+    followList: [],
     params: defPaginationParams,
     list: defPageData,
     info: {}
   },
   effects: {
     *fetchList({ payload }, { call, put, select }) {
-      const article: ArticleState = yield select(({ article }) => article);
-      const { params, list: curList } = article;
+      const feeds: FeedsState = yield select(({ feeds }) => feeds);
+      const { params, list: curList } = feeds;
       const def: PaginationParam = payload ? { ...params, ...payload } : params;
 
       if (def.current && def.current > 1) {
@@ -33,7 +36,7 @@ export default {
       yield put({ type: 'loading', payload: true })
 
       try {
-        const res = yield call(articleListApi, def);
+        const res = yield call(subscriptitonListApi, def);
         const list: Page<article.Item> = res.data;
         const _list = mergePagination(curList!, list);
         yield put({
@@ -106,4 +109,4 @@ export default {
       return { ...state, info }
     }
   }
-} as Model<ArticleState>
+} as Model<FeedsState>

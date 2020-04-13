@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, Config, useRef } from "@tarojs/taro";
+import Taro, { useState, useEffect, Config, useRef, usePullDownRefresh, useReachBottom } from "@tarojs/taro";
 import RealTabBar from "components/tabBar";
 import { useSelector, useDispatch } from "@tarojs/redux";
 import { View } from "@tarojs/components";
@@ -13,6 +13,7 @@ import PlaceholderView from 'components/PlaceholderView';
 import { GlobalState, SetBooleanStatus } from "store/global";
 import {loginApi} from './api';
 import "./index.scss";
+import { FeedsState } from 'pages/Feeds/model';
 
 
 export const titles = {
@@ -29,11 +30,30 @@ export default function Layout() {
   const userInfoRef = useRef<any>(null);
 
   const global = useSelector<any, SetBooleanStatus>(state => state.global);
+  
   const dispatch = useDispatch();
+  const feeds = useSelector<any, FeedsState>(state => state.feeds)
+  const { list } = feeds
 
   useEffect(() => {
     login();
   }, []);
+
+  usePullDownRefresh(() => {
+    dispatch({
+      type: 'feeds/fetchList',
+      payload: { current: 1 }
+    })
+  })
+
+  useReachBottom(() => {
+    if (!list.pagination.lastPage) {
+      dispatch({
+        type: 'feeds/fetchList',
+        payload: { current: list.pagination.current + 1 }
+      })
+    }
+  })
 
   useEffect(() => {
     // 首次使用
@@ -131,5 +151,6 @@ export default function Layout() {
 Layout.config = {
   navigationBarTitleText: "",
   navigationBarBackgroundColor: "#FFFFFF",
-  navigationBarTextStyle: "black"
+  navigationBarTextStyle: "black",
+  enablePullDownRefresh: true
 } as Config;

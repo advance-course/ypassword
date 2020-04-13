@@ -2,7 +2,7 @@
  * 存储密码所需的所有信息
  */
 import Taro from '@tarojs/taro'
-import { Model } from "utils/dva";
+import { Model, ActionWithPayload } from "utils/dva";
 import JSEncrypt from 'utils/rsa';
 import {getSystemInfo} from 'utils'
 import { SystemInfo } from 'utils/fp/getSystemInfo';
@@ -36,13 +36,11 @@ export interface GlobalState {
   systemInfo: SystemInfo
 }
 
-export interface setUserId {
-  type: string,
+export interface setUserId extends ActionWithPayload {
   userId: string,
 }
 
-export interface SetBooleanStatus {
-  type: string,
+export interface SetBooleanStatus extends ActionWithPayload {
   [lock:string]: any
 }
 

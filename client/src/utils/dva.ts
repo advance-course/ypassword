@@ -75,7 +75,7 @@ export interface SubscriptionAPI {
 }
 export type ActionWithPayload = { 
   type: string; 
-  payload: any,
+  payload: any;
   [key: string]: any
 };
 export type EffectType = "takeEvery" | "takeLatest" | "watcher" | "throttle";
