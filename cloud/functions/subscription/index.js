@@ -26,10 +26,20 @@ exports.main = async (event, context) => {
   app.router('v1/add', async(ctx, next) => {
     const {name, userid} = event
 
-    if (!name || !userid) {
-      ctx.body = { success: false, code: 200, message: '参数异常', data: null }
+    if (!name || !userid || !logo || !desc || !author) {
+      ctx.body = { success: false, code: 200, message: '信息不完整，请补全', data: null }
       return
     }
+
+    let subInfo = await subscription.where({
+      userid
+    }).get();
+
+    if (subInfo.data.length > 0) {
+      ctx.body = { success: false, code: 200, message: '当前用户已经绑定过公众号！', data: null }
+      return
+    }
+
     if (event.userInfo) {
       delete event.userInfo
     }
