@@ -1,5 +1,5 @@
 import Taro, { useState, useEffect } from '@tarojs/taro';
-import { View, Label, Image, Block } from '@tarojs/components';
+import { View, Label, Image, Block, OfficialAccount } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
 import { UserInfo } from 'pages/index/api';
 import './index.scss';
@@ -107,6 +107,8 @@ export default function Profile({update = 0}: Props) {
           onClick={() => Taro.navigateTo({ url: '/pages/extra/author/index' })}
         /> */}
       </AtList>
+      <View style={{height: '15Px'}} />
+      <OfficialAccount />
     </View>
   )
 }
