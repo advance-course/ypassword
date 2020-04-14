@@ -37,9 +37,17 @@ export default function Articles() {
     })
   }
 
+  function addBookHandler() {
+    dispatch({
+      type: 'book/info',
+      payload: 'reset'
+    })
+    Taro.navigateTo({ url: '/pages/toB/books/subpages/Editor/index' })
+  }
+
   return (
     <View className="container">
-      <Button className="add" onClick={() => Taro.navigateTo({ url: '/pages/toB/books/subpages/Editor/index' })}>新增书籍</Button>
+      <Button className="add" onClick={addBookHandler}>新增书籍</Button>
       <View className="list_container">
         {subList.map((book) => (
           <View className="book_item" key={book._id} onClick={() => clickHandler(book)}>

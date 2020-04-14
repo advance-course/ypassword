@@ -29,10 +29,10 @@ export default {
     *add({ payload }, { call, put }) {
       Taro.showLoading({title: '保存中...'})
       try {
-        yield call(subscriptionAddApi, payload);
+        const res = yield call(subscriptionAddApi, payload);
         yield put({
           type: 'info',
-          payload
+          payload: {...payload, _id: res.data}
         })
         Taro.hideLoading()
         Taro.showToast({

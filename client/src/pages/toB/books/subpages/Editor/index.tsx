@@ -42,12 +42,21 @@ export default function ArticleEditor() {
   }, [info])
 
   function save() {
-    if (!bookInfo.subscription || !bookInfo.subscription._id) {
+    const {subscription} = bookInfo
+    if (!subscription || !subscription._id) {
       return Taro.showToast({
-        title: '请先配置您的订阅号'
+        title: '请先配置订阅号',
+        icon: 'none'
       })
     }
     if (!bookInfo._id) {
+      const {name, cover, introduction, reward_code} = bookInfo
+      if (!name || cover || !introduction || !reward_code) {
+        return Taro.showToast({
+          title: '信息不完整',
+          icon: 'none'
+        })
+      }
       return dispatch({
         type: 'book/add',
         payload: bookInfo

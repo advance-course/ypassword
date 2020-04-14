@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
    * @param {userid}
    */
   app.router('v1/add', async(ctx, next) => {
-    const {name, userid} = event
+    const {name, userid, logo, desc, author} = event
 
     if (!name || !userid || !logo || !desc || !author) {
       ctx.body = { success: false, code: 200, message: '信息不完整，请补全', data: null }

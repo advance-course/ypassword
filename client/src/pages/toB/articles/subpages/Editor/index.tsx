@@ -48,9 +48,19 @@ export default function ArticleEditor() {
   }, []);
 
   function save() {
-    if (!info.subscription || !info.subscription._id) {
+    const {subscription} = info
+    if (!subscription || !subscription._id) {
       return Taro.showToast({
         title: '请先绑定专属订阅号'
+      })
+    }
+
+    const {title, url, thumb} = info
+
+    if (!title || !url || !thumb) {
+      return Taro.showToast({
+        title: '请补全信息',
+        icon: 'none'
       })
     }
     

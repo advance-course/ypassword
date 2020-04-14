@@ -167,9 +167,13 @@ export default {
       }
     },
     info(state, action) {
+      let info = {}
+      if (action.payload != 'reset') {
+        info = { ...state.bookInfo, ...action.payload }
+      }
       return {
         ...state,
-        bookInfo: {...state.bookInfo, ...action.payload}
+        bookInfo: info
       }
     }
   }

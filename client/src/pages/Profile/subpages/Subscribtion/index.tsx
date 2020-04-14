@@ -12,6 +12,8 @@ export default function Subscribtion() {
 
   const [params, setParams] = useState<subscribe.Info>({})
 
+  console.log(loading, info)
+
   useEffect(() => {
     Taro.getStorage({ key: 'userInfo' }).then(res => {
       if (!res.data.name) {
@@ -25,7 +27,11 @@ export default function Subscribtion() {
   }, [])
 
   function save() {
-    console.log(params)
+    if (!params.name || !params.logo || !params.author || !params.desc) {
+      return Taro.showToast({
+        title: '请补全信息后提交'
+      })
+    }
     dispatch({
       type: 'subscription/add',
       payload: params
