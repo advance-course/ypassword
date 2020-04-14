@@ -35,15 +35,29 @@ export default function Layout() {
   const feeds = useSelector<any, FeedsState>(state => state.feeds)
   const { list } = feeds
 
+  const [update, setUpdate] = useState(0)
+
   useEffect(() => {
     login();
   }, []);
 
   usePullDownRefresh(() => {
-    dispatch({
-      type: 'feeds/fetchList',
-      payload: { current: 1 }
-    })
+    if (current == 0) {
+      dispatch({
+        type: 'book/fetchList',
+        payload: { current: 1 }
+      })
+    }
+    if (current == 1) {
+      dispatch({
+        type: 'feeds/fetchList',
+        payload: { current: 1 }
+      })
+    }
+    
+    if (current == 3) {
+      login();
+    }
   })
 
   useReachBottom(() => {
@@ -96,6 +110,9 @@ export default function Layout() {
         if (!rsa && res.data.publicKey) {
           Taro.setStorageSync('rsa', {publicKey: res.data.publicKey || '', privateKey: res.data.privateKey || ''})
         }
+        // 针对个人主页的刷新
+        setUpdate(update + 1)
+        Taro.stopPullDownRefresh()
       }).catch(err => {
         if ([401, 40101, 40102, 40103].includes(err.code)) {
           Taro.navigateTo({url: '/pages/Auth/index'})
@@ -123,7 +140,7 @@ export default function Layout() {
         {current === 0 && <Home />}
         {current === 1 && <Feeds />}
         {current === 2 && <Accounts />}
-        {current === 3 && <Profile />}
+        {current === 3 && <Profile update={update} />}
       </View>
     
       <View style={{height: '60Px', background: 'rgba(0, 0, 0, 0)'}} />

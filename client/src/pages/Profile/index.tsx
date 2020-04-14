@@ -4,13 +4,17 @@ import { AtList, AtListItem } from 'taro-ui';
 import { UserInfo } from 'pages/index/api';
 import './index.scss';
 
-export default function Profile() {
+interface Props {
+  update: number
+}
+
+export default function Profile({update = 0}: Props) {
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   useEffect(() => {
     Taro.getStorage({ key: 'userInfo' }).then(res => {
       setUserInfo(res.data);
     })
-  }, [userInfo]);
+  }, [update]);
 
   return (
     <View className="profile_container">
@@ -65,7 +69,7 @@ export default function Profile() {
           </Block>
         )}
 
-        {userInfo.type !== 4 && (
+        {[1, 2, 5].includes(userInfo.type!) && (
           <Block>
             <AtListItem
               title="专属订阅号"
