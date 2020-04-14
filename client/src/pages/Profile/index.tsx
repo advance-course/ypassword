@@ -1,28 +1,12 @@
-import Taro, { useState, useEffect, useDidShow } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
 import { View, Label, Image, Block, OfficialAccount, Button } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
-import { UserInfo } from 'pages/index/api';
 import './index.scss';
+import { useSelector } from '@tarojs/redux';
+import { GlobalState } from 'store/global';
 
-interface Props {
-  update: number
-}
-
-export default function Profile({update = 0}: Props) {
-  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
-  useEffect(() => {
-    Taro.getStorage({ key: 'userInfo' }).then(res => {
-      setUserInfo(res.data);
-    })
-  }, [update]);
-
-  useDidShow(() => {
-    if (!userInfo._id) {
-      Taro.getStorage({ key: 'userInfo' }).then(res => {
-        setUserInfo(res.data);
-      })
-    }
-  })
+export default function Profile() {
+  const {userInfo} = useSelector<any, GlobalState>(state => state.global)
 
   return (
     <View className="profile_container">

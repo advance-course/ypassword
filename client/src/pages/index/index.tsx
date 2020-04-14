@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, Config, useRef, usePullDownRefresh, useReachBottom, showShareMenu, useDidShow } from "@tarojs/taro";
+import Taro, { useState, useEffect, Config, usePullDownRefresh, useReachBottom, showShareMenu, useDidShow } from "@tarojs/taro";
 import RealTabBar from "components/tabBar";
 import { useSelector, useDispatch } from "@tarojs/redux";
 import { View } from "@tarojs/components";
@@ -11,7 +11,6 @@ import Profile from "pages/Profile";
 import PlaceholderView from 'components/PlaceholderView';
 
 import { GlobalState, SetBooleanStatus } from "store/global";
-import {loginApi} from './api';
 import "./index.scss";
 import { FeedsState } from 'pages/Feeds/model';
 
@@ -24,25 +23,20 @@ export const titles = {
 }
 
 export default function Layout() {
-  const { isFirstUse, isFirstEnter, isLock, isNinecaseLock, isFingerprintLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
+  // const { isFirstUse, isFirstEnter, isLock, isNinecaseLock, isFingerprintLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
   const [current, setCurrent] = useState(0);
   const [initial, setInitial] = useState(true);
-  const userInfoRef = useRef<any>(null);
 
   showShareMenu({
     withShareTicket: true
   })
-
-  const global = useSelector<any, SetBooleanStatus>(state => state.global);
   
   const dispatch = useDispatch();
   const feeds = useSelector<any, FeedsState>(state => state.feeds)
   const { list } = feeds
 
-  const [update, setUpdate] = useState(0)
-
   useEffect(() => {
-    login();
+    dispatch({ type: 'global/login' })
   }, []);
 
   usePullDownRefresh(() => {
@@ -60,7 +54,7 @@ export default function Layout() {
     }
     
     if (current == 3) {
-      login();
+      dispatch({ type: 'global/login' })
     }
   })
 
@@ -101,30 +95,7 @@ export default function Layout() {
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: titles[current] });
   }, [current]);
-
-  // 获取用户信息，进行登陆，返回服务器用户信息
-  function login() {
-    if (isFirstEnter) {
-      loginApi().then(res => {
-        userInfoRef.current = res.data
-        Taro.setStorageSync('userInfo', res.data)
-        dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
-        dispatch({ type: 'global/setUserId', userId: res.data._id })
-        const rsa = Taro.getStorageSync('rsa');
-        if (!rsa && res.data.publicKey) {
-          Taro.setStorageSync('rsa', {publicKey: res.data.publicKey || '', privateKey: res.data.privateKey || ''})
-        }
-        // 针对个人主页的刷新
-        setUpdate(update + 1)
-        Taro.stopPullDownRefresh()
-      }).catch(err => {
-        if ([401, 40101, 40102, 40103].includes(err.code)) {
-          Taro.navigateTo({url: '/pages/Auth/index'})
-        }
-      });
-    }
-  }
-
+  
   if (current === 0) {
     Taro.setNavigationBarColor({backgroundColor: '#ededed', frontColor: '#000000'})
     Taro.setBackgroundColor({backgroundColor: '#ededed', backgroundColorTop: '#ededed', backgroundColorBottom: '#ededed'})
@@ -144,7 +115,7 @@ export default function Layout() {
         {current === 0 && <Home />}
         {current === 1 && <Feeds />}
         {current === 2 && <Accounts />}
-        {current === 3 && <Profile update={update} />}
+        {current === 3 && <Profile />}
       </View>
     
       <View style={{height: '60Px', background: 'rgba(0, 0, 0, 0)'}} />
