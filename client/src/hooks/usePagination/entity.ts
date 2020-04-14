@@ -41,7 +41,7 @@ export const defPageData: PageData<any> = {
   pagination: {
     current: 1,
     pageSize: 10,
-    lastPage: true,
+    lastPage: false,
     total: 0
   }
 }
