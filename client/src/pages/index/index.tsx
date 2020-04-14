@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, Config, useRef, usePullDownRefresh, useReachBottom, showShareMenu } from "@tarojs/taro";
+import Taro, { useState, useEffect, Config, useRef, usePullDownRefresh, useReachBottom, showShareMenu, useDidShow } from "@tarojs/taro";
 import RealTabBar from "components/tabBar";
 import { useSelector, useDispatch } from "@tarojs/redux";
 import { View } from "@tarojs/components";

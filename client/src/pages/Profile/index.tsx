@@ -1,5 +1,5 @@
-import Taro, { useState, useEffect } from '@tarojs/taro';
-import { View, Label, Image, Block, OfficialAccount } from '@tarojs/components';
+import Taro, { useState, useEffect, useDidShow } from '@tarojs/taro';
+import { View, Label, Image, Block, OfficialAccount, Button } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
 import { UserInfo } from 'pages/index/api';
 import './index.scss';
@@ -16,13 +16,29 @@ export default function Profile({update = 0}: Props) {
     })
   }, [update]);
 
+  useDidShow(() => {
+    if (!userInfo._id) {
+      Taro.getStorage({ key: 'userInfo' }).then(res => {
+        setUserInfo(res.data);
+      })
+    }
+  })
+
   return (
     <View className="profile_container">
-      <View className="userInfoContainer">
-        <Image src={userInfo.avatarUrl!} className="avatar" />
-        <Label className="username">{userInfo.nickName}</Label>
-        <Label className="city">{userInfo.city}</Label>
-      </View>
+      {userInfo._id ? (
+        <View className="userInfoContainer">
+          <Image src={userInfo.avatarUrl!} className="avatar" />
+          <Label className="username">{userInfo.nickName}</Label>
+          <Label className="city">{userInfo.city}</Label>
+        </View>
+      ) : (
+        <View className="userInfoContainer">
+          <View className="tip">您还未授权，部分功能无法正常使用</View>
+          <Button type="primary" className="btn" onClick={() => Taro.navigateTo({url: '/pages/Auth/index'})}>点击授权</Button>
+        </View>
+      )}
+      
 
       <AtList>
         <AtListItem

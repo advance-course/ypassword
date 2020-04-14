@@ -68,10 +68,10 @@ class App extends Component {
       "pages/Taroui/index"
     ],
     window: {
-      backgroundTextStyle: "light",
-      navigationBarBackgroundColor: "#FAE14C",
-      backgroundColor: "#FFF",
-      navigationBarTitleText: "WeChart",
+      backgroundTextStyle: "dark",
+      navigationBarBackgroundColor: "#FFF",
+      backgroundColor: "#ededed",
+      navigationBarTitleText: "码易",
       navigationBarTextStyle: "black"
     },
     cloud: true,
