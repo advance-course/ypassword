@@ -41,7 +41,7 @@ export default function PaginationProvider(props: PaginationProviderProps) {
     )
   }
 
-  if (length === 0) {
+  if (length === 0 && !loading) {
     return (
       <View className={cls} style={style}>
         <Exception type="noData" message="您关注的专栏暂时没有发布文章" />
