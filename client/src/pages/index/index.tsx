@@ -18,7 +18,7 @@ import { FeedsState } from 'pages/Feeds/model';
 
 export const titles = {
   0: '发现',
-  1: '订阅号',
+  1: '专栏',
   2: '账户',
   3: '我的'
 }
@@ -156,7 +156,7 @@ export default function Layout() {
         fixed
         tabList={[
           {text: "发现", iconPath: "home"},
-          {text: "订阅号", iconPath: "RectangleCopy62"},
+          {text: "专栏", iconPath: "RectangleCopy62"},
           {text: "账户", iconPath: "RectangleCopy162"},
           {text: "我的", iconPath: "RectangleCopy49"}
         ]}
