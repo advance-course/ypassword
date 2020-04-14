@@ -47,12 +47,12 @@ export default function Profile() {
           onClick={() => Taro.navigateTo({ url: '/pages/Taroui/index' })}
         /> */}
         
-        <AtListItem
+        {/* <AtListItem
           title="图标库"
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/examples/icon/index' })}
-        />
+        /> */}
 
         {userInfo.type == 1 && (
           <Block>
@@ -61,13 +61,6 @@ export default function Profile() {
               extraText=""
               arrow="right"
               onClick={() => Taro.navigateTo({ url: '/pages/toB/users/index' })}
-            />
-
-            <AtListItem
-              title="文章管理"
-              extraText=""
-              arrow="right"
-              onClick={() => Taro.navigateTo({ url: '/pages/toB/articles/index' })}
             />
           </Block>
         )}
@@ -87,10 +80,17 @@ export default function Profile() {
               arrow="right"
               onClick={() => Taro.navigateTo({ url: '/pages/toB/books/index' })}
             />
+
+            <AtListItem
+              title="文章管理"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/toB/articles/index' })}
+            />
           </Block>
         )}
 
-        <AtListItem
+        {/* <AtListItem
           title="开发团队"
           extraText=""
           arrow="right"
@@ -101,7 +101,7 @@ export default function Profile() {
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/extra/author/index' })}
-        />
+        /> */}
       </AtList>
     </View>
   )
