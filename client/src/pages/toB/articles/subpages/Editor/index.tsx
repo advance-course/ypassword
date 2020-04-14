@@ -6,12 +6,14 @@ import { useSelector, useDispatch } from '@tarojs/redux';
 import { ArticleState } from 'pages/toB/articles/model';
 import { SubscriptionState } from 'pages/Profile/subpages/Subscribtion/model';
 import { BookState } from 'pages/Home/model';
+import ArticleCard from 'components/ArticleCard'
 
 export default function ArticleEditor() {
   const [visible, setVisible] = useState(false)
   const {info} = useSelector<any, ArticleState>(state => state.article)
   const { info: scb_info } = useSelector<any, SubscriptionState>(state => state.subscription)
   const {subList} = useSelector<any, BookState>(state => state.book)
+  const [imageLoad, setImageLoad] = useState(false)
 
   const dispatch = useDispatch()
   const {title, thumb, url, original, time, book = {} } = info;
@@ -63,6 +65,13 @@ export default function ArticleEditor() {
         icon: 'none'
       })
     }
+
+    if (!imageLoad) {
+      return Taro.showToast({
+        title: '请输入正确的缩略图地址',
+        icon: 'none'
+      })
+    }
     
     if (info._id) {
       return dispatch({
@@ -85,8 +94,19 @@ export default function ArticleEditor() {
     })
   }
 
+  function onLoad() {
+    setImageLoad(true)
+  }
+  function onError() {
+    setImageLoad(false)
+  }
+
   return (
     <View className="container">
+      <View className="preview">
+        <View className="title">预览</View>
+        <ArticleCard info={info} onLoad={onLoad} onError={onError} />
+      </View>
       <AtList>
         <AtInput 
           onChange={(v: string) => { dispatch({ type: 'article/info', payload: { title: v }}) }} 

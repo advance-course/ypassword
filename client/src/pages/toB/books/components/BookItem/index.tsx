@@ -7,10 +7,11 @@ import './index.scss'
 export interface BookItemProps {
   info: book.Item,
   preview?: boolean,
-  onLoad?: () => any
+  onLoad?: () => any,
+  onError?: () => any
 }
 
-export default function BookItem({info, preview, onLoad}: BookItemProps) {
+export default function BookItem({info, preview, onLoad, onError}: BookItemProps) {
   const dispatch = useDispatch()
   function clickHandler(book: book.Item) {
     if (preview) {
@@ -27,10 +28,13 @@ export default function BookItem({info, preview, onLoad}: BookItemProps) {
   function _onLoad() {
     onLoad && onLoad()
   }
+  function _onError() {
+    onError && onError()
+  }
   return (
     <View className="book_item" onClick={() => clickHandler(info)}>
       <View className="left">
-        <Image src={info.cover!} className="cover" mode="aspectFill" onLoad={_onLoad} />
+        <Image src={info.cover!} className="cover" mode="aspectFill" onLoad={_onLoad} onError={_onError} />
       </View>
       <View className="content">
         <View className="name">{info.name}</View>

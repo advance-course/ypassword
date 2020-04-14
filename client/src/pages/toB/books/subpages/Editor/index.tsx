@@ -85,12 +85,15 @@ export default function ArticleEditor() {
   function onLoad() {
     setImageLoad(true)
   }
+  function onError() {
+    setImageLoad(false)
+  }
 
   return (
     <View className="container">
       <View className="preview">
         <View className="title">预览</View>
-        <BookItem info={bookInfo} preview onLoad={onLoad} />
+        <BookItem info={bookInfo} preview onLoad={onLoad} onError={onError} />
       </View>
       <AtList>
         <AtInput 
