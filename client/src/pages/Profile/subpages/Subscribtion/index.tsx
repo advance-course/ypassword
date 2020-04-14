@@ -58,7 +58,6 @@ export default function Subscribtion() {
           </View>
         </View>
       </View>
-      
     )
   }
 
