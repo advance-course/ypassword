@@ -1,4 +1,4 @@
-import Taro, { Config, useEffect } from '@tarojs/taro'
+import Taro, { Config, useEffect, showShareMenu } from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import { useSelector } from '@tarojs/redux'
 import { BookState } from '../model'
@@ -9,7 +9,10 @@ export default function Bookinfo() {
   const {bookInfo} = useSelector<any, BookState>(state => state.book)
   const {articles = []} = bookInfo
 
-  console.log(bookInfo)
+  showShareMenu({
+    withShareTicket: true
+  })
+  
   useEffect(() => {
     Taro.setNavigationBarTitle({
       title: bookInfo.name || '书籍详情'

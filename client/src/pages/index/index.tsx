@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, Config, useRef, usePullDownRefresh, useReachBottom } from "@tarojs/taro";
+import Taro, { useState, useEffect, Config, useRef, usePullDownRefresh, useReachBottom, showShareMenu } from "@tarojs/taro";
 import RealTabBar from "components/tabBar";
 import { useSelector, useDispatch } from "@tarojs/redux";
 import { View } from "@tarojs/components";
@@ -28,6 +28,10 @@ export default function Layout() {
   const [current, setCurrent] = useState(0);
   const [initial, setInitial] = useState(true);
   const userInfoRef = useRef<any>(null);
+
+  showShareMenu({
+    withShareTicket: true
+  })
 
   const global = useSelector<any, SetBooleanStatus>(state => state.global);
   
