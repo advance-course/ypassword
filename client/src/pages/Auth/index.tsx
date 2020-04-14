@@ -59,8 +59,6 @@ export default function Auth() {
         >微信信息授权
       </AtButton>
       </View>
-      
-      
     </View>
   )
 }
