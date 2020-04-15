@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "@tarojs/redux";
 
 import Accounts from "pages/Accounts/index";
 import { GlobalState } from "store/global";
+import DrawUnlock from "pages/Lock/DrawUnlock";
+import FingerprintLock from "pages/Lock/FingerprintLock";
 
 export default function SwitchPage () {
   const { isFirstUse, isLock, isFingerprintLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
@@ -24,14 +26,9 @@ export default function SwitchPage () {
     }
   }, [])
 
-  useEffect(() => {
-    if (isLock && isLocking) {
-      isFingerprintLock && Taro.redirectTo({url: '/pages/Lock/FingerprintLock/index'});
-      isNinecaseLock && Taro.redirectTo({url: '/pages/Lock/DrawUnlock/index'});
-    }
-  }, [])
-
   return (
-    !isLocking && <Accounts></Accounts>
+    (isLock && isLocking) ? (
+      isFingerprintLock ? <FingerprintLock></FingerprintLock> : <DrawUnlock></DrawUnlock>
+    ) : <Accounts></Accounts>
   )
 }

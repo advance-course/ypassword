@@ -12,10 +12,6 @@ export default function DrawUnlock() {
 
   function closeLock() {
     dispatch({type: 'global/setIsLocking', isLocking: false})
-      
-    return Taro.navigateTo({
-      url: '/pages/index/index'
-    })
   }
 
   function setLockPwd(pwd) {
