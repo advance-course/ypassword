@@ -4,15 +4,13 @@ import { useSelector, useDispatch } from "@tarojs/redux";
 import { View } from "@tarojs/components";
 
 import Home from "pages/Home";
-import Accounts from "pages/Accounts";
+import SwitchLock from "pages/SwitchLock";
 import Feeds from 'pages/Feeds'
 import Profile from "pages/Profile";
 
 import PlaceholderView from 'components/PlaceholderView';
-
-import "./index.scss";
 import { FeedsState } from 'pages/Feeds/model';
-
+import "./index.scss";
 
 export const titles = {
   0: '发现',
@@ -22,7 +20,6 @@ export const titles = {
 }
 
 export default function Layout() {
-  // const { isFirstUse, isFirstEnter, isLock, isNinecaseLock, isFingerprintLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
   const [current, setCurrent] = useState(0);
   const [initial, setInitial] = useState(true);
 
@@ -67,31 +64,6 @@ export default function Layout() {
   })
 
   useEffect(() => {
-    // 首次使用
-    // if (isFirstUse) {
-    //   Taro.checkIsSupportSoterAuthentication({
-    //     success(res) {
-    //       if (res.supportMode.indexOf('fingerPrint') > -1 && !global.isNinecaseLock) {
-    //         dispatch({type: 'global/setIsLock', isLock: true})
-    //         dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true})
-    //       }
-    //     }
-    //   })
-
-    //   dispatch({type: 'global/setIsFirstUse', isFirstUse: false})
-    // }
-  }, [])
-
-  useEffect(():any => {
-    // 如果加锁功能是启动状态，并且是九宫格解锁方式，则跳转到九宫格解锁页面
-    // if (isLock && isLocking) {
-    //   isFingerprintLock && Taro.redirectTo({url: '/pages/FingerprintLock/index'})
-
-    //   isNinecaseLock && Taro.redirectTo({url: '/pages/DrawUnlock/index'})
-    // }
-  }, []);
-
-  useEffect(() => {
     Taro.setNavigationBarTitle({ title: titles[current] });
   }, [current]);
   
@@ -113,7 +85,7 @@ export default function Layout() {
       <View style={{flex: 1, overflow: 'scroll'}}>
         {current === 0 && <Home />}
         {current === 1 && <Feeds />}
-        {current === 2 && <Accounts />}
+        {current === 2 && <SwitchLock />}
         {current === 3 && <Profile />}
       </View>
     
