@@ -2,11 +2,16 @@ import Taro, {useState, useEffect} from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import { AtList, AtInput, AtButton } from 'taro-ui';
 import LogoSelect from "components/LogoSelect";
-import { addCategoryApi, queryTheCategoryApi, updateCategoryApi } from '../api'
+import { queryTheCategoryApi } from '../api'
 import { UserInfo } from 'pages/Auth/interface';
+import { useSelector, useDispatch } from '@tarojs/redux';
+
+import './index.scss'
 export default function Category() {
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
   const [btnText, setBtnText] = useState('新增分类')
+
+  const dispatch = useDispatch()
 
   const _params = this.$router.params
 
@@ -25,19 +30,22 @@ export default function Category() {
   useEffect(() => {
     if (_params.type === 'edit') {
       setBtnText('更新分类')
-      handleQuery().then(res => {
+      queryTheCategoryApi({
+        _id: _params._id,
+        userID: _params.userID
+      }).then(res => {
         let item = res.data.data[0]
         setParams(item)
       })
     }
   }, [])
 
-  function handleQuery () {
-    return queryTheCategoryApi({
-      _id: _params._id,
-      userID: _params.userID
-    })
-  }
+  // function handleQuery () {
+  //   return queryTheCategoryApi({
+  //     _id: _params._id,
+  //     userID: _params.userID
+  //   })
+  // }
 
   function handleSelectImage(select: any) {
     // console.log("=========", select);
@@ -56,37 +64,49 @@ export default function Category() {
       return
     }
 
-    Taro.showLoading({
-      title: '正在提交...',
-      mask: true
-    })
-
     if (_params.type === 'edit') {
-      console.log('修改分类-->')
-      console.log('params', params)
-      updateCategoryApi(params).then(res => {
-        Taro.hideLoading()
-        if (res.success) {
-          Taro.showToast({title: '更新成功', duration: 1000 })
-          Taro.navigateBack()
-        }
-      }).catch(err => {
-        Taro.hideLoading()
-        console.log(err)
+      dispatch({
+        type: 'category/update',
+        payload: params
       })
     } else {
-      console.log('添加分类-->')
-      addCategoryApi(params).then((res) => {
-        Taro.hideLoading()
-        if (res.success) {
-          Taro.showToast({title: '添加成功', duration: 1000 })
-          Taro.navigateBack()
-        }
-      }).catch(err => {
-        Taro.hideLoading()
-        console.log(err)
+      dispatch({
+        type: 'category/add',
+        payload: params
       })
     }
+
+    // Taro.showLoading({
+    //   title: '正在提交...',
+    //   mask: true
+    // })
+
+    // if (_params.type === 'edit') {
+    //   console.log('修改分类-->')
+    //   console.log('params', params)
+    //   updateCategoryApi(params).then(res => {
+    //     Taro.hideLoading()
+    //     if (res.success) {
+    //       Taro.showToast({title: '更新成功', duration: 1000 })
+    //       Taro.navigateBack()
+    //     }
+    //   }).catch(err => {
+    //     Taro.hideLoading()
+    //     console.log(err)
+    //   })
+    // } else {
+    //   console.log('添加分类-->')
+    //   addCategoryApi(params).then((res) => {
+    //     Taro.hideLoading()
+    //     if (res.success) {
+    //       Taro.showToast({title: '添加成功', duration: 1000 })
+    //       Taro.navigateBack()
+    //     }
+    //   }).catch(err => {
+    //     Taro.hideLoading()
+    //     console.log(err)
+    //   })
+    // }
   }
 
   return (

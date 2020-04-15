@@ -1,16 +1,21 @@
 import Taro, { useState, useEffect } from "@tarojs/taro";
-import { View, Button, Image, Text } from "@tarojs/components";
-import { queryCategoryListApi, delCategoryApi } from "../api";
+import { View, Button } from "@tarojs/components";
 import { UserInfo } from "pages/Auth/interface";
 import "./index.scss";
 import MyIcon from "components/myIcon";
 import SlideItem from '../components/SlideItem/index'
-
+import { useSelector, useDispatch } from '@tarojs/redux';
+import { CategoryState } from '../model'
 export default function List() {
-  const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { list } = useSelector<any, CategoryState>(state => {
+    return state.category
+  })
+
+  const dispatch = useDispatch()
 
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
+
+  const _params = this.$router.params
 
   useEffect(() => {
     Taro.getStorage({ key: "userInfo" }).then(res => {
@@ -19,33 +24,22 @@ export default function List() {
   }, []);
 
   useEffect(() => {
-    if (loading) {
-      Taro.showLoading({title: '加载中...'})
-      fetchList().then(res => {
-        setLoading(false);
-        setList(res.data.data);
-      })
-    } else {
-      Taro.hideLoading();
-    }
-  }, [loading]);
-
-  function fetchList() {
-    return queryCategoryListApi({
-      userID: userInfo._id
-    });
-  }
+    dispatch({
+      type: 'category/getList',
+      payload: {
+        userID: userInfo._id
+      }
+    })
+  }, []);
 
   function handleDel(item) {
-    delCategoryApi({
-      userID: userInfo._id,
-      _id: item._id
-    }).then(res => {
-      if (res.success) {
-        Taro.showToast({ title: "删除成功", duration: 1000 });
-        setLoading(true);
+    dispatch({
+      type: 'category/del',
+      payload: {
+        userID: userInfo._id,
+        _id: item._id
       }
-    });
+    })
   }
 
   function handleEdit(type, item) {
@@ -63,6 +57,14 @@ export default function List() {
     });
   }
 
+  function handleClick (type, item) {
+    if (_params && _params.type && _params.type === 'choose') {
+      Taro.navigateBack({ category: item._id })
+    } else {
+      handleEdit(type, item)
+    }
+  }
+
   return (
     <View className="container">
       <View className="operate">
@@ -76,7 +78,7 @@ export default function List() {
           key={item._id}
           item={item}
           delItem={handleDel}
-          editItem={handleEdit}
+          clickItem={handleClick}
           ></SlideItem>
         ))}
       </View>

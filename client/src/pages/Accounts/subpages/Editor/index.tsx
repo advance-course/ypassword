@@ -18,7 +18,9 @@ export default function AccountDetail() {
   const {crypt} = useSelector<any, GlobalState>(state => state.global)
   const dispatch = useDispatch()
   const [params, setParams] = useState(_params);
-  const { uuid, title = '', username, password, ...other } = params;
+  const { uuid, title = '', username, password, category, ...other } = params;
+
+  console.log('----> _params', _params)
 
   const [visible, setVisible] = useState(false);
   const [properties, setProperties] = useState(defProps);
@@ -52,13 +54,13 @@ export default function AccountDetail() {
       <AtList>
         <AtInput name="uuid" title="uuid" type='text' disabled value={uuid} onChange={() => {}} />
 
-        <AtInput 
-          onChange={(v: string) => { setParams({ ...params, title: v }) }} 
-          name="title" 
-          title="标题" 
-          type='text' 
-          placeholder='请输入标题' 
-          value={title} 
+        <AtInput
+          onChange={(v: string) => { setParams({ ...params, title: v }) }}
+          name="title"
+          title="标题"
+          type='text'
+          placeholder='请输入标题'
+          value={title}
         />
 
         <AtInput
@@ -81,6 +83,19 @@ export default function AccountDetail() {
           type='text'
           placeholder='请输入账号'
           value={password}
+        />
+
+        <AtInput
+          onChange={(v: string) => {
+            setParams({ ...params, category: v })
+          }}
+          onClick={() => Taro.navigateTo({url: `/pages/Category/List/index?type=choose`})}
+          name="category"
+          title="分类"
+          type='text'
+          placeholder='请选择分类'
+          value={category}
+          editable={false}
         />
 
         {keys.map((item) => (

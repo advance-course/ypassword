@@ -15,11 +15,11 @@ export interface ItemProps {
     _id: String;
   },
   delItem,
-  editItem
+  clickItem
 }
 
 export default function MovableDelete(props: ItemProps) {
-  const { item, delItem, editItem } = props;
+  const { item, delItem, clickItem } = props;
   const [x, setX] = useState(0);
   const [startX, setStartX] = useState(0);
 
@@ -68,7 +68,7 @@ export default function MovableDelete(props: ItemProps) {
   }
 
   function handleEdit () {
-    editItem('edit', item)
+    clickItem('edit', item)
   }
 
   return (
