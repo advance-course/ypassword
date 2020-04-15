@@ -5,6 +5,7 @@ import Accounts from "pages/Accounts/index";
 import { GlobalState } from "store/global";
 import DrawUnlock from "pages/Lock/DrawUnlock";
 import FingerprintLock from "pages/Lock/FingerprintLock";
+import { View } from '@tarojs/components';
 
 export default function SwitchPage () {
   const { isFirstUse, isLock, isFingerprintLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
@@ -25,16 +26,14 @@ export default function SwitchPage () {
       dispatch({type: 'global/setIsFirstUse', isFirstUse: false});
     }
   }, [])
-console.log(isLock)
-console.log(isLocking)
+  console.log(isLock)
+  console.log(isLocking)
   if (!isLock || !isLocking) {
-    console.log(1)
-    return <Accounts />
+    return <View><Accounts /></View>
   }
 
   if (isFingerprintLock) {
     return <FingerprintLock />
   }
   return <DrawUnlock />
-
 }
