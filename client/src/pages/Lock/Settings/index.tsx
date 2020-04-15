@@ -1,8 +1,7 @@
 import Taro from '@tarojs/taro';
-import { View, Label, Image } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { AtForm, AtSwitch } from 'taro-ui';
 import { useSelector, useDispatch } from '@tarojs/redux';
-import './index.scss';
 import { SetBooleanStatus } from 'store/global';
 
 export default function Profile() {

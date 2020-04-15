@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "@tarojs/redux";
 import { View } from "@tarojs/components";
 
 import Home from "pages/Home";
-import SwitchLock from "pages/SwitchLock";
+import SwitchLock from "pages/Lock/SwitchLock";
 import Feeds from 'pages/Feeds'
 import Profile from "pages/Profile";
 

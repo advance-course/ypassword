@@ -25,10 +25,16 @@ export default function SwitchPage () {
       dispatch({type: 'global/setIsFirstUse', isFirstUse: false});
     }
   }, [])
+console.log(isLock)
+console.log(isLocking)
+  if (!isLock || !isLocking) {
+    console.log(1)
+    return <Accounts />
+  }
 
-  return (
-    (isLock && isLocking) ? (
-      isFingerprintLock ? <FingerprintLock></FingerprintLock> : <DrawUnlock></DrawUnlock>
-    ) : <Accounts></Accounts>
-  )
+  if (isFingerprintLock) {
+    return <FingerprintLock />
+  }
+  return <DrawUnlock />
+
 }
