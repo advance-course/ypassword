@@ -98,7 +98,7 @@ exports.main = async (event, context) => {
         lastPage = true;
       }
       const start = pageSize * (current - 1);
-      const list = await x.skip(start).limit(pageSize).get();
+      const list = await x.orderBy('createTime', 'desc').skip(start).limit(pageSize).get();
 
       const result = { pageSize, current, lastPage, total, list: list.data };
       ctx.body = {
