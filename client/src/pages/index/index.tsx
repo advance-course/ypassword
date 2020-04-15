@@ -10,7 +10,6 @@ import Profile from "pages/Profile";
 
 import PlaceholderView from 'components/PlaceholderView';
 
-import { GlobalState, SetBooleanStatus } from "store/global";
 import "./index.scss";
 import { FeedsState } from 'pages/Feeds/model';
 

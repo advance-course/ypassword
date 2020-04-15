@@ -6,7 +6,7 @@ import { useSelector } from '@tarojs/redux';
 import { GlobalState } from 'store/global';
 
 export default function Profile() {
-  const {userInfo} = useSelector<any, GlobalState>(state => state.global)
+  const {userInfo = {}} = useSelector<any, GlobalState>(state => state.global)
 
   return (
     <View className="profile_container">

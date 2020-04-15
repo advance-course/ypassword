@@ -18,7 +18,8 @@ export default function Auth() {
         await registerApi(result.userInfo);
         const res = await loginApi()
         Taro.setStorageSync('userInfo', res.data)
-        dispatch({ type: "setIsFirstEnter", isFirstEnter: false });
+        dispatch({ type: 'global/userInfo', payload: res.data })
+        dispatch({ type: "global/setIsFirstEnter", isFirstEnter: false });
         dispatch({ type: 'global/setUserId', userId: res.data._id })
         const rsa = Taro.getStorageSync('rsa');
         if (!rsa && res.data.publicKey) {
