@@ -23,7 +23,7 @@ export default function AddCategory() {
     if (editorType == 'add') {
       dispatch({
         type: 'category/add',
-        payload: {type, userid: userId, ...curInfo }
+        payload: {type: Number(type), userid: userId, ...curInfo }
       })
     }
 
@@ -31,7 +31,7 @@ export default function AddCategory() {
       dispatch({
         type: 'category/update',
         payload: {
-          type,
+          type: Number(type),
           data: curInfo
         }
       })

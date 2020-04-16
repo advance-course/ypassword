@@ -22,7 +22,6 @@ export default function Profile() {
           <Button type="primary" className="btn" onClick={() => Taro.navigateTo({url: '/pages/Auth/index'})}>点击授权</Button>
         </View>
       )}
-      
 
       <AtList>
         <AtListItem
@@ -50,13 +49,6 @@ export default function Profile() {
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/Taroui/index' })}
         /> */}
-        
-        {/* <AtListItem
-          title="图标库"
-          extraText=""
-          arrow="right"
-          onClick={() => Taro.navigateTo({ url: '/pages/examples/icon/index' })}
-        /> */}
 
         {userInfo.type == 1 && (
           <Block>
@@ -65,6 +57,18 @@ export default function Profile() {
               extraText=""
               arrow="right"
               onClick={() => Taro.navigateTo({ url: '/pages/toB/users/index' })}
+            />
+            <AtListItem
+              title="默认分类"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/Category/List/index?type=2' })}
+            />
+            <AtListItem
+              title="图标库"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/examples/icon/index' })}
             />
           </Block>
         )}
