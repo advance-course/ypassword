@@ -43,15 +43,40 @@ export default function AddCategory() {
       count: 1,
       sizeType: ['compressed'],
       sourceType: ['album', 'camera']
-    }).then(res => {
+    }).then(async res => {
       Taro.showLoading({title: '上传中...'})
       const file = res.tempFiles[0]
+      let path = file.path
       if (file.size > 100 * 1024) {
-        // todo 压缩图片
+        const t = file.path.split('.').pop() || ''
+        if (!['jpg', 'JPG', 'JPEG', 'jpeg'].includes(t)) {
+          Taro.hideLoading()
+          Taro.showToast({
+            title: `当前图片大小为 ${file.size}B，超过规定大小 100KB，并且格式为 ${t}，无法压缩，请选择 .jpg 或者 .jpeg 格式或者小于50KB的图片进行上传`,
+            icon: 'none',
+            duration: 6000
+          })
+          return
+        }
+        Taro.hideLoading()
+        Taro.showToast({
+          title: `当前图片大小为 ${file.size}B，超过规定大小 100KB，请上传小于100K的图片`,
+          icon: 'none',
+          duration: 6000
+        })
+        return;
+        // todo 压缩图片 大图片无法压缩到理想大小，待定
+        // Taro.showLoading({
+        //   title: '压缩图片...',
+        // })
+        // const q = Math.ceil((50 * 1024) / file.size * 100)
+        // console.log(q)
+        // const cps = await Taro.compressImage({ quality: 4, src: path })
+        // path = cps.tempFilePath
       }
       
       Taro.cloud.uploadFile({
-        filePath: file.path,
+        filePath: path,
         cloudPath: file.path.split('/').pop() as string
       }).then(res => {
         setCurinfo({...curInfo, imgUrl: res.fileID})
