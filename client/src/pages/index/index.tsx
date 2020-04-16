@@ -48,7 +48,9 @@ export default function Layout() {
         payload: { current: 1 }
       })
     }
-    
+    if (current == 2) {
+      Taro.stopPullDownRefresh()
+    }
     if (current == 3) {
       dispatch({ type: 'global/login' })
     }
