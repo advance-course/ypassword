@@ -8,32 +8,52 @@ export default function Profile() {
   const { isLock, isFingerprintLock, isNinecaseLock } = useSelector<any, SetBooleanStatus>(state => state.global)
   const dispatch = useDispatch()
 
-  function switchLock(isLock) {
-    dispatch({type: 'global/setIsLock', isLock})
+  function switchLock(lock) {
+  //   // 关闭锁要验证
+    if (!lock) {
+      if (isFingerprintLock) {
+        Taro.startSoterAuthentication({
+          requestAuthModes: ['fingerPrint'],
+          challenge: '123456',
+          authContent: '请用指纹解锁',
+          success(res) {
+            dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: lock})
+          }
+        })
+      }
+
+      if (isNinecaseLock) {
+        return Taro.navigateTo({
+          url: '/pages/Lock/AuthLock/index?wey=lock',
+        })
+      }
+    } else {
+      dispatch({type: 'global/setIsLock', lock})
+    }
   }
   
-  function switchFingerprintLock(isLock) {
-
-    if (isLock) {
-      Taro.startSoterAuthentication({
-        requestAuthModes: ['fingerPrint'],
-        challenge: '123456',
-        authContent: '请用指纹解锁',
-        success(res) {
-          dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true})
-          dispatch({type: 'global/setIsLock', isLock: true})
-        }
-      })
-    } else {
-      dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: isLock})
-    }
-
+  function switchFingerprintLock(lock) {
+    Taro.startSoterAuthentication({
+      requestAuthModes: ['fingerPrint'],
+      challenge: '123456',
+      authContent: '请用指纹解锁',
+      success(res) {
+        dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: lock})
+      },
+      fail() {
+        Taro.showToast({
+          title: '当前设备暂不支持指纹解锁',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    })
   }
 
-  function switchNinecaseLock(isLock) {
+  function switchNinecaseLock(lock) {
     const lockPwd = Taro.getStorageSync('gesturePwd');
 
-    if (isLock) {
+    if (lock) {
       if (lockPwd.length) {
         dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:true});
       } else {
@@ -42,11 +62,10 @@ export default function Profile() {
         })
       }
     } else {
-      dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock: false})
+      dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:false});
     }
 
   }
-
   return (
     <View>
       <AtForm>

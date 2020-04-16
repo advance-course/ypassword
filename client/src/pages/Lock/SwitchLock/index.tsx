@@ -26,8 +26,7 @@ export default function SwitchPage () {
       dispatch({type: 'global/setIsFirstUse', isFirstUse: false});
     }
   }, [])
-  console.log(isLock)
-  console.log(isLocking)
+
   if (!isLock || !isLocking) {
     return <View><Accounts /></View>
   }

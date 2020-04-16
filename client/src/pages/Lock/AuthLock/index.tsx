@@ -4,19 +4,16 @@ import { useDispatch } from '@tarojs/redux';
 
 import GestureLock from '../../../components/GestureLock'
 
-export default function DrawUnlock() {
+export default function AuthLock(props) {
   const dispatch = useDispatch();
 
   const lockPwd = Taro.getStorageSync('gesturePwd');
 
+  console.log(props)
+
   function closeLock() {
-    dispatch({type: 'global/setIsLocking', isLocking: false})
-  }
-
-  function setLockPwd(pwd) {
-    Taro.setStorageSync('gesturePwd', pwd);
-
-    dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:true});
+    dispatch({type: 'global/setIsLock', isLock: false})
+    Taro.navigateBack()
   }
 
   function forgetPwd() {
@@ -30,14 +27,13 @@ export default function DrawUnlock() {
       <GestureLock
         lockPwd={lockPwd}
         closeLock={closeLock}
-        setLockPwd={setLockPwd}
         forgetPwd={forgetPwd}
       />
     </View>
   )
 }
 
-DrawUnlock.config = {
+AuthLock.config = {
   disableScroll: true,
   navigationBarTitleText: '手势解锁',
 } as Config

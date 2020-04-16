@@ -24,6 +24,8 @@ class App extends Component {
       "pages/Lock/Settings/index",
       "pages/checkin/index",
       "pages/webview/index",
+      "pages/Lock/PasswordRest/index",
+      "pages/Lock/AuthLock/index",
       
       "pages/Home/bookinfo/index",
       "pages/Feeds/articleList/index",
