@@ -31,7 +31,7 @@ export default function Index() {
 
         <Button
           className="btn category"
-          onClick={() => Taro.navigateTo({ url: '/pages/Category/List/index' })}
+          onClick={() => Taro.navigateTo({ url: '/pages/Category/List/index?type=1' })}
         ><MyIcon name="RectangleCopy74" size={20} /></Button>
       </View>
 

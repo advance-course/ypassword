@@ -1,0 +1,33 @@
+[
+  {
+    "name": "新增",
+    "value": {
+      "$url": "v1/add",
+      "userid": "dc65fe3e5e81617f001d5c2b1b0571db",
+      "name": "简书",
+      "imgUrl": "cloud://release-d541f1.7265-release-d541f1-1258315057/tmp_de5f5c1c1ff5a64c64fdf030fdbaeeb8.jpg"
+    }
+  },
+  {
+    "name": "删除",
+    "value": {
+      "$url": "v1/del",
+      "_id": "e62331e95e97bec100262f9070a2eaf2"
+    }
+  },
+  {
+    "name": "更新",
+    "value": {
+      "$url": "v1/update",
+      "_id": "e62331e95e97bf9b002645423018e999",
+      "name": "简书2"
+    }
+  },
+  {
+    "name": "查询列表",
+    "value": {
+      "$url": "v1/list",
+      "userid": "dc65fe3e5e81617f001d5c2b1b0571db"
+    }
+  }
+]

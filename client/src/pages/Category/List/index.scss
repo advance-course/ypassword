@@ -1,17 +1,24 @@
 .container {
-  height: 100%;
-  background: white;
-  padding: 0 10Px;
-  .operate {
-    height: 60Px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .cat_container {
+    width: 25%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    .btn{
-      width: 30Px;
-      height: 30Px;
-      line-height: 30Px;
-      padding: 0;
-    }
+    justify-content: center;
+    flex-direction: column;
+    margin: 15Px 0;
+  }
+
+  .image {
+    width: 60Px;
+    height: 60Px;
+    border-radius: 4Px;
+  }
+
+  .name {
+    font-size: 14Px;
+    margin-top: 10Px;
   }
 }

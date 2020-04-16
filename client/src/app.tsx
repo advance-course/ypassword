@@ -35,7 +35,7 @@ class App extends Component {
       // 分类
       "pages/Category/index",
       "pages/Category/List/index",
-      "pages/Category/Edit/index",
+      "pages/Category/Editor/index",
 
       // B端页面
       "pages/toB/users/index",

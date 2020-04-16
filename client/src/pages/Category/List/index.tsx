@@ -1,86 +1,69 @@
-import Taro, { useState, useEffect } from "@tarojs/taro";
-import { View, Button } from "@tarojs/components";
-import { UserInfo } from "pages/Auth/interface";
-import "./index.scss";
+import Taro, { useState, useEffect, useRouter } from "@tarojs/taro";
+import { View, Image } from "@tarojs/components";
 import MyIcon from "components/myIcon";
-import SlideItem from '../components/SlideItem/index'
 import { useSelector, useDispatch } from '@tarojs/redux';
 import { CategoryState } from '../model'
-export default function List() {
-  const { list } = useSelector<any, CategoryState>(state => {
-    return state.category
-  })
+import { GlobalState } from 'store/global';
+import "./index.scss";
 
+export default function List() {
+  const { list, defList } = useSelector<any, CategoryState>(state => state.category)
+  const {userId} = useSelector<any, GlobalState>(state => state.global)
+  const router = useRouter()
+  const {type} = router.params
   const dispatch = useDispatch()
 
-  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
-
-  const _params = this.$router.params
-
-  useEffect(() => {
-    Taro.getStorage({ key: "userInfo" }).then(res => {
-      setUserInfo(res.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    dispatch({
-      type: 'category/getList',
-      payload: {
-        userID: userInfo._id
-      }
-    })
-  }, []);
-
-  function handleDel(item) {
-    dispatch({
-      type: 'category/del',
-      payload: {
-        userID: userInfo._id,
-        _id: item._id
-      }
-    })
+  let _list: category.Info[] = []
+  if (Number(type) == 1) {
+    _list = list
+  }
+  if (Number(type) == 2) {
+    _list = defList
   }
 
-  function handleEdit(type, item) {
-    let url = `/pages/Category/Edit/index?type=${type}`;
-    switch (type) {
-      case "add":
-        break;
-      case "edit":
-        url = `${url}&_id=${item._id}&userID=${userInfo._id}`;
-        break;
+  useEffect(() => {
+    if (_list.length == 0) {
+      dispatch({
+        type: 'category/getList',
+        payload: {
+          userid: userId,
+          type: Number(type)
+        }
+      })
     }
-    console.log("url", url);
-    Taro.navigateTo({
-      url: url
-    });
-  }
+  }, []);
 
-  function handleClick (type, item) {
-    if (_params && _params.type && _params.type === 'choose') {
-      Taro.navigateBack({ category: item._id })
+  function nav(editorType: 'add' | 'editor', item?: category.Info) {
+    if (editorType == 'add') {
+      dispatch({
+        type: 'category/current',
+        payload: 'reset'
+      })
     } else {
-      handleEdit(type, item)
+      dispatch({
+        type: 'category/current',
+        payload: item
+      })
     }
+
+    Taro.navigateTo({
+      url: `/pages/Category/Editor/index?editorType=${editorType}&type=${type}`
+    })
   }
 
   return (
     <View className="container">
-      <View className="operate">
-        <Button className="btn" onClick={() => handleEdit("add", null)}>
-          <MyIcon name="add-circle" size={20} />
-        </Button>
-      </View>
-      <View className="category-list">
-        {list.map((item, index) => (
-          <SlideItem
-          key={item._id}
-          item={item}
-          delItem={handleDel}
-          clickItem={handleClick}
-          ></SlideItem>
-        ))}
+      {_list.map((item) => (
+        <View className="cat_container" key={item._id} onClick={() => nav('editor', item)}>
+          <Image className="image" src={item.imgUrl!} mode="aspectFill" />
+          <View className="name">{item.name}</View>
+        </View>
+      ))}
+      <View className="cat_container" onClick={() => nav('add')}>
+        <View className="image">
+          <MyIcon name="add-circle" size={50} />
+        </View>
+        <View className="name"></View>
       </View>
     </View>
   );

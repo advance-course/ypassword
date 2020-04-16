@@ -2,21 +2,18 @@
   height: 100%;
   background: white;
   padding: 0 15px;
-  .image{
-    display: block;
-    width: 200Px;
-    height: 300Px;
-    margin: 10Px auto;
-  }
   .name {
     flex: 1;
     line-height: 100px;
   }
   .btn-view {
+    margin-top: 30Px;
     padding: 0 15px;
-    button {
-      vertical-align: middle;
-      margin-right: 10px;
+    .btn {
+      width: 200Px;
+      height: 40Px;
+      line-height: 40Px;
+      margin: 0 auto;
     }
   }
 }
