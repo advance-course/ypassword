@@ -45,7 +45,7 @@ export default function Index() {
   return (
     <View className="container">
       {list.list.length ? (
-        <Swiper className="content">
+        <Swiper className="content" previous-margin={30} next-margin={30}>
           {list.list.map((book, i) => (
             <SwiperItem className="book" key={book._id}>
               <View className="inner_wrap">

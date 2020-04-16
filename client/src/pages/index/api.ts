@@ -26,6 +26,7 @@ export interface UserInfo extends WxUserinfo {
    * 2： 管理员
    * 3： 普通用户
    * 4： 付费用户
+   * 5: 签约作者
    */
   type?: 1 | 2 | 3 | 4 | 5,
 }

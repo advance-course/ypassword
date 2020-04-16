@@ -47,6 +47,14 @@ export default function RSAKeys() {
     if (createDisabled) {
       return;
     }
+
+    const res = Taro.getStorageSync('userInfo');
+    
+    if (!res || !res.data) {
+      Taro.navigateTo({ url: '/pages/Auth/index' })
+      return;
+    }
+    
     Taro.showLoading({title: '生成中...'});
     const _crypt = new JSEncrypt({ default_key_size: 1024 });
     _crypt.getKey(() => {

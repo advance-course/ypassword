@@ -1,24 +1,28 @@
-import Taro, { useState, useEffect } from '@tarojs/taro';
-import { View, Label, Image, Block } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import { View, Label, Image, Block, OfficialAccount, Button } from '@tarojs/components';
 import { AtList, AtListItem } from 'taro-ui';
-import { UserInfo } from 'pages/index/api';
 import './index.scss';
+import { useSelector } from '@tarojs/redux';
+import { GlobalState } from 'store/global';
 
 export default function Profile() {
-  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
-  useEffect(() => {
-    Taro.getStorage({ key: 'userInfo' }).then(res => {
-      setUserInfo(res.data);
-    })
-  }, [userInfo]);
+  const {userInfo = {}} = useSelector<any, GlobalState>(state => state.global)
 
   return (
     <View className="profile_container">
-      <View className="userInfoContainer">
-        <Image src={userInfo.avatarUrl!} className="avatar" />
-        <Label className="username">{userInfo.nickName}</Label>
-        <Label className="city">{userInfo.city}</Label>
-      </View>
+      {userInfo._id ? (
+        <View className="userInfoContainer">
+          <Image src={userInfo.avatarUrl!} className="avatar" />
+          <Label className="username">{userInfo.nickName}</Label>
+          <Label className="city">{userInfo.city}</Label>
+        </View>
+      ) : (
+        <View className="userInfoContainer">
+          <View className="tip">您还未授权，部分功能无法正常使用</View>
+          <Button type="primary" className="btn" onClick={() => Taro.navigateTo({url: '/pages/Auth/index'})}>点击授权</Button>
+        </View>
+      )}
+      
 
       <AtList>
         <AtListItem
@@ -47,12 +51,12 @@ export default function Profile() {
           onClick={() => Taro.navigateTo({ url: '/pages/Taroui/index' })}
         /> */}
         
-        <AtListItem
+        {/* <AtListItem
           title="图标库"
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/examples/icon/index' })}
-        />
+        /> */}
 
         {userInfo.type == 1 && (
           <Block>
@@ -62,17 +66,10 @@ export default function Profile() {
               arrow="right"
               onClick={() => Taro.navigateTo({ url: '/pages/toB/users/index' })}
             />
-
-            <AtListItem
-              title="文章管理"
-              extraText=""
-              arrow="right"
-              onClick={() => Taro.navigateTo({ url: '/pages/toB/articles/index' })}
-            />
           </Block>
         )}
 
-        {userInfo.type !== 4 && (
+        {[1, 2, 5].includes(userInfo.type!) && (
           <Block>
             <AtListItem
               title="专属订阅号"
@@ -87,10 +84,17 @@ export default function Profile() {
               arrow="right"
               onClick={() => Taro.navigateTo({ url: '/pages/toB/books/index' })}
             />
+
+            <AtListItem
+              title="文章管理"
+              extraText=""
+              arrow="right"
+              onClick={() => Taro.navigateTo({ url: '/pages/toB/articles/index' })}
+            />
           </Block>
         )}
 
-        <AtListItem
+        {/* <AtListItem
           title="开发团队"
           extraText=""
           arrow="right"
@@ -101,8 +105,10 @@ export default function Profile() {
           extraText=""
           arrow="right"
           onClick={() => Taro.navigateTo({ url: '/pages/extra/author/index' })}
-        />
+        /> */}
       </AtList>
+      <View style={{height: '15Px'}} />
+      <OfficialAccount />
     </View>
   )
 }

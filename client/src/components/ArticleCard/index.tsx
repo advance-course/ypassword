@@ -5,10 +5,12 @@ import './index.scss'
 
 export interface ArticleCard {
   info: article.Item,
-  editor?: boolean
+  editor?: boolean,
+  onLoad?: () => any,
+  onError?: () => any
 }
 
-export default function ArticleCard({info, editor}) {
+export default function ArticleCard({info, editor, onLoad, onError}: ArticleCard) {
   const dispatch = useDispatch()
   function editorHandler(article: article.Item) {
     if (editor) {
@@ -18,6 +20,14 @@ export default function ArticleCard({info, editor}) {
       })
       Taro.navigateTo({ url: '/pages/toB/articles/subpages/Editor/index' })
     }
+  }
+
+  function _onLoad() {
+    onLoad && onLoad()
+  }
+
+  function _onError() {
+    onError && onError()
   }
 
   return (
@@ -39,7 +49,7 @@ export default function ArticleCard({info, editor}) {
         </View>
         {info.thumb && (
           <View className="content_right">
-            <Image className="thumb" src={info.thumb!} mode="aspectFill" />
+            <Image className="thumb" src={info.thumb!} mode="aspectFill" onError={_onError} onLoad={_onLoad} />
           </View>
         )}
       </View>

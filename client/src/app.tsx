@@ -14,9 +14,10 @@ class App extends Component {
   config: Config = {
     pages: [
       "pages/index/index",
-      "pages/PasswordRest/index",
-      "pages/FingerprintLock/index",
-      "pages/DrawUnlock/index",
+      "pages/Lock/PasswordRest/index",
+      // "pages/Lock/FingerprintLock/index",
+      // "pages/Lock/DrawUnlock/index",
+      // "pages/SwitchLock/index",
       "pages/Profile/subpages/RSAKey/index",
       "pages/Profile/subpages/PrivateKey/index",
       "pages/Profile/subpages/Subscribtion/index",
@@ -68,15 +69,22 @@ class App extends Component {
       "pages/Taroui/index"
     ],
     window: {
-      backgroundTextStyle: "light",
-      navigationBarBackgroundColor: "#FAE14C",
-      backgroundColor: "#FFF",
-      navigationBarTitleText: "WeChart",
+      backgroundTextStyle: "dark",
+      navigationBarBackgroundColor: "#FFF",
+      backgroundColor: "#ededed",
+      navigationBarTitleText: "码易",
       navigationBarTextStyle: "black"
     },
     cloud: true,
     usingComponents: {}
   };
+
+  componentWillMount() {
+    const updateManager = Taro.getUpdateManager()
+    updateManager.onUpdateReady(() => {
+      updateManager.applyUpdate()
+    })
+  }
 
   componentDidMount() {
     if (process.env.TARO_ENV === "weapp") {

@@ -1,5 +1,24 @@
 .container {
+  min-height: 100%;
+  background-color: #ededed;
+  padding: 1Px;
+  
   .add_btn {
     margin: 20Px;
+  }
+
+  .preview {
+    background: #FFF;
+    margin: 10Px;
+    border-radius: 4Px;
+  }
+  .title {
+    border-bottom: 1Px solid #ededed;
+    height: 45Px;
+    color: #999;
+    padding: 0 15Px;
+    display: flex;
+    align-items: center;
+    font-size: 13Px;
   }
 }

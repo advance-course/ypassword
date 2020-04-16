@@ -30,6 +30,7 @@ exports.main = async (event, context) => {
       ctx.body = { success: false, code: 200, message: '书籍名称不能为空', data: null }
       return
     }
+    
     if (event.userInfo) {
       delete event.userInfo
     }

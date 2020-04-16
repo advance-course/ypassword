@@ -1,14 +1,11 @@
 import Taro, { Config } from '@tarojs/taro';
 import { View } from '@tarojs/components'
-import { useSelector, useDispatch } from '@tarojs/redux';
+import { useDispatch } from '@tarojs/redux';
 
-import GestureLock from '../../components/GestureLock'
-import { SetBooleanStatus } from 'store/global';
+import GestureLock from '../../../components/GestureLock'
 import './index.scss';
 
-interface DrawUnlockProps {};
-export default function DrawUnlock(props):DrawUnlockProps {
-  const global = useSelector<any, SetBooleanStatus>(state => state.global)
+export default function DrawUnlock() {
   const dispatch = useDispatch();
 
   const lockPwd = Taro.getStorageSync('gesturePwd');
@@ -26,7 +23,7 @@ export default function DrawUnlock(props):DrawUnlockProps {
 
   function forgetPwd() {
     Taro.redirectTo({
-      url: '/pages/PasswordRest/index'
+      url: '/pages/Lock/PasswordRest/index'
     })
   }
   

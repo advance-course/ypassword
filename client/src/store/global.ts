@@ -6,6 +6,7 @@ import { Model, ActionWithPayload } from "utils/dva";
 import JSEncrypt from 'utils/rsa';
 import {getSystemInfo} from 'utils'
 import { SystemInfo } from 'utils/fp/getSystemInfo';
+import { UserInfo, loginApi } from 'pages/index/api';
 
 function getStorage(key:string):any {
   return Taro.getStorageSync(key)
@@ -33,7 +34,8 @@ export interface GlobalState {
   /** app当前是否处于加锁状态 */
   isLocking: boolean,
   crypt: typeof crypt,
-  systemInfo: SystemInfo
+  systemInfo: SystemInfo,
+  userInfo: UserInfo
 }
 
 export interface setUserId extends ActionWithPayload {
@@ -55,9 +57,31 @@ export default {
     isNinecaseLock: getStorage('isNinecaseLock') || false,
     isLocking: true,
     crypt,
-    systemInfo: getSystemInfo()
+    systemInfo: getSystemInfo(),
+    userInfo: {} as UserInfo
   },
   effects: {
+    *login(action, {call, put, select}) {
+      const global: GlobalState = yield select(({global}) => global)
+      try {
+        if (global.isFirstEnter) {
+          const res = yield call(loginApi)
+          Taro.setStorageSync('userInfo', res.data)
+          yield put({ type: 'userInfo', payload: res.data })
+          yield put({ type: 'setIsFirstEnter', isFirstEnter: false})
+          yield put({ type: 'setUserId', userId: res.data._id})
+          const rsa = Taro.getStorageSync('rsa');
+          if (!rsa || !res.data.publicKey) {
+            Taro.setStorageSync('rsa', { publicKey: res.data.publicKey || '', privateKey: res.data.privateKey || '' })
+          }
+        }
+        Taro.stopPullDownRefresh()
+      } catch (e) {
+        if ([401, 40101, 40102, 40103].includes(e.code)) {
+          Taro.navigateTo({ url: '/pages/Auth/index' })
+        }
+      }
+    }
   },
   reducers: {
     setLockingStatus: (state, action: any) => ({
@@ -134,5 +158,11 @@ export default {
         isLocking: action.isLocking
       }
     },
+    userInfo(state, {payload}) {
+      return {
+        ...state,
+        userInfo: payload
+      }
+    }
   }
 } as Model<GlobalState>;

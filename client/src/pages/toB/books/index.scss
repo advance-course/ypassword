@@ -12,49 +12,4 @@
       border: none;
     }
   }
-
-  .book_item {
-    padding: 20Px 15Px;
-    display: flex;
-    align-items: center;
-    background-color: #FFF;
-    border-radius: 4Px;
-    margin: 15Px 0;
-  }
-  .left {
-    width: 45Px;
-    height: 60Px;
-    margin-right: 20Px;
-  }
-  .content {
-    flex: 1
-  }
-  .cover {
-    width: 45Px;
-    height: 60Px;
-    border-radius: 2Px;
-  }
-  .name {
-    font-size: 16Px;
-    font-weight: bold;
-  }
-  .author_wrap {
-    margin-top: 10Px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .author {
-    font-size: 12Px;
-    color: #999;
-  }
-  .recommend_warp {
-    display: flex;
-    align-items: center;
-    .recommend {
-      font-size: 12Px;
-      color: #999999;
-      margin-left: 2Px;
-    }
-  }
 }

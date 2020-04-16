@@ -28,7 +28,14 @@ export default function Bookinfo() {
   }, [])
 
   return (
-    <PaginationProvider className="container" loading={loading} errMsg={errMsg} lastPage={!!list.pagination.lastPage} increasing={increasing}>
+    <PaginationProvider 
+      className="container" 
+      loading={loading} 
+      errMsg={errMsg} 
+      lastPage={!!list.pagination.lastPage} 
+      increasing={increasing}
+      length={list.list.length}
+    >
       {list.list.map(item => (
         <ArticleCard key={item._id} info={item} editor={false} />
       ))}
