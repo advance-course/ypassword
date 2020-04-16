@@ -57,7 +57,5 @@ export default function Users() {
 
 Users.config = {
   navigationBarTitleText: "用户管理",
-  navigationBarBackgroundColor: "#ffe100",
-  navigationBarTextStyle: "black",
   enablePullDownRefresh: true,
 } as Config;
