@@ -56,6 +56,8 @@ export default {
     isFingerprintLock: getStorage('isFingerprintLock') || false,
     isNinecaseLock: getStorage('isNinecaseLock') || false,
     isLocking: true,
+    isValidate: false,  // 锁验证通过
+    whichValidate: '',  // 哪个验证
     crypt,
     systemInfo: getSystemInfo(),
     userInfo: {} as UserInfo
@@ -119,43 +121,65 @@ export default {
     setIsFingerprintLock(state:GlobalState, action:SetBooleanStatus) {
       setStorage('isFingerprintLock', action.isFingerprintLock)
       
-      if (state.isNinecaseLock) {
+      // 当开启时
+      if (action.isFingerprintLock) {
+        // 关闭手势锁，打开总开关
         setStorage('isNinecaseLock', false)
-
+        setStorage('isLock', true)
+        
         return {
           ...state,
+          isFingerprintLock: true,
           isNinecaseLock: false,
-          isFingerprintLock: action.isFingerprintLock
+          isLock: true
+        }
+      } else {
+        return {
+          ...state,
+          isFingerprintLock: false,
         }
       }
 
-      return {
-        ...state,
-        isFingerprintLock: action.isFingerprintLock
-      }
+
     },
     setIsNinecaseLock(state:GlobalState, action:SetBooleanStatus) {
       setStorage('isNinecaseLock', action.isNinecaseLock)
 
-      if (state.isFingerprintLock) {
+      // 当开启时
+      if (action.isNinecaseLock) {
+        // 关闭指纹锁，打开总开关
         setStorage('isFingerprintLock', false)
-
+        setStorage('isLock', true)
+        
         return {
           ...state,
           isFingerprintLock: false,
-          isNinecaseLock: action.isNinecaseLock
+          isNinecaseLock: true,
+          isLock: true
         }
-      }
-
-      return {
-        ...state,
-        isNinecaseLock: action.isNinecaseLock
+      } else {
+        return {
+          ...state,
+          isNinecaseLock: false,
+        }
       }
     },
     setIsLocking(state:GlobalState, action:SetBooleanStatus) {
       return {
         ...state,
         isLocking: action.isLocking
+      }
+    },
+    setIsValidate(state:GlobalState, action:SetBooleanStatus) {
+      return {
+        ...state,
+        isValidate: action.valid
+      }
+    },
+    setWhichValidate(state:GlobalState, action:SetBooleanStatus) {
+      return {
+        ...state,
+        whichValidate: action.name
       }
     },
     userInfo(state, {payload}) {

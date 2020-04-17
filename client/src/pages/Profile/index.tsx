@@ -34,7 +34,7 @@ export default function Profile() {
           title="密码锁" 
           extraText="" 
           arrow="right"
-          onClick={() => Taro.navigateTo({ url: '/pages/Settings/Lock/index' })}
+          onClick={() => Taro.navigateTo({ url: '/pages/Lock/Settings/index' })}
         />
         {/* <AtListItem
           title="不可变数据集案例"
