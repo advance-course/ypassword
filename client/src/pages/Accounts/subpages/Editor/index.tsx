@@ -26,6 +26,7 @@ export default function AccountDetail() {
 
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: title || '新增' });
+
     dispatch({
       type: 'category/selected',
       payload: 'reset'
@@ -33,10 +34,12 @@ export default function AccountDetail() {
   }, []);
 
   useEffect(() => {
-    dispatch({
-      type: 'account/accountInfo',
-      payload: {category: selected}
-    })
+    if (selected && selected._id) {
+      dispatch({
+        type: 'account/accountInfo',
+        payload: { category: selected }
+      })
+    }
   }, [selected])
 
   function addPropertiesHandler() {
@@ -87,8 +90,6 @@ export default function AccountDetail() {
         <AtIcon className="right" value='chevron-right' size='18' color='#999' />
       </View>
       <AtList className="item_wrap">
-        {uuid && <AtInput name="uuid" title="uuid" type='text' disabled value={uuid} onChange={() => { }} />}
-        
         <AtInput
           onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: {title: v}}) }}
           name="title"
