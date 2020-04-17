@@ -1,6 +1,7 @@
 import Taro, { Config } from '@tarojs/taro';
 import { View } from '@tarojs/components'
-import { useDispatch } from '@tarojs/redux';
+import { useDispatch, useSelector } from '@tarojs/redux';
+import { SetBooleanStatus } from 'store/global';
 
 import GestureLock from '../../../components/GestureLock'
 
@@ -9,10 +10,8 @@ export default function AuthLock(props) {
 
   const lockPwd = Taro.getStorageSync('gesturePwd');
 
-  console.log(props)
-
   function closeLock() {
-    dispatch({type: 'global/setIsLock', isLock: false})
+    dispatch({type: 'global/setIsValidate', valid: true})
     Taro.navigateBack()
   }
 
