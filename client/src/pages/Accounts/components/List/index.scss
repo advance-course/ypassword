@@ -35,16 +35,36 @@
   .who_icon {
     width: 35Px;
     height: 35Px;
-    border: 1Px solid red;
+    border: 1Px solid #fff;
     margin-right: 15Px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 4Px;
+    &.no {
+      border: 1Px solid #ccc;
+    }
+  }
+  .category_img {
+    width: 35Px;
+    height: 35Px;
+    border-radius: 4Px;
+  }
+  .title_text {
+    font-size: 18Px;
   }
   
   .info {
     flex: 1;
+  }
+
+  .username {
+    font-size: 14Px;
+  }
+  .password {
+    font-size: 12Px;
+    color: #ccc;
+    margin-top: 2Px;
   }
 
   .animate {

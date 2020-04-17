@@ -1,5 +1,5 @@
 import Taro, { useState } from "@tarojs/taro"
-import { View } from "@tarojs/components"
+import { View, Image, Text } from "@tarojs/components"
 import classNames from 'classnames';
 import { ITouchEvent } from '@tarojs/components/types/common';
 
@@ -104,10 +104,16 @@ export default function AccountList(props: AccountListProps) {
           return (
             <View key={`${item.title}${item.username}`} className={cls} onClick={() => itemClick(index)}>
               <View className="box_item">
-                  <View className="who_icon">{item.title}</View>
+                  <View className={item.category && item.category.imgUrl ? 'who_icon' : 'who_icon no'}>
+                    {item.category && item.category.imgUrl ? (
+                      <Image className="category_img" src={item.category.imgUrl} mode="aspectFill" />
+                    ) : (
+                      <Text className="title_text">{item.title ? item.title.charAt(0) : 'N'}</Text>
+                    )}
+                  </View>
                   <View className="info">
-                    <View>{item.username}</View>
-                    <View>{item.password}</View>
+                    <View className="username">{item.username}</View>
+                    {item.password && <View className="password">{item.password}</View>}
                   </View>
                   <View className={iconCls} onClick={(e) => iconClickHandler(item, e)} />
               </View>
