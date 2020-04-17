@@ -6,14 +6,16 @@ import { Model } from "utils/dva";
 
 export interface AccountState {
   uuids: string[],
-  accounts: {[key: string]: com.Account}
+  accounts: {[key: string]: com.Account},
+  curAccount: com.Account
 }
 
 export default {
   namespace: "account",
   state: {
     uuids: [],
-    accounts: {}
+    accounts: {},
+    curAccount: {}
   },
   effects: {
     *addAccount({payload}, {put}) {
@@ -49,6 +51,19 @@ export default {
           ...state.accounts,
           [action.payload.uuid]: action.payload
         }
+      }
+    },
+    accountInfo(state, action) {
+      const {payload} = action
+      if (payload == 'reset') {
+        return {
+          ...state,
+          curAccount: {}
+        }
+      }
+      return {
+        ...state,
+        curAccount: {...state.curAccount, ...payload}
       }
     }
   }

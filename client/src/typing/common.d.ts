@@ -13,9 +13,7 @@ declare namespace com {
     /**
      * 账户归属：表示该账户是属于某个网站，或者App等，数据中，根据归属来分类
      * */
-    who?: string,
-    categoryName?: string,
-    categoryImage?: string,
+    category?: category.Info,
 
     /**
      * type

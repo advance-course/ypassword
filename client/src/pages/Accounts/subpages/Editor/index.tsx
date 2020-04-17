@@ -1,11 +1,13 @@
 import Taro, { Config, useEffect, useState } from "@tarojs/taro";
-import { View } from "@tarojs/components";
-import { AtInput, AtList, AtButton, AtFloatLayout } from "taro-ui";
+import { View, Image, Text } from "@tarojs/components";
+import { AtInput, AtList, AtButton, AtFloatLayout, AtIcon } from "taro-ui";
 import "./index.scss";
 import { useSelector, useDispatch } from '@tarojs/redux';
 import { AccountState } from 'pages/Accounts/model';
 import { createUUID } from 'utils';
 import { GlobalState } from 'store/global';
+import MyIcon from 'components/myIcon';
+import { CategoryState } from 'pages/Category/model';
 
 const defProps = {
   key: '',
@@ -13,49 +15,82 @@ const defProps = {
 }
 
 export default function AccountDetail() {
-  const _params: com.Account = this.$router.params;
-  const accounts = useSelector<any, AccountState>(state => state.account);
+  const {curAccount} = useSelector<any, AccountState>(state => state.account);
   const {crypt} = useSelector<any, GlobalState>(state => state.global)
+  const {selected} = useSelector<any, CategoryState>(state => state.category)
   const dispatch = useDispatch()
-  const [params, setParams] = useState(_params);
-  const { uuid, title = '', username, password, category, ...other } = params;
-
-  console.log('----> _params', _params)
+  const { uuid, title = '', username, password, category, ...other } = curAccount;
 
   const [visible, setVisible] = useState(false);
   const [properties, setProperties] = useState(defProps);
 
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: title || '新增' });
+    dispatch({
+      type: 'category/selected',
+      payload: 'reset'
+    })
   }, []);
 
+  useEffect(() => {
+    dispatch({
+      type: 'account/accountInfo',
+      payload: {category: selected}
+    })
+  }, [selected])
+
   function addPropertiesHandler() {
-    setParams({
-      ...params,
-      [properties.key]: properties.value
+    dispatch({
+      type: 'account/accountInfo',
+      paylaod: {
+        [properties.key]: properties.value
+      }
     })
     setProperties(defProps);
     setVisible(false);
   }
 
   function save() {
-    if (!params.uuid) {
-      params.uuid = createUUID();
+    if (!username) {
+      return Taro.showToast({
+        title: '请至少填写账号信息',
+        icon: "none"
+      })
+    }
+    if (!curAccount.uuid) {
+      curAccount.uuid = createUUID();
     }
     dispatch({
       type: 'account/addAccount',
-      payload: params
+      payload: curAccount
     });
+  }
+
+  function categorySelector() {
+    Taro.navigateTo({ url: `/pages/Category/List/index?select=true&type=1` })
   }
 
   const keys = Object.keys(other);
   return (
     <View className="container">
-      <AtList>
-        <AtInput name="uuid" title="uuid" type='text' disabled value={uuid} onChange={() => {}} />
-
+      <View className="category_wrap" onClick={categorySelector}>
+        <View className="left">
+          <View className="img_wrap">
+            {category && category.imgUrl
+              ? <Image src={category.imgUrl} mode="aspectFill" className="img" />
+              : <MyIcon name="RectangleCopy240" size={40} color="#88abee" />
+            }
+          </View>
+          <Text className="name">{category && category.name ? category.name : '未选择分类'}</Text>
+        </View>
+        
+        <AtIcon className="right" value='chevron-right' size='18' color='#999' />
+      </View>
+      <AtList className="item_wrap">
+        {uuid && <AtInput name="uuid" title="uuid" type='text' disabled value={uuid} onChange={() => { }} />}
+        
         <AtInput
-          onChange={(v: string) => { setParams({ ...params, title: v }) }}
+          onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: {title: v}}) }}
           name="title"
           title="标题"
           type='text'
@@ -64,9 +99,7 @@ export default function AccountDetail() {
         />
 
         <AtInput
-          onChange={(v: string) => {
-            setParams({ ...params, username: v })
-          }}
+          onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: {username: v}}) }}
           name="acount"
           title="账号"
           type='text'
@@ -75,9 +108,7 @@ export default function AccountDetail() {
         />
 
         <AtInput
-          onChange={(v: string) => {
-            setParams({ ...params, password: v })
-          }}
+          onChange={(v: string) => { dispatch({ type: 'account/accountInfo', payload: { password: v } }) }}
           name="password"
           title="密码"
           type='text'
@@ -85,30 +116,15 @@ export default function AccountDetail() {
           value={password}
         />
 
-        <AtInput
-          onChange={(v: string) => {
-            setParams({ ...params, category: v })
-          }}
-          onClick={() => Taro.navigateTo({url: `/pages/Category/List/index?type=choose`})}
-          name="category"
-          title="分类"
-          type='text'
-          placeholder='请选择分类'
-          value={category}
-          editable={false}
-        />
-
         {keys.map((item) => (
           <AtInput
-            onChange={(v: string) => {
-              setParams({ ...params, [item]: v })
-            }}
+            onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: {[item]: v}}) }}
             key={item}
             name="other"
             title={item}
             type='text'
             placeholder='请输入内容'
-            value={params[item]}
+            value={curAccount[item]}
           />
         ))}
       </AtList>

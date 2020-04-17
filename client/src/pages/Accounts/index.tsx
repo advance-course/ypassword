@@ -16,17 +16,25 @@ export default function Index() {
     dispatch({ type: 'account/init' })
   }, [])
 
+  function navToAdd() {
+    dispatch({
+      type: 'account/accountInfo',
+      payload: 'reset'
+    })
+    Taro.navigateTo({ url: '/pages/Accounts/subpages/Editor/index' })
+  }
+
   return (
     <View className="accounts_container">
       <View className="search_bar">
         <Input className="search" placeholder="输入标题搜索" onInput={(e) => setSearchText(e.detail.value)} />
-        <Button className="btn async" onClick={() => Taro.navigateTo({url: '/pages/Accounts/subpages/Editor/index'})}>
+        {/* <Button className="btn async" onClick={() => Taro.navigateTo({url: '/pages/Accounts/subpages/Editor/index'})}>
           <MyIcon name="allocat" size={20} />
-        </Button>
+        </Button> */}
 
         <Button
           className="btn add"
-          onClick={() => Taro.navigateTo({url: '/pages/Accounts/subpages/Editor/index'})}
+          onClick={navToAdd}
         ><MyIcon name="add-circle" size={20} /></Button>
 
         <Button

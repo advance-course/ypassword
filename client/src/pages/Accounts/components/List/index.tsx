@@ -2,10 +2,10 @@ import Taro, { useState } from "@tarojs/taro"
 import { View } from "@tarojs/components"
 import classNames from 'classnames';
 import { ITouchEvent } from '@tarojs/components/types/common';
-import qs from 'qs';
 
 import "taro-ui/dist/style/components/icon.scss";
 import "./index.scss";
+import { useDispatch } from '@tarojs/redux';
 
 export interface AccountListProps {
   ids: string[],
@@ -21,6 +21,7 @@ export default function AccountList(props: AccountListProps) {
   const {ids = [], accounts} = props;
   const [activeIndex, setActiveIndex] = useState();
   const [beforeIndex, setBeforeIndex] = useState();
+  const dispatch = useDispatch()
 
   const itemClick = (index) => {
     setBeforeIndex(activeIndex);
@@ -33,7 +34,11 @@ export default function AccountList(props: AccountListProps) {
 
   const iconClickHandler = (item: com.Account, e: ITouchEvent) => {
     e.stopPropagation();
-    Taro.navigateTo({ url: `/pages/Accounts/subpages/Detail/index?${qs.stringify(item)}` })
+    dispatch({
+      type: 'account/accountInfo',
+      payload: item
+    })
+    Taro.navigateTo({ url: `/pages/Accounts/subpages/Detail/index` })
   }
 
   function copyHandler(content: string, e: ITouchEvent) {

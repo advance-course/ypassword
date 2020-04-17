@@ -7,6 +7,7 @@ export interface CategoryState {
   list: category.Info[],
   defList: category.Info[]
   current: category.Info,
+  selected?: category.Info
   loading: Boolean
 }
 
@@ -16,7 +17,8 @@ export default {
     list: [],
     defList: [],
     current: {},
-    loading: true
+    loading: true,
+    selected: {}
   },
   effects: {
     *add ({payload}, {put, call, select}) {
@@ -133,6 +135,13 @@ export default {
       return {
         ...state,
         current: {...state.current, ...action.payload}
+      }
+    },
+
+    selected(state, action) {
+      return {
+        ...state,
+        selected: action.payload
       }
     }
   }

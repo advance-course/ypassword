@@ -51,10 +51,22 @@ export default function List() {
     })
   }
 
+  function itemClickHandler(editorType: 'add' | 'editor', item: category.Info) {
+    if (router.params.select) {
+      dispatch({
+        type: 'category/selected',
+        payload: item
+      })
+      Taro.navigateBack()
+    } else {
+      nav(editorType, item)
+    }
+  }
+
   return (
     <View className="container">
       {_list.map((item) => (
-        <View className="cat_container" key={item._id} onClick={() => nav('editor', item)}>
+        <View className="cat_container" key={item._id} onClick={() => itemClickHandler('editor', item)}>
           <Image className="image" src={item.imgUrl!} mode="aspectFill" />
           <View className="name">{item.name}</View>
         </View>
