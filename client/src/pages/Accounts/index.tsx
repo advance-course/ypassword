@@ -12,14 +12,34 @@ export default function Index() {
   const dispatch = useDispatch()
   const {uuids, accounts} = account;
 
+  const [_uuids, setUUID] = useState(uuids)
+
   useEffect(() => {
     dispatch({ type: 'account/init' })
   }, [])
+
+  useEffect(() => {
+    setUUID(uuids)
+  }, [uuids])
+
+  useEffect(() => {
+    let _uuids: string[] = []
+    uuids.forEach(id => {
+      if (accounts[id].title!.indexOf(searchText) > -1) {
+        _uuids.push(id)
+      }
+    })
+    setUUID(_uuids)
+  }, [searchText])
 
   function navToAdd() {
     dispatch({
       type: 'account/accountInfo',
       payload: 'reset'
+    })
+    dispatch({
+      type: 'category/selected',
+      payload: {}
     })
     Taro.navigateTo({ url: '/pages/Accounts/subpages/Editor/index' })
   }
@@ -43,7 +63,7 @@ export default function Index() {
         ><MyIcon name="RectangleCopy74" size={20} /></Button>
       </View>
 
-      <AccountList ids={uuids} accounts={accounts} />
+      <AccountList ids={_uuids} accounts={accounts} />
     </View>
   );
 }

@@ -1,15 +1,16 @@
 import Taro, { Config, useEffect } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import qs from 'qs';
-import { AtList, AtListItem, AtFab } from "taro-ui";
+import { AtList, AtListItem, AtFab, AtButton } from "taro-ui";
 import "./index.scss";
-import { useSelector } from '@tarojs/redux';
+import { useSelector, useDispatch } from '@tarojs/redux';
 import { AccountState } from 'pages/Accounts/model';
 import MyIcon from 'components/myIcon';
 
 export default function AccountDetail() {
   const {curAccount} = useSelector<any, AccountState>(state => state.account);
   const { title = '', username, password, uuid: _uuid, category, ...other } = curAccount
+  const dispatch = useDispatch()
   
   useEffect(() => {
     Taro.setNavigationBarTitle({ title }); 
@@ -23,6 +24,22 @@ export default function AccountDetail() {
       }
     })
   } 
+
+  function removeAccount() {
+    Taro.showModal({
+      title: '警告',
+      content: '你确定要删除该账号吗',
+      confirmText: '确定',
+      success: (res) => {
+        if (res.confirm) {
+          dispatch({
+            type: 'account/removeAccount',
+            payload: curAccount
+          })
+        }
+      }
+    })
+  }
 
   const keys = Object.keys(other);
   return (
@@ -46,6 +63,10 @@ export default function AccountDetail() {
           <AtListItem key={item} title={item} extraText={other[item]} onClick={() => copy(other[item])} />
         ))}
       </AtList>
+      <View className="btn_wrapper">
+        <AtButton className="add_btn" type="secondary" onClick={removeAccount}>删除账号</AtButton>
+      </View>
+      
       <View className="float_button">
         <AtFab size="normal" onClick={() => Taro.navigateTo({ url: `/pages/Accounts/subpages/Editor/index?${qs.stringify(this.$router.params)}`})}>
           <Text className="at-icon at-icon-menu"></Text>

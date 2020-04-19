@@ -54,9 +54,9 @@ export default function AccountDetail() {
   }
 
   function save() {
-    if (!username) {
+    if (!username || !title) {
       return Taro.showToast({
-        title: '请至少填写账号信息',
+        title: '请至少填写标题和账号信息',
         icon: "none"
       })
     }

@@ -22,6 +22,13 @@ export default {
       yield put({type: 'save', payload});
       Taro.navigateBack();
     },
+    *removeAccount({payload}, {put}) {
+      yield put({
+        type: 'remove',
+        payload
+      })
+      Taro.navigateBack()
+    }
   },
   reducers: {
     init: (state) => {
@@ -51,6 +58,25 @@ export default {
           ...state.accounts,
           [action.payload.uuid]: action.payload
         }
+      }
+    },
+    remove(state, action) {
+      const account: com.Account = action.payload
+      const _uuids = state.uuids
+      const _accounts = state.accounts
+
+      const index = state.uuids.findIndex(item => item == account.uuid)
+
+      _uuids.splice(index, 1)
+      delete _accounts[account.uuid!]
+      Taro.removeStorageSync(account.uuid!)
+      Taro.setStorageSync('accounts_ids', _uuids)
+
+      return {
+        ...state,
+        curAccount: {},
+        uuids: _uuids,
+        accounts: _accounts
       }
     },
     accountInfo(state, action) {

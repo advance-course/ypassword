@@ -102,7 +102,7 @@ export default function AccountList(props: AccountListProps) {
           const item = accounts[id];
 
           return (
-            <View key={`${item.title}${item.username}`} className={cls} onClick={() => itemClick(index)}>
+            <View key={id} className={cls} onClick={() => itemClick(index)}>
               <View className="box_item">
                   <View className={item.category && item.category.imgUrl ? 'who_icon' : 'who_icon no'}>
                     {item.category && item.category.imgUrl ? (
@@ -112,14 +112,14 @@ export default function AccountList(props: AccountListProps) {
                     )}
                   </View>
                   <View className="info">
-                    <View className="username">{item.username}</View>
-                    {item.password && <View className="password">{item.password}</View>}
+                    <View className="username">{item.title}</View>
+                    {item.username && <View className="password">{item.username}</View>}
                   </View>
                   <View className={iconCls} onClick={(e) => iconClickHandler(item, e)} />
               </View>
               <View className="detail_item">
                 <View className="detail" onClick={copyHandler.bind(this, item.username)}>
-                  <View className="tip">用户名称</View>
+                  <View className="tip">账号</View>
                   <View className="content">{item.username}</View>
                 </View>
                 <View className="detail" onClick={e => copyHandler(item.password || '', e)}>
