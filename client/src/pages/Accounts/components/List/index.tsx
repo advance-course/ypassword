@@ -6,6 +6,7 @@ import { ITouchEvent } from '@tarojs/components/types/common';
 import "taro-ui/dist/style/components/icon.scss";
 import "./index.scss";
 import { useDispatch } from '@tarojs/redux';
+import Exception from 'components/Exception';
 
 export interface AccountListProps {
   ids: string[],
@@ -55,6 +56,14 @@ export default function AccountList(props: AccountListProps) {
   const before_none_active = beforeIndex === undefined;
   // 现在都是正常元素
   const current_none_active = activeIndex === undefined;
+
+  if (ids.length == 0) {
+    return (
+      <View className="container">
+        <Exception message="您暂未添加账号" />
+      </View>
+    )
+  }
 
   return (
     <View className="container">
