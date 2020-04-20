@@ -33,6 +33,8 @@ export interface GlobalState {
   isNinecaseLock: boolean,
   /** app当前是否处于加锁状态 */
   isLocking: boolean,
+  isValidate: boolean, // 验证是否通过
+  whichValidate: string, // 哪个验证
   crypt: typeof crypt,
   systemInfo: SystemInfo,
   userInfo: UserInfo

@@ -1,16 +1,29 @@
-import Taro, { useEffect } from '@tarojs/taro';
+import Taro, { useEffect, useState } from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { AtForm, AtSwitch } from 'taro-ui';
 import { useSelector, useDispatch } from '@tarojs/redux';
-import { SetBooleanStatus } from 'store/global';
+import { GlobalState } from 'store/global';
 
 export default function Profile() {
-  const { isValidate, whichValidate, isLock, isFingerprintLock, isNinecaseLock } = useSelector<any, SetBooleanStatus>(state => state.global)
+  const { isValidate, whichValidate, isLock, isFingerprintLock, isNinecaseLock } = useSelector<any, GlobalState>(state => state.global)
   const dispatch = useDispatch()
+  const [isSupportFinger, setIsSupportFinger] = useState(false)
 
   useEffect(() => {
     // 把验证重置为 false
     dispatch({type: 'global/setIsValidate', valid: false})
+
+    // 验证是否支持指纹识别
+    Taro.checkIsSupportSoterAuthentication({
+      success: (res) => {
+        if (res.supportMode.includes('fingerPrint')) {
+          setIsSupportFinger(true)
+        }
+      },
+      fail: res => {
+        console.log(res)
+      }
+    })
   }, [])
 
   useEffect(() => {
@@ -98,13 +111,13 @@ export default function Profile() {
         url: '/pages/Lock/AuthLock/index',
       })
     }
-
   }
+
   return (
     <View>
       <AtForm>
         <AtSwitch title='是否启用密码锁' checked={isLock} onChange={switchLock} />
-        <AtSwitch title='指纹锁' disabled={!isLock && isFingerprintLock} checked={isFingerprintLock} onChange={switchFingerprintLock} />
+        {isSupportFinger && <AtSwitch title='指纹锁' disabled={!isLock && isFingerprintLock} checked={isFingerprintLock} onChange={switchFingerprintLock} />}
         <AtSwitch title='九宫格锁' disabled={!isLock && isNinecaseLock} checked={isNinecaseLock} onChange={switchNinecaseLock} />
       </AtForm>
     </View>
