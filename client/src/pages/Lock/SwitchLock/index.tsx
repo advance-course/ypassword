@@ -6,10 +6,13 @@ import { GlobalState } from "store/global";
 import DrawUnlock from "pages/Lock/DrawUnlock";
 
 export default function SwitchPage () {
-  const { isLock, isFingerprintLock, isNinecaseLock, isLocking, password } = useSelector<any, GlobalState>(state => state.global);
+  const { isLock, isFingerprintLock, isNinecaseLock, isLocking, password, userInfo } = useSelector<any, GlobalState>(state => state.global);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!userInfo.publicKey) {
+      Taro.navigateTo({url: '/pages/Profile/subpages/RSAKey/index'})
+    }
     if (isLocking && isFingerprintLock) {
       Taro.startSoterAuthentication({
         requestAuthModes: ['fingerPrint'],
