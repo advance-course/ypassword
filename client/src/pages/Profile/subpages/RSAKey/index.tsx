@@ -113,7 +113,7 @@ export default function RSAKeys() {
 
   return (
     <View className="rsa_container">
-      <View className="text_wrap"><Text className="introduce">「天谴之月」使用RSA加密保护您的账号。</Text></View>
+      <View className="text_wrap"><Text className="introduce">「码易」使用RSA加密保护您的账号。</Text></View>
       <View className="text_wrap"><Text className="introduce">RSA 加密是一种非对称加密技术。用户可以在该页面生一对秘钥，分别为公钥跟私钥，私钥由用户自己保存，公钥存储在天谴之月数据库中。您的账户信息最终由公钥私钥共同加密，当您生成专属公钥秘钥之后，可以在下方尝试观察加密之后的数据。为了您的安全考虑，我们会将您的数据加密之后，存储在数据库中，也就意味着，即使是开发者，也只能看到您加密之后的数据。私钥我们会帮您存储在本地缓存之中，如果您删除「天谴之月」小程序，您的私钥就会遗失，那么您的信息就再也没有人能够解密，因此为了防止意外情况，请一定要保存好您的私钥，它是读取您数据信息的唯一凭证。</Text></View>
       
       <AtButton className="create" type="primary" onClick={createKeys} disabled={createDisabled}>生成专属公钥私钥对</AtButton>
