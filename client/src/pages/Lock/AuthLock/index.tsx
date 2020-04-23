@@ -1,17 +1,27 @@
-import Taro, { Config } from '@tarojs/taro';
+import Taro, { Config, useRouter } from '@tarojs/taro';
 import { View } from '@tarojs/components'
 import { useDispatch, useSelector } from '@tarojs/redux';
-import { SetBooleanStatus } from 'store/global';
 
 import GestureLock from '../../../components/GestureLock'
+import { GlobalState } from 'store/global';
 
-export default function AuthLock(props) {
+const _value = {
+  true: true,
+  false: false
+}
+
+export default function AuthLock() {
+  const router = useRouter()
   const dispatch = useDispatch();
+  const {password} = useSelector<any, GlobalState>(state => state.global)
 
-  const lockPwd = Taro.getStorageSync('gesturePwd');
+  const {status, value} = router.params
 
   function closeLock() {
-    dispatch({type: 'global/setIsValidate', valid: true})
+    dispatch({
+      type: `global/${status}`,
+      payload: _value[value]
+    })
     Taro.navigateBack()
   }
 
@@ -20,13 +30,24 @@ export default function AuthLock(props) {
       url: '/pages/Lock/PasswordRest/index'
     })
   }
+
+  function setLockPwd(value: string) {
+    dispatch({
+      type: 'global/updatePassword',
+      payload: {
+        password: value,
+        isNinecaseLock: true
+      }
+    })
+  }
   
   return (
     <View>
       <GestureLock
-        lockPwd={lockPwd}
+        lockPwd={password}
         closeLock={closeLock}
         forgetPwd={forgetPwd}
+        setLockPwd={setLockPwd}
       />
     </View>
   )

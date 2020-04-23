@@ -5,14 +5,11 @@ import { useSelector, useDispatch } from '@tarojs/redux';
 import { GlobalState } from 'store/global';
 
 export default function Profile() {
-  const { isValidate, whichValidate, isLock, isFingerprintLock, isNinecaseLock } = useSelector<any, GlobalState>(state => state.global)
+  const { password, isLock, isFingerprintLock, isNinecaseLock } = useSelector<any, GlobalState>(state => state.global)
   const dispatch = useDispatch()
   const [isSupportFinger, setIsSupportFinger] = useState(false)
 
   useEffect(() => {
-    // 把验证重置为 false
-    dispatch({type: 'global/setIsValidate', valid: false})
-
     // 验证是否支持指纹识别
     Taro.checkIsSupportSoterAuthentication({
       success: (res) => {
@@ -26,89 +23,73 @@ export default function Profile() {
     })
   }, [])
 
-  useEffect(() => {
-    // 是否验证通过
-    if (isValidate) {
-
-      // 当前是哪个做的验证，总开关，还是手势
-      switch(whichValidate) {
-        case 'globalLock':
-          dispatch({type: 'global/setIsLock', isLock: false});
-          break;
-        case 'ninecaseLock':
-          dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:false});
-          break;
-      }
-    }
-  }, [isValidate])
-
-  // 验证指纹
-  function authFingerprintLock (success, fail = ()=>{}) {
-    Taro.startSoterAuthentication({
-      requestAuthModes: ['fingerPrint'],
-      challenge: '123456',
-      authContent: '请用指纹解锁',
-      success,
-      fail
-    })
-  }
-
-  function switchLock(lock) {
+  function switchLock(lock: boolean) {
+    // 启用密码锁
     if (lock) {
-      dispatch({type: 'global/setWhichValidate', name: ''})
-      dispatch({type: 'global/setIsLock', isLock: true})
-    } else {  // 关闭锁要验证
-      if (isFingerprintLock) {
-        authFingerprintLock(() => {
-            dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: lock})
-        })
-      }
-
-      if (isNinecaseLock) {
-        dispatch({type: 'global/setWhichValidate', name: 'globalLock'})
-        return Taro.navigateTo({
-          url: '/pages/Lock/AuthLock/index',
-        })
-      }
-
-      // 都关闭的时候，关闭总开
-      dispatch({type: 'global/setIsLock', isLock: false});
-
+      return dispatch({type: 'global/isLock', payload: true})
     }
+
+    // 禁用密码锁
+    if (isFingerprintLock) {
+      return Taro.startSoterAuthentication({
+        requestAuthModes: ['fingerPrint'],
+        challenge: password || '123456',
+        authContent: '请使用指纹解锁',
+        success: () => {
+          dispatch({type: 'global/isLock', payload: false})
+        },
+        fail: () => {
+          Taro.showToast({
+            title: '指纹验证错误',
+            icon: 'none'
+          })
+        }
+      })
+    }
+
+    if (isNinecaseLock) {
+      return Taro.navigateTo({
+        url: '/pages/Lock/AuthLock/index?status=isLock&value=false',
+      })
+    }
+
+    // 都关闭的时候，关闭总开
+    dispatch({type: 'global/isLock', payload: false});
   }
   
-  function switchFingerprintLock(lock) {
-    authFingerprintLock(() => {
-      if (isLock) {  // 总开关开着，才能关
-        dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: lock})
+  function switchFingerprintLock(lock: boolean) {
+    Taro.startSoterAuthentication({
+      requestAuthModes: ['fingerPrint'],
+      challenge: password || '123456',
+      authContent: '请使用指纹解锁',
+      success: () => {
+        dispatch({ type: 'global/isFingerprintLock', payload: lock })
+      },
+      fail: () => {
+        Taro.showToast({
+          title: '指纹验证错误',
+          icon: 'none'
+        })
       }
-    }, () => {
-      Taro.showToast({
-        title: '当前设备暂不支持指纹解锁',
-        icon: 'none',
-        duration: 2000
-      })
     })
   }
 
-  function switchNinecaseLock(lock) {
-    const lockPwd = Taro.getStorageSync('gesturePwd');
-
-    if (lock) {
-
-      // 有密码，直接开启
-      if (lockPwd.length) {
-        dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:true});
-      } else {
-        // 无密码，设置密码
-        Taro.navigateTo({
-          url: '/pages/Lock/AuthLock/index'
-        })
-      }
-    } else if (isLock){  // 总开关开着，才能关
-      dispatch({type: 'global/setWhichValidate', name: 'ninecaseLock'})
+  function switchNinecaseLock(lock: boolean) {
+    // 尝试关闭，需要验证密码
+    if (!lock) {
       return Taro.navigateTo({
-        url: '/pages/Lock/AuthLock/index',
+        url: '/pages/Lock/AuthLock/index?status=isNinecaseLock&value=false',
+      })
+    }
+
+    // 尝试开启，判断是否已经存在密码
+    if (password) {
+      return dispatch({ type: 'global/isNinecaseLock', payload: true });
+    }
+
+    if (!password) {
+      Taro.navigateTo({
+        url: '/pages/Lock/AuthLock/index?status=isNinecaseLock&value=true'
       })
     }
   }
@@ -116,7 +97,7 @@ export default function Profile() {
   return (
     <View>
       <AtForm>
-        <AtSwitch title='是否启用密码锁' checked={isLock} onChange={switchLock} />
+        <AtSwitch title='加密' checked={isLock} onChange={switchLock} />
         {isSupportFinger && <AtSwitch title='指纹锁' disabled={!isLock && isFingerprintLock} checked={isFingerprintLock} onChange={switchFingerprintLock} />}
         <AtSwitch title='九宫格锁' disabled={!isLock && isNinecaseLock} checked={isNinecaseLock} onChange={switchNinecaseLock} />
       </AtForm>

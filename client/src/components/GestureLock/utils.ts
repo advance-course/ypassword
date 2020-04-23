@@ -3,7 +3,37 @@ export interface Point {
   y: number
 }
 
-export const lockConfig = {
+export interface LockProps {
+  // 锁密码
+  lockPwd?: string,
+  // 关闭锁的方法
+  closeLock?: () => any,
+  // 设置手势锁密码
+  setLockPwd?: (pwd: string) => any,
+  // 忘记密码
+  forgetPwd?: () => any,
+  /** x内边距 */
+  offsetX?: number,
+  /** y内边距 */
+  offsetY?: number,
+  /** 圆半径 */
+  circleR?: number,
+  /** 在圆心多少范围内触碰检测 */
+  touchRange?: number,
+  /** 圆形边框颜色 */
+  circleBorderColor?: string,
+  /** 圆颜色 */
+  circleColor?: string,
+  /** 背景颜色 */
+  bgColor?: string,
+  /** 线条颜色 */
+  lineColor?: string,
+  /** 错误线条颜色 */
+  lineErrorColor?: string,
+  lineWidth?: number,  // 线宽
+};
+
+export const lockConfig: LockProps = {
   // 锁密码
   lockPwd: '',
   // 关闭锁的方法

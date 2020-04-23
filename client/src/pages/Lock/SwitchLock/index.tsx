@@ -17,13 +17,13 @@ export default function SwitchPage () {
       Taro.checkIsSupportSoterAuthentication({
         success(res) {
           if (res.supportMode.indexOf('fingerPrint') > -1 && !isNinecaseLock) {
-            dispatch({type: 'global/setIsLock', isLock: true});
-            dispatch({type: 'global/setIsFingerprintLock', isFingerprintLock: true});
+            dispatch({type: 'global/isLock', payload: true});
+            dispatch({ type: 'global/isFingerprintLock', payload: true});
           }
         }
       })
 
-      dispatch({type: 'global/setIsFirstUse', isFirstUse: false});
+      dispatch({ type: 'global/isFirstUse', payload: false });
     }
   }, [])
 

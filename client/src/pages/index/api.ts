@@ -29,6 +29,7 @@ export interface UserInfo extends WxUserinfo {
    * 5: 签约作者
    */
   type?: 1 | 2 | 3 | 4 | 5,
+  password?: string
 }
 
 export const userTypeDesc = {

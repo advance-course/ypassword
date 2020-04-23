@@ -6,7 +6,7 @@ import { Model, ActionWithPayload } from "utils/dva";
 import JSEncrypt from 'utils/rsa';
 import {getSystemInfo} from 'utils'
 import { SystemInfo } from 'utils/fp/getSystemInfo';
-import { UserInfo, loginApi } from 'pages/index/api';
+import { UserInfo, loginApi, userUpdateApi } from 'pages/index/api';
 
 function getStorage(key:string):any {
   return Taro.getStorageSync(key)
@@ -36,12 +36,9 @@ export interface GlobalState {
   isValidate: boolean, // 验证是否通过
   whichValidate: string, // 哪个验证
   crypt: typeof crypt,
+  password?: string,
   systemInfo: SystemInfo,
   userInfo: UserInfo
-}
-
-export interface setUserId extends ActionWithPayload {
-  userId: string,
 }
 
 export interface SetBooleanStatus extends ActionWithPayload {
@@ -53,13 +50,14 @@ export default {
   state: {
     userId: '',
     isFirstEnter: true,
-    isFirstUse: getStorage('isFirstUse') === '' ? true : getStorage('isFirstUse'),
+    isFirstUse: true,
     isLock: getStorage('isLock') || false,
     isFingerprintLock: getStorage('isFingerprintLock') || false,
     isNinecaseLock: getStorage('isNinecaseLock') || false,
     isLocking: true,
     isValidate: false,  // 锁验证通过
     whichValidate: '',  // 哪个验证
+    password: '',
     crypt,
     systemInfo: getSystemInfo(),
     userInfo: {} as UserInfo
@@ -71,9 +69,7 @@ export default {
         if (global.isFirstEnter) {
           const res = yield call(loginApi)
           Taro.setStorageSync('userInfo', res.data)
-          yield put({ type: 'userInfo', payload: res.data })
-          yield put({ type: 'setIsFirstEnter', isFirstEnter: false})
-          yield put({ type: 'setUserId', userId: res.data._id})
+          yield put({ type: 'init', payload: res.data })
           const rsa = Taro.getStorageSync('rsa');
           if (!rsa || !res.data.publicKey) {
             Taro.setStorageSync('rsa', { publicKey: res.data.publicKey || '', privateKey: res.data.privateKey || '' })
@@ -85,49 +81,75 @@ export default {
           Taro.navigateTo({ url: '/pages/Auth/index' })
         }
       }
+    },
+    *updatePassword(action, {call, put, select}) {
+      const {userId}: GlobalState = yield select(({global}) => global)
+      const fn = () => {
+        userUpdateApi(userId, action.payload)
+      }
+      
+      try {
+        yield call(fn)
+        if (action.payload.password) {
+          yield put({ type: 'password', payload: action.payload.password })
+        }
+      } catch (e) {
+        console.log(e.message)
+      }
     }
   },
   reducers: {
-    setLockingStatus: (state, action: any) => ({
-      ...state,
-      isLocking: action.isLocking,
-    }),
-    setUserId(state:GlobalState, action:setUserId) {
+    init(state, action) {
+      const u: UserInfo = action.payload
       return {
         ...state,
-        userId: action.userId
+        isFingerprintLock: u.isFingerprintLock || false,
+        isNinecaseLock: u.isNinecaseLock || false,
+        userId: u._id,
+        isFirstEnter: false,
+        userInfo: u,
+        isLock: u.isLock || false,
+        isLocking: true,
+        password: u.password || ''
       }
     },
-    setIsFirstUse(state:GlobalState, action:SetBooleanStatus) {
-      setStorage('isFirstUse', action.isFirstUse)
+    // 是否启用加锁，与指纹解锁和九宫格解锁联动
+    isLock: (state, action) => {
+      userUpdateApi(state.userId, {
+        isLock: action.payload
+      })
+      return {
+        ...state,
+        isLock: action.payload
+      }
+    },
+    isLocking: (state, action) => {
+      return {
+        ...state,
+        isLocking: action.payload
+      }
+    },
+    isFirstUse(state:GlobalState, action) {
+      return {
+        ...state,
+        isFirstUse: action.payload
+      }
+    },
 
-      return {
-        ...state,
-        isFirstUse: action.isFirstUse
-      }
-    },
-    setIsLock(state:GlobalState, action:SetBooleanStatus) {
-      setStorage('isLock', action.isLock)
-
-      return {
-        ...state,
-        isLock: action.isLock
-      }
-    },
-    setIsFirstEnter(state:GlobalState, action:SetBooleanStatus) {
-      return {
-        ...state,
-        isFirstEnter: action.isFirstEnter
-      }
-    },
-    setIsFingerprintLock(state:GlobalState, action:SetBooleanStatus) {
-      setStorage('isFingerprintLock', action.isFingerprintLock)
+    isFingerprintLock(state, action) {
+      setStorage('isFingerprintLock', action.payload)
       
       // 当开启时
-      if (action.isFingerprintLock) {
+      if (action.payload) {
         // 关闭手势锁，打开总开关
         setStorage('isNinecaseLock', false)
         setStorage('isLock', true)
+
+        userUpdateApi(state.userId, {
+          isFingerprintLock: action.payload,
+          isNinecaseLock: false,
+          isLock: true
+        })
         
         return {
           ...state,
@@ -135,23 +157,31 @@ export default {
           isNinecaseLock: false,
           isLock: true
         }
-      } else {
-        return {
-          ...state,
-          isFingerprintLock: false,
-        }
       }
 
-
+      userUpdateApi(state.userId, {
+        isFingerprintLock: action.payload,
+      })
+      return {
+        ...state,
+        isFingerprintLock: false,
+      }
     },
-    setIsNinecaseLock(state:GlobalState, action:SetBooleanStatus) {
-      setStorage('isNinecaseLock', action.isNinecaseLock)
+
+    isNinecaseLock(state, action) {
+      setStorage('isNinecaseLock', action.payload)
 
       // 当开启时
-      if (action.isNinecaseLock) {
+      if (action.payload) {
         // 关闭指纹锁，打开总开关
         setStorage('isFingerprintLock', false)
         setStorage('isLock', true)
+
+        userUpdateApi(state.userId, {
+          isFingerprintLock: false,
+          isNinecaseLock: true,
+          isLock: true
+        })
         
         return {
           ...state,
@@ -159,19 +189,25 @@ export default {
           isNinecaseLock: true,
           isLock: true
         }
-      } else {
-        return {
-          ...state,
-          isNinecaseLock: false,
-        }
       }
-    },
-    setIsLocking(state:GlobalState, action:SetBooleanStatus) {
+
+      userUpdateApi(state.userId, {
+        isNinecaseLock: false
+      })
+
       return {
         ...state,
-        isLocking: action.isLocking
+        isNinecaseLock: false,
       }
     },
+
+    password(state, action) {
+      return {
+        ...state,
+        password: action.payload
+      }
+    },
+
     setIsValidate(state:GlobalState, action:SetBooleanStatus) {
       return {
         ...state,

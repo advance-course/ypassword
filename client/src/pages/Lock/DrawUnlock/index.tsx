@@ -10,13 +10,13 @@ export default function DrawUnlock() {
   const lockPwd = Taro.getStorageSync('gesturePwd');
 
   function closeLock() {
-    dispatch({type: 'global/setIsLocking', isLocking: false})
+    dispatch({type: 'global/isLocking', payload: false})
   }
 
   function setLockPwd(pwd) {
     Taro.setStorageSync('gesturePwd', pwd);
 
-    dispatch({type: 'global/setIsNinecaseLock', isNinecaseLock:true});
+    dispatch({ type: 'global/isNinecaseLock', payload:true});
   }
 
   function forgetPwd() {

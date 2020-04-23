@@ -45,15 +45,15 @@ export default function GestureLock(props: typeof lockConfig) {
   let tipsObj = ['请绘制手势解锁', '请绘制手势密码', '请再次绘制手势密码', '密码错误', '至少连接3个点，请重新绘制', '与上次输入不一致，请重新绘制'];
 
   useEffect(() => {
-    lockPwd.length ? setTipsIndex(0) : setTipsIndex(1)
+    lockPwd!.length ? setTipsIndex(0) : setTipsIndex(1)
 
     Taro.createSelectorQuery().in(this.$scope)
       .select(".gesture_canvas")
-      .boundingClientRect((rect: Taro.SelectorQuery.clientRectElement) => {
+      .boundingClientRect((rect) => {
         const {width, height} = rect;
-        const diffX = (width - offsetX * 2 - circleR * 2 * 3) / 2;
-        const diffY = (height - offsetY * 2 - circleR * 2 * 3) / 2;
-        circleArrRef.current = getCircleArr(offsetX, offsetY, diffX, diffY, circleR);
+        const diffX = (width - offsetX! * 2 - circleR! * 2 * 3) / 2;
+        const diffY = (height - offsetY! * 2 - circleR! * 2 * 3) / 2;
+        circleArrRef.current = getCircleArr(offsetX!, offsetY!, diffX, diffY, circleR!);
 
         // 初始化
         initData();

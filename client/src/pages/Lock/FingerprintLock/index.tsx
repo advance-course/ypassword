@@ -22,7 +22,7 @@ export default function AuthLock() {
       challenge: '123456',
       authContent: '请用指纹解锁',
       success(res) {
-        dispatch({type: 'global/setIsLocking', isLocking: false})
+        dispatch({type: 'global/isLocking', payload: false})
         return Taro.navigateTo({url: '/pages/index/index'})
       }
     })
