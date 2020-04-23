@@ -1,22 +1,26 @@
 import Taro, { Config } from '@tarojs/taro';
 import { View } from '@tarojs/components'
-import { useDispatch } from '@tarojs/redux';
+import { useDispatch, useSelector } from '@tarojs/redux';
 
 import GestureLock from '../../../components/GestureLock'
+import { GlobalState } from 'store/global';
 
 export default function DrawUnlock() {
   const dispatch = useDispatch();
-
-  const lockPwd = Taro.getStorageSync('gesturePwd');
+  const { password } = useSelector<any, GlobalState>(state => state.global)
 
   function closeLock() {
     dispatch({type: 'global/isLocking', payload: false})
   }
 
-  function setLockPwd(pwd) {
-    Taro.setStorageSync('gesturePwd', pwd);
-
-    dispatch({ type: 'global/isNinecaseLock', payload:true});
+  function setLockPwd(value: string) {
+    dispatch({
+      type: 'global/updatePassword',
+      payload: {
+        password: value,
+        isNinecaseLock: true
+      }
+    })
   }
 
   function forgetPwd() {
@@ -28,7 +32,7 @@ export default function DrawUnlock() {
   return (
     <View>
       <GestureLock
-        lockPwd={lockPwd}
+        lockPwd={password}
         closeLock={closeLock}
         setLockPwd={setLockPwd}
         forgetPwd={forgetPwd}

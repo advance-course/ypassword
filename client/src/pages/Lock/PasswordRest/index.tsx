@@ -1,25 +1,15 @@
-import Taro, { useState, useEffect, Config, useRef } from "@tarojs/taro";
-import { View, Button } from "@tarojs/components";
-import { AtInput } from 'taro-ui'
+import Taro, { Config } from "@tarojs/taro";
+import { View, Text } from "@tarojs/components";
+import { useSelector } from '@tarojs/redux';
+import { GlobalState } from 'store/global';
+import './index.scss'
 
 export default function PasswordRest() {
-
-  function getPhoneNumber(e) {
-    console.log(e)
-  }
+  const {password} = useSelector<any, GlobalState>(state => state.global)
 
   return (
-    <View>
-      <AtInput
-        clear
-        title="手机号"
-        placeholder="请输入微信手机号"
-      >
-      </AtInput>
-
-      <Button open-type="getPhoneNumber" onGetPhoneNumber={getPhoneNumber}>
-        下一步
-      </Button>
+    <View className="container">
+      您的密码为：<Text className="password">{password}</Text>，请妥善保管
     </View>
   )
 }

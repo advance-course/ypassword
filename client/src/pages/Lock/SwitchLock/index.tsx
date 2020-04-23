@@ -1,29 +1,30 @@
 import Taro, { useEffect } from "@tarojs/taro";
 import { useSelector, useDispatch } from "@tarojs/redux";
-
+import { View } from '@tarojs/components';
 import Accounts from "pages/Accounts/index";
 import { GlobalState } from "store/global";
 import DrawUnlock from "pages/Lock/DrawUnlock";
-import FingerprintLock from "pages/Lock/FingerprintLock";
-import { View } from '@tarojs/components';
 
 export default function SwitchPage () {
-  const { isFirstUse, isLock, isFingerprintLock, isNinecaseLock, isLocking } = useSelector<any, GlobalState>(state => state.global);
+  const { isLock, isFingerprintLock, isNinecaseLock, isLocking, password } = useSelector<any, GlobalState>(state => state.global);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // 首次使用
-    if (isFirstUse) {
-      Taro.checkIsSupportSoterAuthentication({
-        success(res) {
-          if (res.supportMode.indexOf('fingerPrint') > -1 && !isNinecaseLock) {
-            dispatch({type: 'global/isLock', payload: true});
-            dispatch({ type: 'global/isFingerprintLock', payload: true});
-          }
+    if (isLocking && isFingerprintLock) {
+      Taro.startSoterAuthentication({
+        requestAuthModes: ['fingerPrint'],
+        challenge: password || '123456',
+        authContent: '请使用指纹解锁',
+        success: () => {
+          dispatch({ type: 'global/isLocking', payload: false })
+        },
+        fail: () => {
+          Taro.showToast({
+            title: '指纹验证错误',
+            icon: 'none'
+          })
         }
       })
-
-      dispatch({ type: 'global/isFirstUse', payload: false });
     }
   }, [])
 
@@ -31,8 +32,9 @@ export default function SwitchPage () {
     return <View><Accounts /></View>
   }
 
-  if (isFingerprintLock) {
-    return <FingerprintLock />
+  if (isLocking && isNinecaseLock) {
+    return <View><DrawUnlock /></View>
   }
-  return <DrawUnlock />
+
+  return <View></View>
 }

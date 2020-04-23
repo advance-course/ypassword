@@ -21,8 +21,6 @@ const crypt = new JSEncrypt()
 export interface GlobalState {
   // 用户id
   userId: string,
-  // 首次使用
-  isFirstUse: true,
   // 每次退出后的首次进入
   isFirstEnter: boolean,
   /** 是否启用指纹解锁 */
@@ -33,8 +31,6 @@ export interface GlobalState {
   isNinecaseLock: boolean,
   /** app当前是否处于加锁状态 */
   isLocking: boolean,
-  isValidate: boolean, // 验证是否通过
-  whichValidate: string, // 哪个验证
   crypt: typeof crypt,
   password?: string,
   systemInfo: SystemInfo,
@@ -50,13 +46,10 @@ export default {
   state: {
     userId: '',
     isFirstEnter: true,
-    isFirstUse: true,
     isLock: getStorage('isLock') || false,
     isFingerprintLock: getStorage('isFingerprintLock') || false,
     isNinecaseLock: getStorage('isNinecaseLock') || false,
     isLocking: true,
-    isValidate: false,  // 锁验证通过
-    whichValidate: '',  // 哪个验证
     password: '',
     crypt,
     systemInfo: getSystemInfo(),
@@ -127,12 +120,6 @@ export default {
       return {
         ...state,
         isLocking: action.payload
-      }
-    },
-    isFirstUse(state:GlobalState, action) {
-      return {
-        ...state,
-        isFirstUse: action.payload
       }
     },
 
@@ -207,19 +194,7 @@ export default {
         password: action.payload
       }
     },
-
-    setIsValidate(state:GlobalState, action:SetBooleanStatus) {
-      return {
-        ...state,
-        isValidate: action.valid
-      }
-    },
-    setWhichValidate(state:GlobalState, action:SetBooleanStatus) {
-      return {
-        ...state,
-        whichValidate: action.name
-      }
-    },
+    
     userInfo(state, {payload}) {
       return {
         ...state,
