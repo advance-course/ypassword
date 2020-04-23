@@ -68,7 +68,6 @@ export default {
             Taro.setStorageSync('rsa', { publicKey: res.data.publicKey || '', privateKey: res.data.privateKey || '' })
           }
         }
-        Taro.stopPullDownRefresh()
       } catch (e) {
         if ([401, 40101, 40102, 40103].includes(e.code)) {
           Taro.navigateTo({ url: '/pages/Auth/index' })

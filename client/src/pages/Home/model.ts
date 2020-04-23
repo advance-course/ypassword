@@ -43,7 +43,6 @@ export default {
           type: 'updateList',
           payload: _list
         })
-        Taro.stopPullDownRefresh();
       } catch (e) {
         Taro.showToast({title: e.message});
         yield put({ type: 'increasing', payload: false })

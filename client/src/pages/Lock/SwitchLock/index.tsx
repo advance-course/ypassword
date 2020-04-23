@@ -28,7 +28,7 @@ export default function SwitchPage () {
     }
   }, [])
 
-  if (!isLock || !isLocking) {
+  if ((!isLock || !isLocking) || (!isNinecaseLock && !isFingerprintLock)) {
     return <View><Accounts /></View>
   }
 

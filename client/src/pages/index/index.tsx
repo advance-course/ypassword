@@ -117,5 +117,4 @@ Layout.config = {
   navigationBarTitleText: "",
   navigationBarBackgroundColor: "#FFFFFF",
   navigationBarTextStyle: "black",
-  enablePullDownRefresh: true
 } as Config;
