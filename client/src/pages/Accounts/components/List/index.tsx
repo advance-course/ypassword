@@ -5,8 +5,9 @@ import { ITouchEvent } from '@tarojs/components/types/common';
 
 import "taro-ui/dist/style/components/icon.scss";
 import "./index.scss";
-import { useDispatch } from '@tarojs/redux';
+import { useDispatch, useSelector } from '@tarojs/redux';
 import Exception from 'components/Exception';
+import { GlobalState } from 'store/global';
 
 export interface AccountListProps {
   ids: string[],
@@ -19,6 +20,7 @@ export interface AccountListProps {
  * 每次build之后，需要在dist对应的文件中修改 bindtap 为 catchtap
  */
 export default function AccountList(props: AccountListProps) {
+  const { decrypt } = useSelector<any, GlobalState>(state => state.global)
   const {ids = [], accounts} = props;
   const [activeIndex, setActiveIndex] = useState();
   const [beforeIndex, setBeforeIndex] = useState();
@@ -122,19 +124,21 @@ export default function AccountList(props: AccountListProps) {
                   </View>
                   <View className="info">
                     <View className="username">{item.title}</View>
-                    {item.username && <View className="password">{item.username}</View>}
+                    {item.username && <View className="password">{decrypt.decrypt(item.username)}</View>}
                   </View>
                   <View className={iconCls} onClick={(e) => iconClickHandler(item, e)} />
               </View>
               <View className="detail_item">
-                <View className="detail" onClick={copyHandler.bind(this, item.username)}>
+                <View className="detail" onClick={copyHandler.bind(this, decrypt.decrypt(item.username || ''))}>
                   <View className="tip">账号</View>
-                  <View className="content">{item.username}</View>
+                  <View className="content">{decrypt.decrypt(item.username!)}</View>
                 </View>
-                <View className="detail" onClick={e => copyHandler(item.password || '', e)}>
-                  <View className="tip">密码</View>
-                  <View className="content">{item.password}</View>
-                </View>
+                {item.password && (
+                  <View className="detail" onClick={e => copyHandler(decrypt.decrypt(item.password!), e)}>
+                    <View className="tip">密码</View>
+                    <View className="content">{decrypt.decrypt(item.password)}</View>
+                  </View>
+                )}
               </View>
             </View>)
         })

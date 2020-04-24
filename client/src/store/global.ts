@@ -16,7 +16,7 @@ function setStorage(key:string, value:any):void {
   Taro.setStorageSync(key, value)
 }
 
-const crypt = new JSEncrypt()
+const crypt = new JSEncrypt({ default_key_size: 1024 })
 
 export interface GlobalState {
   // 用户id
@@ -32,6 +32,8 @@ export interface GlobalState {
   /** app当前是否处于加锁状态 */
   isLocking: boolean,
   crypt: typeof crypt,
+  encrypt: typeof crypt, // 加密
+  decrypt: typeof crypt,  // 解密
   password?: string,
   systemInfo: SystemInfo,
   userInfo: UserInfo
@@ -52,21 +54,30 @@ export default {
     isLocking: true,
     password: '',
     crypt,
+    encrypt: new JSEncrypt(),
+    decrypt: new JSEncrypt(),
     systemInfo: getSystemInfo(),
     userInfo: {} as UserInfo
   },
   effects: {
     *login(action, {call, put, select}) {
       const global: GlobalState = yield select(({global}) => global)
+      const {isFirstEnter, encrypt, decrypt} = global
       try {
-        if (global.isFirstEnter) {
+        if (isFirstEnter) {
           const res = yield call(loginApi)
           Taro.setStorageSync('userInfo', res.data)
           yield put({ type: 'init', payload: res.data })
           const rsa = Taro.getStorageSync('rsa');
-          if (!rsa || !res.data.publicKey) {
-            Taro.setStorageSync('rsa', { publicKey: res.data.publicKey || '', privateKey: res.data.privateKey || '' })
+          const _publicKey = res.data.publicKey || rsa.publicKey || ''
+          const _privateKey = res.data.privateKey || rsa.privateKey || ''
+
+          if (res.data.publicKey) {
+            Taro.setStorageSync('rsa', { publicKey: _publicKey, privateKey: _privateKey })
           }
+
+          encrypt.setPublicKey(_publicKey)
+          decrypt.setPrivateKey(_privateKey)
         }
       } catch (e) {
         if ([401, 40101, 40102, 40103].includes(e.code)) {

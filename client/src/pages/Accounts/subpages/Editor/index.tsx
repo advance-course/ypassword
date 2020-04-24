@@ -16,7 +16,7 @@ const defProps = {
 
 export default function AccountDetail() {
   const {curAccount} = useSelector<any, AccountState>(state => state.account);
-  const {crypt} = useSelector<any, GlobalState>(state => state.global)
+  const {encrypt} = useSelector<any, GlobalState>(state => state.global)
   const {selected} = useSelector<any, CategoryState>(state => state.category)
   const dispatch = useDispatch()
   const { uuid, title = '', username, password, category, ...other } = curAccount;
@@ -63,9 +63,19 @@ export default function AccountDetail() {
     if (!curAccount.uuid) {
       curAccount.uuid = createUUID();
     }
+    const keys = Object.keys(curAccount)
+
+    const _account = curAccount
+
+    keys.forEach(key => {
+      if (!['category', 'uuid', 'title'].includes(key)) {
+        _account[key] = encrypt.encrypt(curAccount[key])
+      }
+    })
+
     dispatch({
       type: 'account/addAccount',
-      payload: curAccount
+      payload: _account
     });
   }
 

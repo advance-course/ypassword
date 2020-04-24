@@ -1,7 +1,6 @@
 import Taro, { Config, useState, useEffect, useDidShow } from '@tarojs/taro';
 import {View, Text, Block, Input, Button} from '@tarojs/components';
 import {AtButton} from 'taro-ui';
-import JSEncrypt from 'utils/rsa';
 import { UserInfo, userUpdateApi } from 'pages/index/api';
 import { useSelector } from '@tarojs/redux';
 import { GlobalState } from 'store/global';
@@ -13,7 +12,7 @@ export interface Key {
 }
 
 export default function RSAKeys() {
-  const {crypt} = useSelector<any, GlobalState>(state => state.global)
+  const {crypt, encrypt, decrypt} = useSelector<any, GlobalState>(state => state.global)
   const [key, setKey] = useState<Key>({});
   const [createDisabled, setCreateDisabled] = useState(false);
   const [text, setText] = useState('');
@@ -34,6 +33,11 @@ export default function RSAKeys() {
     }
   }, [])
 
+  useEffect(() => {
+    key.publicKey && encrypt.setPublicKey(key.publicKey)
+    key.privateKey && decrypt.setPrivateKey(key.privateKey)
+  }, [key])
+
   useDidShow(() => {
     const res = Taro.getStorageSync('rsa');
     if (res.publicKey && !res.privateKey) {
@@ -50,45 +54,41 @@ export default function RSAKeys() {
 
     const res = Taro.getStorageSync('userInfo');
     
-    if (!res || !res.data) {
+    if (!res || !res._id) {
       Taro.navigateTo({ url: '/pages/Auth/index' })
       return;
     }
     
-    Taro.showLoading({title: '生成中...'});
-    const _crypt = new JSEncrypt({ default_key_size: 1024 });
-    _crypt.getKey(() => {
-      Taro.hideLoading();
-      const rsa = {
-        publicKey: crypt.getPublicKey(),
-        privateKey: crypt.getPrivateKey()
-      }
-      setKey(rsa)
-      crypt.setPublicKey(rsa.publicKey)
-      crypt.setPrivateKey(rsa.privateKey)
-      Taro.setStorage({ key: 'rsa', data: rsa })
-      const userinfo: UserInfo = Taro.getStorageSync('userInfo')
-      if (userinfo._id) {
-        userinfo.publicKey = rsa.publicKey;
-        Taro.setStorage({key: 'userInfo', data: userinfo});
-        userUpdateApi(userinfo._id, { publicKey: rsa.publicKey });
-      }
-    });
+    crypt.getKey();
+    const rsa = {
+      publicKey: crypt.getPublicKey(),
+      privateKey: crypt.getPrivateKey()
+    }
+    setKey(rsa)
+
+    Taro.setStorageSync('rsa', rsa)
+    const userinfo: UserInfo = Taro.getStorageSync('userInfo')
+    if (userinfo._id) {
+      userinfo.publicKey = rsa.publicKey;
+      Taro.setStorageSync('userInfo', userinfo)
+      userUpdateApi(userinfo._id, { publicKey: rsa.publicKey });
+    }
+    setCreateDisabled(true)
   }
 
   function encryption() {
-    setMitext(crypt.encrypt(text));
+    setMitext(encrypt.encrypt(text));
   }
 
   function decryption() {
-    setDetext(crypt.decrypt(miText));
+    setDetext(decrypt.decrypt(miText));
   }
 
   function copy(content: string) {
     Taro.setClipboardData({
       data: content,
       success: () => {
-        Taro.showToast({title: '成功复制到剪切板', icon: 'success'})
+        Taro.showToast({title: '已复制', icon: 'success'})
       }
     })
   }
@@ -113,8 +113,8 @@ export default function RSAKeys() {
 
   return (
     <View className="rsa_container">
-      <View className="text_wrap"><Text className="introduce">「码易」使用RSA加密保护您的账号。</Text></View>
-      <View className="text_wrap"><Text className="introduce">RSA 加密是一种非对称加密技术。用户可以在该页面生一对秘钥，分别为公钥跟私钥，私钥由用户自己保存，公钥存储在天谴之月数据库中。您的账户信息最终由公钥私钥共同加密，当您生成专属公钥秘钥之后，可以在下方尝试观察加密之后的数据。为了您的安全考虑，我们会将您的数据加密之后，存储在数据库中，也就意味着，即使是开发者，也只能看到您加密之后的数据。私钥我们会帮您存储在本地缓存之中，如果您删除「天谴之月」小程序，您的私钥就会遗失，那么您的信息就再也没有人能够解密，因此为了防止意外情况，请一定要保存好您的私钥，它是读取您数据信息的唯一凭证。</Text></View>
+      <View className="text_wrap"><Text className="introduce">「码易」使用 RSA 加密保护您的账号。</Text></View>
+      <View className="text_wrap"><Text className="introduce">RSA 是一种非对称加密技术。用户可以在该页面生一对秘钥，分别为公钥跟私钥，私钥由用户自己保存，公钥存储在码易数据库中。您的账户信息将由公钥私钥共同加密，最终也只能由公钥秘钥共同解密，当您生成专属公钥秘钥之后，可以在下方尝试观察加密之后的数据。为了您的安全考虑，我们会将您的数据加密之后，存储在数据库中，也就意味着，即使是开发者，也只能看到您加密之后的数据。私钥我们会帮您存储在本地缓存之中，如果您删除「码易」小程序，您的私钥就会遗失，那么您的信息就再也没有人能够解密了。因此为了防止意外情况，请一定要保存好您的私钥，它是读取您数据信息的唯一凭证。</Text></View>
       
       <AtButton className="create" type="primary" onClick={createKeys} disabled={createDisabled}>生成专属公钥私钥对</AtButton>
       

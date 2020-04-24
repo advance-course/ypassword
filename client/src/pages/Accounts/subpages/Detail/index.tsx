@@ -20,7 +20,7 @@ export default function AccountDetail() {
     Taro.setClipboardData({
       data: content,
       success: () => {
-        Taro.showToast({ title: '成功复制到剪切板', icon: 'success' })
+        Taro.showToast({ title: '已复制', icon: 'success' })
       }
     })
   } 
