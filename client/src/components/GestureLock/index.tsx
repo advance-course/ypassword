@@ -156,7 +156,7 @@ export default function GestureLock(props: typeof lockConfig) {
       Taro.vibrateLong();
 
       drawErrorTips(baseCanvasCtx, {pwdArr, circleArr, ...props});
-      setTimeout(initData, 2000);
+      setTimeout(initData, 1000);
     }, 100)
     
   }
