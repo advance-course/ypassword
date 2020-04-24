@@ -59,10 +59,14 @@ export default function AccountDetail() {
       </View>
       <AtList className="item_wrap">
         <AtListItem title="标题" extraText={title} onClick={() => copy(title)} />
-        <AtListItem title="账号" extraText={decrypt.decrypt(username!)} onClick={() => copy(decrypt.decrypt(username!))} />
-        <AtListItem title="密码" extraText={decrypt.decrypt(password!)} onClick={() => copy(decrypt.decrypt(password!))} />
+        <AtListItem title="账号" extraText={username ? decrypt.decrypt(username) : ''} onClick={() => copy(decrypt.decrypt(username!) || '')} />
+        <AtListItem title="密码" extraText={password ? decrypt.decrypt(password) : ''} onClick={() => copy(decrypt.decrypt(password!) || '')} />
         {keys.map((item) => (
-          <AtListItem key={item} title={item} extraText={decrypt.decrypt(other[item])} onClick={() => decrypt.decrypt(decrypt.decrypt(other[item]))} />
+          <AtListItem key={item} 
+            title={item} 
+            extraText={decrypt.decrypt(other[item]) || ''}
+            onClick={() => copy(decrypt.decrypt(other[item]) || '')}
+          />
         ))}
       </AtList>
       <View className="btn_wrapper">

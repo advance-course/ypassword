@@ -107,7 +107,7 @@ export default function AccountDetail() {
           title="账号"
           type='text'
           placeholder='请输入账号'
-          value={decrypt.decrypt(username!)}
+          value={username ? decrypt.decrypt(username!) : ''}
         />
 
         <AtInput
@@ -116,7 +116,7 @@ export default function AccountDetail() {
           title="密码"
           type='text'
           placeholder='请输入账号'
-          value={decrypt.decrypt(password!)}
+          value={password ? decrypt.decrypt(password!) : ''}
         />
 
         {keys.map((item) => (
@@ -127,7 +127,7 @@ export default function AccountDetail() {
             title={item}
             type='text'
             placeholder='请输入内容'
-            value={decrypt.decrypt(curAccount[item])}
+            value={curAccount[item] ? decrypt.decrypt(curAccount[item]) : ''}
           />
         ))}
       </AtList>
