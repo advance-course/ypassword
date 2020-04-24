@@ -6,10 +6,12 @@ import "./index.scss";
 import { useSelector, useDispatch } from '@tarojs/redux';
 import { AccountState } from 'pages/Accounts/model';
 import MyIcon from 'components/myIcon';
+import { GlobalState } from 'store/global';
 
 export default function AccountDetail() {
   const {curAccount} = useSelector<any, AccountState>(state => state.account);
-  const { title = '', username, password, uuid: _uuid, category, ...other } = curAccount
+  const {decrypt} = useSelector<any, GlobalState>(state => state.global)
+  const { title = '', username, password, uuid: _uuid, category, userid, ...other } = curAccount
   const dispatch = useDispatch()
   
   useEffect(() => {
@@ -57,10 +59,10 @@ export default function AccountDetail() {
       </View>
       <AtList className="item_wrap">
         <AtListItem title="标题" extraText={title} onClick={() => copy(title)} />
-        <AtListItem title="账号" extraText={username} onClick={() => copy(username!)} />
-        <AtListItem title="密码" extraText={password} onClick={() => copy(password!)} />
+        <AtListItem title="账号" extraText={decrypt.decrypt(username!)} onClick={() => copy(decrypt.decrypt(username!))} />
+        <AtListItem title="密码" extraText={decrypt.decrypt(password!)} onClick={() => copy(decrypt.decrypt(password!))} />
         {keys.map((item) => (
-          <AtListItem key={item} title={item} extraText={other[item]} onClick={() => copy(other[item])} />
+          <AtListItem key={item} title={item} extraText={decrypt.decrypt(other[item])} onClick={() => decrypt.decrypt(decrypt.decrypt(other[item]))} />
         ))}
       </AtList>
       <View className="btn_wrapper">

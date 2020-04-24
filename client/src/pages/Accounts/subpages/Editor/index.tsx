@@ -16,10 +16,10 @@ const defProps = {
 
 export default function AccountDetail() {
   const {curAccount} = useSelector<any, AccountState>(state => state.account);
-  const {encrypt} = useSelector<any, GlobalState>(state => state.global)
+  const {encrypt, userId, decrypt} = useSelector<any, GlobalState>(state => state.global)
   const {selected} = useSelector<any, CategoryState>(state => state.category)
   const dispatch = useDispatch()
-  const { uuid, title = '', username, password, category, ...other } = curAccount;
+  const { uuid, title = '', username, password, category, userid: _userid, ...other } = curAccount;
 
   const [visible, setVisible] = useState(false);
   const [properties, setProperties] = useState(defProps);
@@ -63,19 +63,11 @@ export default function AccountDetail() {
     if (!curAccount.uuid) {
       curAccount.uuid = createUUID();
     }
-    const keys = Object.keys(curAccount)
-
-    const _account = curAccount
-
-    keys.forEach(key => {
-      if (!['category', 'uuid', 'title'].includes(key)) {
-        _account[key] = encrypt.encrypt(curAccount[key])
-      }
-    })
+    curAccount.userid = userId
 
     dispatch({
       type: 'account/addAccount',
-      payload: _account
+      payload: curAccount
     });
   }
 
@@ -110,32 +102,32 @@ export default function AccountDetail() {
         />
 
         <AtInput
-          onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: {username: v}}) }}
+          onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: { username: encrypt.encrypt(v) }}) }}
           name="acount"
           title="账号"
           type='text'
           placeholder='请输入账号'
-          value={username}
+          value={decrypt.decrypt(username!)}
         />
 
         <AtInput
-          onChange={(v: string) => { dispatch({ type: 'account/accountInfo', payload: { password: v } }) }}
+          onChange={(v: string) => { dispatch({ type: 'account/accountInfo', payload: { password: encrypt.encrypt(v) } }) }}
           name="password"
           title="密码"
           type='text'
           placeholder='请输入账号'
-          value={password}
+          value={decrypt.decrypt(password!)}
         />
 
         {keys.map((item) => (
           <AtInput
-            onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: {[item]: v}}) }}
+            onChange={(v: string) => { dispatch({type: 'account/accountInfo', payload: {[item]: encrypt.encrypt(v) }}) }}
             key={item}
             name="other"
             title={item}
             type='text'
             placeholder='请输入内容'
-            value={curAccount[item]}
+            value={decrypt.decrypt(curAccount[item])}
           />
         ))}
       </AtList>
@@ -144,7 +136,6 @@ export default function AccountDetail() {
         <AtButton type="primary" className="add_btn" onClick={save}>保存修改</AtButton>
         <AtButton className="add_btn" onClick={() => setVisible(true)}>新增字段</AtButton>
       </View>
-
 
       <AtFloatLayout
         isOpened={visible}

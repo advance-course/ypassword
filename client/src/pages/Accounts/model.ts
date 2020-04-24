@@ -3,6 +3,7 @@
  */
 import Taro from "@tarojs/taro";
 import { Model } from "utils/dva";
+import { deleteAccountApi } from 'pages/Accounts/api';
 
 export interface AccountState {
   uuids: string[],
@@ -22,12 +23,13 @@ export default {
       yield put({type: 'save', payload});
       Taro.navigateBack();
     },
-    *removeAccount({payload}, {put}) {
+    *removeAccount({payload}, {call, put}) {
       yield put({
         type: 'remove',
         payload
       })
       Taro.navigateBack()
+      yield call(deleteAccountApi, payload.uuid)
     }
   },
   reducers: {
