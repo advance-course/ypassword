@@ -86,12 +86,17 @@ export default {
         data.forEach((item: com.Account) => {
           _uuids.push(item.uuid!)
           _accounts[item.uuid!] = item
+          Taro.setStorageSync(item.uuid!, item)
         })
+
+        Taro.setStorageSync('accounts_ids', _uuids)
 
         yield call(asyncAccountApi, {
           keys: _uuids,
           account: _accounts
         })
+        
+
         Taro.showToast({ title: '同步成功', icon: 'success' })
         yield put({ type: 'syncing', payload: false })
         yield put({type: 'initial', payload: {
