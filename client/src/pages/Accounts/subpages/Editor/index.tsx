@@ -45,8 +45,8 @@ export default function AccountDetail() {
   function addPropertiesHandler() {
     dispatch({
       type: 'account/accountInfo',
-      paylaod: {
-        [properties.key]: properties.value
+      payload: {
+        [properties.key]: encrypt.encrypt(properties.value)
       }
     })
     setProperties(defProps);
@@ -76,6 +76,7 @@ export default function AccountDetail() {
   }
 
   const keys = Object.keys(other);
+
   return (
     <View className="container">
       <View className="category_wrap" onClick={categorySelector}>
