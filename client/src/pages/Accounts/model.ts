@@ -3,7 +3,8 @@
  */
 import Taro from "@tarojs/taro";
 import { Model } from "utils/dva";
-import { deleteAccountApi } from 'pages/Accounts/api';
+import { deleteAccountApi, accountsListApi } from 'pages/Accounts/api';
+import { GlobalState } from 'store/global';
 
 export interface AccountState {
   uuids: string[],
@@ -19,6 +20,36 @@ export default {
     curAccount: {}
   },
   effects: {
+    *init({payload}, {call, put, select}) {
+      const ids = Taro.getStorageSync('accounts_ids') || []
+      const accounts = {}
+      const {userId}: GlobalState = yield select(({global}) => global)
+      
+      if (ids.length > 0) {
+        ids.forEach(id => {
+          accounts[id] = Taro.getStorageSync(id)
+        })
+      }
+
+      if (ids.length == 0) {
+        const {data = []} = yield call(accountsListApi, userId)
+        data.forEach((account: com.Account) => {
+          ids.push(account.uuid!)
+          accounts[account.uuid!] = account
+          Taro.setStorageSync(account.uuid!, account)
+        })
+
+        Taro.setStorageSync('accounts_ids', ids)
+      }
+
+      yield put({
+        type: 'initial',
+        payload: {
+          uuids: ids,
+          accounts
+        }
+      })
+    },
     *addAccount({payload}, {put}) {
       yield put({type: 'save', payload});
       Taro.navigateBack();
@@ -33,17 +64,11 @@ export default {
     }
   },
   reducers: {
-    init: (state) => {
-      if (!state.uuids.length) {
-        const ids = Taro.getStorageSync('accounts_ids') || [];
-        const accounts = {}
-        ids.forEach(id => {
-          accounts[id] = Taro.getStorageSync(id);
-        })
-        console.log('从本地缓存初始化账户信息', ids, accounts);
-        return { ...state, uuids: ids, accounts }
+    initial: (state, action) => {
+      return {
+        ...state,
+        ...action.payload
       }
-      return state;
     },
     save: (state, action: any) => {
       let ids = state.uuids

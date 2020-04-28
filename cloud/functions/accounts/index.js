@@ -113,7 +113,7 @@ exports.main = async (event, context) => {
    */
   app.router('v1/list', async (ctx) => {
     try {
-      const res = accounts.where({userid: event.userid}).get()
+      const res = await accounts.where({userid: event.userid}).get()
       ctx.body = {
         success: true,
         code: 200,
