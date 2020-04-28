@@ -3,13 +3,14 @@
  */
 import Taro from "@tarojs/taro";
 import { Model } from "utils/dva";
-import { deleteAccountApi, accountsListApi } from 'pages/Accounts/api';
+import { deleteAccountApi, accountsListApi, asyncAccountApi } from 'pages/Accounts/api';
 import { GlobalState } from 'store/global';
 
 export interface AccountState {
   uuids: string[],
   accounts: {[key: string]: com.Account},
-  curAccount: com.Account
+  curAccount: com.Account,
+  syncing: boolean
 }
 
 export default {
@@ -17,7 +18,8 @@ export default {
   state: {
     uuids: [],
     accounts: {},
-    curAccount: {}
+    curAccount: {},
+    syncing: false
   },
   effects: {
     *init({payload}, {call, put, select}) {
@@ -61,6 +63,45 @@ export default {
       })
       Taro.navigateBack()
       yield call(deleteAccountApi, payload.uuid)
+    },
+    *sync(action, {select, call, put}) {
+      yield put({type: 'syncing', payload: true})
+      const { userId }: GlobalState = yield select(({ global }) => global)
+      const { uuids, accounts }: AccountState = yield select(({ account}) => account)
+      try {
+        const { data = [] } = yield call(accountsListApi, userId)
+
+        uuids.forEach(id => {
+          const i = data.findIndex((item: com.Account) => item.uuid == id)
+          if (i >= 0) { // 替换
+            data.splice(i, 1, accounts[id])
+          } else { // 新增
+            data.push(accounts[id])
+          }
+        })
+
+        const _uuids: string[] = []
+        const _accounts = {}
+
+        data.forEach((item: com.Account) => {
+          _uuids.push(item.uuid!)
+          _accounts[item.uuid!] = item
+        })
+
+        yield call(asyncAccountApi, {
+          keys: _uuids,
+          account: _accounts
+        })
+        Taro.showToast({ title: '同步成功', icon: 'success' })
+        yield put({ type: 'syncing', payload: false })
+        yield put({type: 'initial', payload: {
+          uuids: _uuids,
+          accounts: _accounts
+        }})
+      } catch (e) {
+        Taro.showToast({title: '更新失败', icon: 'none'})
+        yield put({ type: 'syncing', payload: false })
+      }
     }
   },
   reducers: {
@@ -68,6 +109,12 @@ export default {
       return {
         ...state,
         ...action.payload
+      }
+    },
+    syncing(state, action) {
+      return {
+        ...state,
+        syncing: action.payload
       }
     },
     save: (state, action: any) => {

@@ -82,7 +82,8 @@ exports.main = async (event, context) => {
         const _account = await accounts.where({ uuid }).get()
 
         if (_account.data.length > 0) {
-          await accounts.doc(_account.data[0]._id).update({ data: curAccount })
+          const {_id, uuid, ...other} = curAccount
+          await accounts.doc(_account.data[0]._id).update({ data: other })
         }
         if (_account.data.length == 0) {
           curAccount.createTime = new Date().getTime()

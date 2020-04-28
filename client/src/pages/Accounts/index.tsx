@@ -5,15 +5,12 @@ import { useSelector, useDispatch } from '@tarojs/redux';
 import { AccountState } from './model';
 import MyIcon from 'components/myIcon';
 import "./index.scss";
-import { asyncAccountApi } from 'pages/Accounts/api';
 
 export default function Index() {
   const [searchText, setSearchText] = useState('');
   const account = useSelector<any, AccountState>(state => state.account);
   const dispatch = useDispatch()
   const {uuids, accounts} = account;
-
-  const [syncing, setSyncing] = useState(false)
 
   const [_uuids, setUUID] = useState(uuids)
 
@@ -48,17 +45,7 @@ export default function Index() {
   }
 
   function sync() {
-    setSyncing(true);
-    asyncAccountApi({
-      keys: account.uuids,
-      account: account.accounts
-    }).then(() => {
-      Taro.showToast({title: '同步成功', icon: 'success'})
-      setSyncing(false)
-    }).catch(e => {
-      Taro.showToast({ title: e.message, icon: 'none' })
-      setSyncing(false)
-    })
+    dispatch({type: 'account/sync'})
   }
 
   return (
@@ -66,7 +53,7 @@ export default function Index() {
       <View className="search_bar">
         <Input className="search" placeholder="输入标题搜索" onInput={(e) => setSearchText(e.detail.value)} />
         <Button className="btn sync" onClick={sync}>
-          <MyIcon name="allocat" size={20} spin={syncing} />
+          <MyIcon name="allocat" size={20} spin={account.syncing} />
         </Button>
 
         <Button
