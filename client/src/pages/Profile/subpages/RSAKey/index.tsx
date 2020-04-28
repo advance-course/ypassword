@@ -1,8 +1,8 @@
-import Taro, { Config, useState, useEffect, useDidShow } from '@tarojs/taro';
+import Taro, { Config, useState, useEffect } from '@tarojs/taro';
 import {View, Text, Block, Input, Button} from '@tarojs/components';
 import {AtButton} from 'taro-ui';
 import { UserInfo, userUpdateApi } from 'pages/index/api';
-import { useSelector } from '@tarojs/redux';
+import { useSelector, useDispatch } from '@tarojs/redux';
 import { GlobalState } from 'store/global';
 import './index.scss'
 
@@ -12,40 +12,46 @@ export interface Key {
 }
 
 export default function RSAKeys() {
-  const {crypt, encrypt, decrypt} = useSelector<any, GlobalState>(state => state.global)
-  const [key, setKey] = useState<Key>({});
+  const dispatch = useDispatch()
+  const {crypt, encrypt, decrypt, userInfo} = useSelector<any, GlobalState>(state => state.global)
   const [createDisabled, setCreateDisabled] = useState(false);
   const [text, setText] = useState('');
   const [miText, setMitext] = useState('');
   const [deText, setDetext] = useState('')
+  const [reset, setReset] = useState(false) // 是否需要重置私钥
+
+  const { privateKey, publicKey } = userInfo
 
   useEffect(() => {
     // 暂时未处理如果本地缓存的key呗清除的情况
-    const res = Taro.getStorageSync('rsa');
-    if (res) {
-      setKey(res);
-      console.log(res);
-      setCreateDisabled(true)
-      if (res.publicKey && res.privateKey) {
-        crypt.setPublicKey(res.publicKey)
-        crypt.setPrivateKey(res.privateKey)
+    if (publicKey) {
+      if (!privateKey) {
+        setReset(true)
+        Taro.navigateTo({ url: '/pages/Profile/subpages/PrivateKey/index' })
+      } else {
+        const en = encrypt.encrypt('hello')
+        const de = decrypt.decrypt(en)
+        if (!de) {
+          setReset(true)
+          Taro.navigateTo({ url: '/pages/Profile/subpages/PrivateKey/index' })
+        }
       }
+      setCreateDisabled(true)
     }
   }, [])
 
   useEffect(() => {
-    key.publicKey && encrypt.setPublicKey(key.publicKey)
-    key.privateKey && decrypt.setPrivateKey(key.privateKey)
-  }, [key])
-
-  useDidShow(() => {
-    const res = Taro.getStorageSync('rsa');
-    if (res.publicKey && !res.privateKey) {
-      Taro.navigateTo({url: '/pages/Profile/subpages/PrivateKey/index'})
+    publicKey && encrypt.setPublicKey(publicKey)
+    privateKey && decrypt.setPrivateKey(privateKey)
+    
+    const en = encrypt.encrypt('hello')
+    const de = decrypt.decrypt(en)
+    if (!de) {
+      setReset(true)
     } else {
-      setKey(res);
+      setReset(false)
     }
-  })
+  }, [privateKey, publicKey])
 
   function createKeys() {
     if (createDisabled) {
@@ -64,8 +70,8 @@ export default function RSAKeys() {
       publicKey: crypt.getPublicKey(),
       privateKey: crypt.getPrivateKey()
     }
-    setKey(rsa)
-
+    
+    dispatch({type: 'global/userInfo', payload: rsa})
     Taro.setStorageSync('rsa', rsa)
     const userinfo: UserInfo = Taro.getStorageSync('userInfo')
     if (userinfo._id) {
@@ -73,6 +79,8 @@ export default function RSAKeys() {
       Taro.setStorageSync('userInfo', userinfo)
       userUpdateApi(userinfo._id, { publicKey: rsa.publicKey });
     }
+    encrypt.setPublicKey(rsa.publicKey)
+    decrypt.setPrivateKey(rsa.privateKey)
     setCreateDisabled(true)
   }
 
@@ -102,7 +110,7 @@ export default function RSAKeys() {
         if (res.confirm) {
           const userinfo: UserInfo = Taro.getStorageSync('userInfo')
           if (userinfo._id) {
-            userUpdateApi(userinfo._id, { privateKey: key.privateKey }).then(res => {
+            userUpdateApi(userinfo._id, { privateKey }).then(res => {
               Taro.showToast({ title: '存储成功！', icon: 'success' })
             });
           }
@@ -118,26 +126,30 @@ export default function RSAKeys() {
       
       <AtButton className="create" type="primary" onClick={createKeys} disabled={createDisabled}>生成专属公钥私钥对</AtButton>
       
-      {key.publicKey && (
+      {publicKey && (
         <Block>
           <View className="title">您的专属公钥</View>
-          <View className="key">{key.publicKey || ""}</View>
-        </Block>
-      )}
+          <View className="key">{publicKey || ""}</View>
 
-      {key.privateKey && (
-        <Block>
           <View className="title">您的专属私钥</View>
           <View className="warn">私钥请您务必妥善保管，它是解密您加密数据的唯一凭证，遗失后您的数据将无人能够读取</View>
-          <View className="key">{key.privateKey || ''}</View>
-          <View className="btn_group">
-            <Button className="btn" onClick={() => copy(key.privateKey || '')}>点击复制私钥</Button>
-            <Button className="btn" onClick={save}>我帮您保存</Button>
-          </View>
+          <View className="key">{privateKey || ''}</View>
+          {reset ? (
+            <View className="reset_wrap">
+              <View className="tip" onClick={() => Taro.navigateTo({ url: '/pages/Profile/subpages/PrivateKey/index' })}>
+                您的私钥丢失或者错误，需要补全后才可以正确解密，点击补全
+              </View>
+            </View>
+          ) : (
+            <View className="btn_group">
+              <Button className="btn" onClick={() => copy(privateKey || '')}>点击复制私钥</Button>
+              <Button className="btn" onClick={save}>我帮您保存</Button>
+            </View>
+          )}
         </Block>
       )}
       
-      {key.privateKey && key.publicKey && (
+      {privateKey && publicKey && (
         <Block>
           <View className="title lock">加密处理体验</View>
           <View className="lock_info">

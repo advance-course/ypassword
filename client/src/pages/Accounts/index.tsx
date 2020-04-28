@@ -59,7 +59,6 @@ export default function Index() {
       Taro.showToast({ title: e.message, icon: 'none' })
       setSyncing(false)
     })
-    console.log('xx')
   }
 
   return (

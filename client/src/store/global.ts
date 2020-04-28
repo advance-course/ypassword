@@ -66,11 +66,15 @@ export default {
       try {
         if (isFirstEnter) {
           const res = yield call(loginApi)
-          Taro.setStorageSync('userInfo', res.data)
-          yield put({ type: 'init', payload: res.data })
           const rsa = Taro.getStorageSync('rsa');
           const _publicKey = res.data.publicKey || rsa.publicKey || ''
           const _privateKey = res.data.privateKey || rsa.privateKey || ''
+
+          res.data.publicKey = _publicKey
+          res.data.privateKey = _privateKey
+
+          Taro.setStorageSync('userInfo', res.data)
+          yield put({ type: 'init', payload: res.data })
 
           if (res.data.publicKey) {
             Taro.setStorageSync('rsa', { publicKey: _publicKey, privateKey: _privateKey })
@@ -114,6 +118,15 @@ export default {
         isLock: u.isLock || false,
         isLocking: true,
         password: u.password || ''
+      }
+    },
+    userInfo(state, action) {
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          ...action.payload
+        }
       }
     },
     // 是否启用加锁，与指纹解锁和九宫格解锁联动
@@ -202,13 +215,6 @@ export default {
       return {
         ...state,
         password: action.payload
-      }
-    },
-    
-    userInfo(state, {payload}) {
-      return {
-        ...state,
-        userInfo: payload
       }
     }
   }

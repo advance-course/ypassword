@@ -1,6 +1,6 @@
 import Taro, { useEffect } from "@tarojs/taro";
 import { useSelector, useDispatch } from "@tarojs/redux";
-import { View,vImage } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import Accounts from "pages/Accounts/index";
 import { GlobalState } from "store/global";
 import DrawUnlock from "pages/Lock/DrawUnlock";
@@ -12,7 +12,7 @@ export default function SwitchPage () {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!userInfo.publicKey) {
+    if (!userInfo.publicKey || !userInfo.privateKey) {
       Taro.navigateTo({url: '/pages/Profile/subpages/RSAKey/index'})
     }
     if (isLocking && isFingerprintLock) {

@@ -67,6 +67,15 @@
     }
   }
 
+  .reset_wrap {
+    margin: 30Px 0;
+    .tip {
+      color: salmon;
+      font-size: 13Px;
+      text-decoration: underline;
+    }
+  }
+
   .btn_group {
     margin: 10Px 0;
     display: flex;

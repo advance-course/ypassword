@@ -1,4 +1,4 @@
-import Taro, { useState } from "@tarojs/taro"
+import Taro, { useState, useEffect } from "@tarojs/taro"
 import { View, Image, Text } from "@tarojs/components"
 import classNames from 'classnames';
 import { ITouchEvent } from '@tarojs/components/types/common';
@@ -25,6 +25,16 @@ export default function AccountList(props: AccountListProps) {
   const [activeIndex, setActiveIndex] = useState();
   const [beforeIndex, setBeforeIndex] = useState();
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    // 验证解密是否成功，不成功则表示需要重置 私钥
+    if (ids.length > 0) {
+      const t = decrypt.decrypt(accounts[ids[0]].username!);
+      if (!t) {
+        Taro.showToast({title: '您的私钥丢失或者错误，码易已经无法解密您的信息', icon: 'none'})
+      }
+    }
+  }, [ids])
 
   const itemClick = (index) => {
     setBeforeIndex(activeIndex);
