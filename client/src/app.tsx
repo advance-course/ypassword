@@ -18,7 +18,6 @@ class App extends Component {
       "pages/Profile/subpages/PrivateKey/index",
       "pages/Profile/subpages/Subscribtion/index",
       "pages/Auth/index",
-      "pages/UserInfo/index",
       "pages/Accounts/subpages/Detail/index",
       "pages/Accounts/subpages/Editor/index",
       "pages/Lock/Settings/index",
@@ -26,10 +25,10 @@ class App extends Component {
       "pages/webview/index",
       "pages/Lock/PasswordRest/index",
       "pages/Lock/AuthLock/index",
-      
+
       "pages/Home/bookinfo/index",
       "pages/Feeds/articleList/index",
-      
+
       // 分类
       "pages/Category/index",
       "pages/Category/List/index",
