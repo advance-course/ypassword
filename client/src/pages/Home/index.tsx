@@ -49,6 +49,13 @@ export default function Index() {
     })
   }
 
+  function navToComment(bookid: string, e: ITouchEvent) {
+    e.stopPropagation()
+    Taro.navigateTo({
+      url: `/pages/Home/comment/index?key=${bookid}`
+    })
+  }
+
   return (
     <View className="container">
       {list.list.length ? (
@@ -75,7 +82,7 @@ export default function Index() {
                       <Text className="recommend">{book.view || 0}</Text>
                     </View>
 
-                    <View className="recommend_warp">
+                    <View className="recommend_warp" onClick={(e) => navToComment(book._id!, e)}>
                       <MyIcon name="dialogue" size={22} color="#999999" style={{fontWeight: 'bold'}} />
                       <Text className="comment">{book.comment || 0}</Text>
                     </View>

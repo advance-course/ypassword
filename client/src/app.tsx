@@ -27,6 +27,7 @@ class App extends Component {
       "pages/Lock/AuthLock/index",
 
       "pages/Home/bookinfo/index",
+      "pages/Home/comment/index",
       "pages/Feeds/articleList/index",
 
       // 分类

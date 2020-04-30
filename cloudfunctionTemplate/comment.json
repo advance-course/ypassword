@@ -1,0 +1,32 @@
+[
+  {
+    "name": "新增评论",
+    "value": {
+      "$url": "v1/add",
+      "key": "79a2c43f5e8bea79005dc9af735eb8f4",
+      "content": "感谢波神，书写得太好了"
+    }
+  },
+  {
+    "name": "更新评论",
+    "value": {
+      "$url": "v1/update",
+      "_id": "19762d645eaa759a0026eb6f3d16e1b5",
+      "content": "波波写得太好了"
+    }
+  },
+  {
+    "name": "评论列表",
+    "value": {
+      "$url": "v1/list",
+      "key": "79a2c43f5e8bea79005dc9af735eb8f4"
+    }
+  },
+  {
+    "name": "删除评论",
+    "value": {
+      "$url": "v1/remove",
+      "_id": "1231"
+    }
+  }
+]

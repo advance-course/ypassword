@@ -1,0 +1,15 @@
+.comment_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+
+  .scroll {
+    flex: 1
+  }
+
+  .comment_input_wrap {
+    height: 40Px;
+    border: 1px solid red;
+  }
+}
