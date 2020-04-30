@@ -75,7 +75,7 @@ exports.main = async (event, context) => {
         ctx.body = { success: false, code: 200, message: '你要删除的评论不存在' }
         return
       }
-      
+
       if (r1.data.openid != OPENID) {
         ctx.body = { success: false, code: 200, message: '你不能删除别人的评论' }
         return
