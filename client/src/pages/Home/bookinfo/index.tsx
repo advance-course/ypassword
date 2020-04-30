@@ -12,7 +12,7 @@ export default function Bookinfo() {
   showShareMenu({
     withShareTicket: true
   })
-  
+
   useEffect(() => {
     Taro.setNavigationBarTitle({
       title: bookInfo.name || '书籍详情'

@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import {Model} from 'utils/dva'
 import { PaginationParam, PageData, defPageData, defPaginationParams, Page, mergePagination } from 'hooks/usePagination/entity'
-import { bookListApi, recommendBookApi, bookSubListApi, bookAddApi, bookUpdateApi, articleListByBookApi } from './api'
+import { bookListApi, recommendBookApi, bookSubListApi, bookAddApi, bookUpdateApi, articleListByBookApi, bookViewApi } from './api'
 import { Result } from 'utils/http'
 
 export interface BookState {
@@ -34,7 +34,7 @@ export default {
       }
       yield put({type: 'updateParams', payload: def})
       yield put({type: 'loading', payload: true})
-      
+
       try {
         const res = yield call(bookListApi, def);
         const list: Page<book.Item> = res.data;
@@ -57,13 +57,22 @@ export default {
           payload
         })
         yield call(recommendBookApi, book._id);
-        Taro.showToast({
-          title: '已点赞',
-          icon:'success'
-        })
-        // TODO 调用新增推荐的接口
       } catch(e) {
-
+        console.log(e.message)
+      }
+    },
+    *view({payload}, {call, put}) {
+      const {book} = payload
+      try {
+        yield call(bookViewApi, book._id)
+        book.view = (book.view || 0) + 1
+        yield put({
+          type: 'addRecommend',
+          payload
+        })
+      } catch (e) {
+        // todo
+        console.log(e.message)
       }
     },
     *fetchSubList({payload}, {call, put}) {
@@ -128,7 +137,7 @@ export default {
         increasing: false,
         loading: false
       }
-    }, 
+    },
     loading(state, action) {
       return {
         ...state,

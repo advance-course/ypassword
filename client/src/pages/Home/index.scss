@@ -1,7 +1,7 @@
 .container {
   height: 100%;
   background-color: #ededed;
-  
+
   display: flex;
   flex-direction: column;
 
@@ -62,11 +62,16 @@
     margin-top: 8Px;
   }
 
-  .recommend_warp {
+  .icons {
     margin-top: 12Px;
+    display: flex;
+  }
+
+  .recommend_warp {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 10Px;
 
     .recommend {
       font-size: 14Px;
@@ -74,6 +79,12 @@
       &.active {
         color: red;
       }
+    }
+
+    .comment {
+      font-size: 14Px;
+      color: #999;
+      margin-left: 3Px
     }
   }
 }

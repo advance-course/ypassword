@@ -5,5 +5,12 @@
       "$url": "v1/add",
       "book_id": "79a2c43f5e8bea79005dc9af735eb8f4"
     }
+  },
+  {
+    "name": "阅读数量新增",
+    "value": {
+      "key": "v1/view/add",
+      "book_id": "79a2c43f5e8bea79005dc9af735eb8f4"
+    }
   }
 ]

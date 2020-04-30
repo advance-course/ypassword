@@ -10,6 +10,8 @@ declare namespace book {
     isRecommend?: boolean, // 当前用户是否推荐这本书是否推荐
     reward_code?: string,
     star?: number,
+    view?: number,
+    comment?: number,
     userid?: string,
     subscription?: subscribe.Info,
     articles?: article.Item[]

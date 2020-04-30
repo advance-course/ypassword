@@ -15,8 +15,8 @@ export function bookUpdateApi(params: book.Item) {
   return http.post<string>('book/v1/update', params);
 }
 
-/** 
- * @desc 点赞 
+/**
+ * @desc 点赞
  * @param {book_id}
  * */
 export function recommendBookApi(book_id: string) {
@@ -31,18 +31,25 @@ export function bookSubListApi(userid: string) {
   })
 }
 
-/** 
+/**
  * @desc 新增书籍配置
  * */
 export function bookAddApi(params: subscribe.Info) {
   return http.post<string>('book/v1/add', params);
 }
 
-/** 
+/**
  * @desc 通过book_id查询文章列表
  */
 export function articleListByBookApi(book_id: string) {
   return http.get<article.Item[]>('article/v1/book/list', {
+    book_id
+  })
+}
+
+// view count
+export function bookViewApi(book_id: string) {
+  return http.post<string>('recommend/v1/view/add', {
     book_id
   })
 }

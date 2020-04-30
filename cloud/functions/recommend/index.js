@@ -17,6 +17,7 @@ exports.main = async (event, context) => {
   const $ = _.aggregate
   
   const recommend = db.collection('book_recommend');
+  const view = db.collection('book_view')
   const book = db.collection('book');
   const app = new TcbRouter({ event });
   
@@ -39,6 +40,30 @@ exports.main = async (event, context) => {
         }
       })
       ctx.body = { success: true, code: 200, message: '添加成功', data: res._id }
+    } catch (e) {
+      ctx.body = { success: false, code: e.errCode, message: e.errMsg }
+    }
+  })
+
+  // add view count record
+  app.router('v1/view/add', async (ctx) => {
+    const {book_id} = event
+
+    try {
+      const res = await view.where({book_id: book_id, open_id: OPENID}).get()
+      if (res.data.length > 0) {
+        ctx.body = { success: false, code: 200, message: '数据已存在', data: null }
+        return
+      }
+      const info = { book_id: book_id, open_id: OPENID, createTime: Date.now() }
+      const resp = await view.add({data: info})
+      await book.doc(event.book_id).update({
+        data: {
+          view: _.inc(1)
+        }
+      })
+
+      ctx.body = { success: true, code: 200, message: '新增成功', data: resp._id }
     } catch (e) {
       ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
