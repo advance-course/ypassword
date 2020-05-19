@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from '@tarojs/redux';
 import { BookState } from 'pages/Home/model';
 import MyIcon from 'components/myIcon';
 import "./index.scss";
-import { ITouchEvent } from '@tarojs/components/types/common';
 
 export default function Index() {
   const dispatch = useDispatch()
@@ -20,8 +19,7 @@ export default function Index() {
     }
   }, [])
 
-  function recommendHandler(index: number, book: book.Item, e: ITouchEvent) {
-    e.stopPropagation()
+  function recommendHandler(index: number, book: book.Item) {
     if (book.isRecommend) {
       return;
     }
@@ -49,8 +47,7 @@ export default function Index() {
     })
   }
 
-  function navToComment(bookid: string, e: ITouchEvent) {
-    e.stopPropagation()
+  function navToComment(bookid: string) {
     Taro.navigateTo({
       url: `/pages/Home/comment/index?key=${bookid}`
     })
@@ -72,7 +69,8 @@ export default function Index() {
                   <Image className="author_avatar" src={book.subscription!.logo!} mode="aspectFill" />
                   <View className="author">{book.subscription!.author}</View>
                   <View className="icons">
-                    <View className="recommend_warp" onClick={(e) => recommendHandler(i, book, e)}>
+                    
+                    <View className="recommend_warp" onClick={(e) => { e.stopPropagation(); recommendHandler(i, book) }}>
                       <MyIcon name="heart" size={24} color={book.isRecommend ? "red" : '#999999'} style={{fontWeight: 'bold'}} />
                       <Text className={classnames('recommend', {active: book.isRecommend})}>{book.recommend || 0}</Text>
                     </View>
@@ -82,10 +80,10 @@ export default function Index() {
                       <Text className="recommend">{book.view || 0}</Text>
                     </View>
 
-                    <View className="recommend_warp" onClick={(e) => navToComment(book._id!, e)}>
+                    {/* <View className="recommend_warp" onClick={(e) => { e.stopPropagation(); navToComment(book._id!) }}>
                       <MyIcon name="dialogue" size={22} color="#999999" style={{fontWeight: 'bold'}} />
                       <Text className="comment">{book.comment || 0}</Text>
-                    </View>
+                    </View> */}
                   </View>
 
                 </View>

@@ -1,7 +1,6 @@
 import Taro, { useState, useEffect } from "@tarojs/taro"
 import { View, Image, Text } from "@tarojs/components"
 import classNames from 'classnames';
-import { ITouchEvent } from '@tarojs/components/types/common';
 
 import "taro-ui/dist/style/components/icon.scss";
 import "./index.scss";
@@ -45,8 +44,7 @@ export default function AccountList(props: AccountListProps) {
     setActiveIndex(index);
   }
 
-  const iconClickHandler = (item: com.Account, e: ITouchEvent) => {
-    e.stopPropagation();
+  const iconClickHandler = (item: com.Account) => {
     dispatch({
       type: 'account/accountInfo',
       payload: item
@@ -54,8 +52,7 @@ export default function AccountList(props: AccountListProps) {
     Taro.navigateTo({ url: `/pages/Accounts/subpages/Detail/index` })
   }
 
-  function copyHandler(content: string, e: ITouchEvent) {
-    e.stopPropagation();
+  function copyHandler(content: string) {
     Taro.setClipboardData({
       data: content,
       success: () => {
@@ -136,15 +133,15 @@ export default function AccountList(props: AccountListProps) {
                     <View className="username">{item.title}</View>
                     {item.username && <View className="password">{decrypt.decrypt(item.username)}</View>}
                   </View>
-                  <View className={iconCls} onClick={(e) => iconClickHandler(item, e)} />
+                  <View className={iconCls} onClick={(e) => { e.stopPropagation(); iconClickHandler(item)}} />
               </View>
               <View className="detail_item">
-                <View className="detail" onClick={copyHandler.bind(this, decrypt.decrypt(item.username || ''))}>
+                <View className="detail" onClick={e => { e.stopPropagation(); copyHandler(decrypt.decrypt(item.username || ''))}}>
                   <View className="tip">账号</View>
                   <View className="content">{decrypt.decrypt(item.username!)}</View>
                 </View>
                 {item.password && (
-                  <View className="detail" onClick={e => copyHandler(decrypt.decrypt(item.password!), e)}>
+                  <View className="detail" onClick={e => { e.stopPropagation(); copyHandler(decrypt.decrypt(item.password!))}}>
                     <View className="tip">密码</View>
                     <View className="content">{decrypt.decrypt(item.password)}</View>
                   </View>
