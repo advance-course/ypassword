@@ -28,10 +28,10 @@ export default function PaginationProvider(props: PaginationProviderProps) {
     }
   }, [loading])
 
-  const cls = classnames({
+  const cls = classnames('pagination_provider', {
     // @ts-ignore
     [className]: !!className
-  }, 'pagination_provider')
+  })
 
   if (errMsg) {
     return (

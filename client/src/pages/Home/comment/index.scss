@@ -1,15 +1,58 @@
 .comment_container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-
-  .scroll {
-    flex: 1
+  padding: 0!important;
+  .top_tip {
+    height: 30Px;
+    background-color: #efefef;
+    font-size: 12Px;
+    line-height: 32Px;
+    padding: 0 15Px;
   }
 
-  .comment_input_wrap {
-    height: 40Px;
-    border: 1px solid red;
+  .comment_ctx {
+    margin-top: 15Px;
+    padding: 0 15Px;
+
+    display: flex;
+    
+    .cmt_left {
+      width: 40Px;
+      height: 40Px;
+      margin-right: 15Px;
+    }
+
+    .cmt_right {
+      flex: 1;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+    }
+
+    .user_name {
+      font-size: 13Px;
+      font-weight: bold;
+    }
+
+    .content {
+      font-size: 13Px;
+      line-height: 1.6;
+      margin-top: 10Px;
+    }
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10Px;
+    
+    .create_time {
+      font-size: 12Px;
+      color: #ccc;
+    }
+
+    .b_right {
+      display: flex;
+    }
   }
 }

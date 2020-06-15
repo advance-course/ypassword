@@ -118,7 +118,7 @@ exports.main = async (event, context) => {
    * search comments
    * @param {current} 当前页，默认值1
    * @param {pageSize} 每一页大小 默认值10
-   * @param {key} who
+   * @param {key} who book or article or comment
    * @param 
    */
   app.router('v1/list', async (ctx) => {
