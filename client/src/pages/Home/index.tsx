@@ -80,10 +80,10 @@ export default function Index() {
                       <Text className="recommend">{book.view || 0}</Text>
                     </View>
 
-                    {/* <View className="recommend_warp" onClick={(e) => { e.stopPropagation(); navToComment(book._id!) }}>
+                    <View className="recommend_warp" onClick={(e) => { e.stopPropagation(); navToComment(book._id!) }}>
                       <MyIcon name="dialogue" size={22} color="#999999" style={{fontWeight: 'bold'}} />
                       <Text className="comment">{book.comment || 0}</Text>
-                    </View> */}
+                    </View>
                   </View>
 
                 </View>
