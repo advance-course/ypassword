@@ -36,6 +36,18 @@ export const defPaginationParams = {
   pageSize: 10
 }
 
+export function getDefPageData<T>(): PageData<T> {
+  return {
+    list: [],
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      lastPage: false,
+      total: 0
+    }
+  }
+}
+
 export const defPageData: PageData<any> = {
   list: [],
   pagination: {

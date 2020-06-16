@@ -1,29 +1,45 @@
-import Taro, { useRouter, Config, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
+import Taro, { useRouter, Config, usePullDownRefresh, useReachBottom, useState } from '@tarojs/taro'
 import {View, Input, Text, Button } from '@tarojs/components'
 import {AtAvatar} from 'taro-ui'
 import moment from 'moment'
 import usePagination from 'hooks/usePagination'
 import PaginationProvider from 'components/PaginationProvider'
-import {commentListApi} from './api'
-import './index.scss'
+import {commentListApi, addCommentApi} from './api'
 import MyIcon from 'components/myIcon'
+import './index.scss'
 
 export default function Comment() {
   const router = useRouter()
   const {key} = router.params
+  const [commentText, setCommentText] = useState('')
+  const [commentLoading, setCommentLoading] = useState(false)
 
-  const {list, loading, errMsg, setIncreasing, setLoading, increasing} = 
+  const {list, loading, errMsg, setIncreasing, setLoading, increasing, unshift} = 
   usePagination(commentListApi, {current: 1, pageSize: 20, key})
 
   usePullDownRefresh(() => {
     setLoading(true)
   })
-
+ 
   useReachBottom(() => {
     if (!list.pagination.lastPage) {
       setIncreasing(true)
     }
   })
+
+  function commentSure() {
+    setCommentLoading(true)
+    addCommentApi(key, commentText).then((res) => {
+      // 思考：如果要做回显，这里的数据为什么由接口提供更好
+      unshift(res.data);
+      Taro.showToast({ title: '评论成功', icon: 'success'})
+      setCommentText('')
+      setCommentLoading(false)
+    }).catch(e => {
+      Taro.showToast({title: e.message, icon: 'none'})
+      setCommentLoading(false)
+    })
+  }
 
   return (
     <PaginationProvider className="comment_container" loading={loading} errMsg={errMsg} lastPage={!!list.pagination.lastPage} increasing={increasing}>
@@ -59,8 +75,10 @@ export default function Comment() {
         </View>
       ))}
       <View className="comment_input_wrap">
-        <Input className="comment_input" placeholder="请输入你的观点" />
-        <Button className="comment_sure">确定</Button>
+        <Input className="comment_input" placeholder="请输入你的观点" value={commentText} onInput={e => setCommentText(e.detail.value)} />
+        <Button className="comment_sure" onClick={commentSure} disabled={commentLoading || commentText.length == 0}>
+          {commentLoading ? <MyIcon name="refresh" spin size={18} color="#333" /> : '确定'}
+        </Button>
       </View>
     </PaginationProvider>
   )
