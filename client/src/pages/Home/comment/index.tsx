@@ -1,6 +1,7 @@
 import Taro, { useRouter, Config, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
-import {View, ScrollView, Input, Image, Text} from '@tarojs/components'
+import {View, Input, Text, Button } from '@tarojs/components'
 import {AtAvatar} from 'taro-ui'
+import moment from 'moment'
 import usePagination from 'hooks/usePagination'
 import PaginationProvider from 'components/PaginationProvider'
 import {commentListApi} from './api'
@@ -13,8 +14,6 @@ export default function Comment() {
 
   const {list, loading, errMsg, setIncreasing, setLoading, increasing} = 
   usePagination(commentListApi, {current: 1, pageSize: 20, key})
-
-  console.log(list)
 
   usePullDownRefresh(() => {
     setLoading(true)
@@ -43,23 +42,29 @@ export default function Comment() {
             </View>
             <Text className="content">{item.content}</Text>
             <View className="bottom">
-              <View className="create_time">{item.createTime}</View>
+              <View className="create_time">{item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : ''}</View>
 
               <View className="b_right">
-                <View className="like_wrap">
-                  <MyIcon name="heart" size={14} />
-                  <Text className="like_number">{item.like || 0}</Text>
+                <View className="c_wrap">
+                  <MyIcon name="heart" size={18} color="#666" />
+                  <Text className="number">{item.like || 0}</Text>
                 </View>
-                <View className="cmt_wrap">
-                  <MyIcon name="dialogue" size={13} />
-                  <Text>{item.comment || ''}</Text>
+                <View className="c_wrap">
+                  <MyIcon name="dialogue" size={17} color="#666" />
+                  <Text className="number">{item.comment || 0}</Text>
                 </View>
               </View>
-              
             </View>
           </View>
         </View>
       ))}
+
+      <View style={{height: '60Px'}} />
+
+      <View className="comment_input_wrap">
+        <Input className="comment_input" placeholder="请输入你的观点" />
+        <Button className="comment_sure">确定</Button>
+      </View>
     </PaginationProvider>
   )
 }
