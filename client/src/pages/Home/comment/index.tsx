@@ -58,9 +58,6 @@ export default function Comment() {
           </View>
         </View>
       ))}
-
-      <View style={{height: '60Px'}} />
-
       <View className="comment_input_wrap">
         <Input className="comment_input" placeholder="请输入你的观点" />
         <Button className="comment_sure">确定</Button>

@@ -89,8 +89,18 @@ exports.main = async (event, context) => {
       .addFields({
         isRecommend: $.gt([$.size('$recommend_list'), 0])
       })
+      .lookup({
+        from: 'comment',
+        localField: '_id',
+        foreignField: 'key',
+        as: 'comment_list'
+      })
+      .addFields({
+        comment: $.size('$comment_list')
+      })
       .project({
-        recommend_list: 0
+        recommend_list: 0,
+        comment_list: 0
       })
       .end()
 
