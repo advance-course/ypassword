@@ -4,24 +4,17 @@ import { View, Button } from '@tarojs/components'
 import produce from 'immer'
 
 export default function App () {
-  const [state, setState] = useState(() => {
-    return {
-      title: 'zp',
-      list: [
-        {
-          id: 1,
-          name: 'hello'
-        }, {
-          id: 2,
-          name: 'world'
-        }
-      ]
-    }
+  const [state, setState] = useState({ title: 'zp', list: [
+      { id: 1, name: 'hello' },
+      { id: 2, name: 'world' }
+    ]
   })
-  const nextState = produce(state, draftState => {
-    draftState.list[1].name = 'world2'
-    draftState.title = 'zt'
+
+  const nextState = produce(state, dstate => {
+    dstate.list[1].name = 'world2'
+    dstate.title = 'zt'
   })
+
   return (
     <View key='a'>
       <Button onClick={() => setState(nextState)}>set new state</Button>

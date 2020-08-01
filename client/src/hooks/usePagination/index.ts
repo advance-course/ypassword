@@ -1,6 +1,7 @@
 import { useState, useEffect, stopPullDownRefresh } from '@tarojs/taro'
 import { Result } from 'utils/http'
-import { Page, PaginationParam, defPaginationParams, defPageData, PageData, mergePagination } from './entity'
+import { Page, PaginationParam, defPaginationParams, getDefPageData, mergePagination } from './entity'
+import produce from 'immer'
 
 type APIFunc<T, P> = (params: P) => Promise<Result<Page<T>>>
 
@@ -22,7 +23,7 @@ export default function usePagination<T>(
     increasing: false,
     errMsg: '',
     params: {...defPaginationParams, ...param},
-    list: defPageData as PageData<T>
+    list: getDefPageData<T>()
   })
   const {loading, increasing, params, list} = state;
 
@@ -36,28 +37,30 @@ export default function usePagination<T>(
     increasing && fetchList({current: current + 1})
   }, [increasing])
 
-  function dispatch(option: any) {
-    setState({...state, ...option});
-  }
-
   function fetchList(params: PaginationParam = {}) {
     const _param = params ? setParams(params) : state.params;
     return api(_param).then(res => {
-      dispatch({
-        list: mergePagination(list, res.data),
-        loading: false,
-        refreshing: false,
-        increasing: false,
-        errMsg: ''
-      })
+      // 利用高阶函数科里化特性，可以这样操作
+      // const producer = produce(draft => {
+      //   draft.list = mergePagination(list, res.data);
+      //   draft.loading = false
+      //   draft.increasing = false
+      //   draft.errMsg = ''
+      // })
+      // setState(producer(state))
+      setState(produce(state, (proxy: typeof state) => {
+        proxy.list = mergePagination(list, res.data);
+        proxy.loading = false
+        proxy.increasing = false
+        proxy.errMsg = ''
+      }))
       stopPullDownRefresh();
     }).catch(e => {
-      dispatch({
-        errMsg: e.message,
-        loading: false,
-        refreshing: false,
-        increasing: false
-      })
+      setState(produce(state, draft => {
+        draft.errMsg = e.message
+        draft.loading = false
+        draft.increasing = false
+      }))
       stopPullDownRefresh();
     })
   }
@@ -66,20 +69,69 @@ export default function usePagination<T>(
     const _param = refreshing ? {...params, ...option, ...defPaginationParams} : {...params, ...option};
     state.params = _param;
     if (refreshing) {
-      dispatch({ loading: true })
+      setState(produce(state, df => {
+        df.loading = true
+      }))
     }
     return _param;
   }
 
-  function resetParams() {
-    dispatch({params: defPaginationParams});
-  }
-
   return {
     ...state,
-    setLoading: (loading: boolean) => dispatch({loading}),
-    setIncreasing: (increasing: boolean) => dispatch({increasing}),
+    setLoading: (loading: boolean) => setState(produce(state, df => {
+      df.loading = loading
+    })),
+    setIncreasing: (increasing: boolean) => setState(produce(state, df => {
+      df.increasing = increasing
+    })),
     setParams,
-    resetParams
+    resetParams: () => {
+      setState(produce(state, df => {
+        df.params = defPaginationParams
+      }))
+    },
+    // 更新List中的某条数据
+    updateList: (item: T, index: number) => {
+      const nextState = produce(state, (draft: typeof state) => {
+        draft.list.list[index] = item
+      })
+      setState(nextState)
+    },
+    push: (item: T) => {
+      setState(produce(state, (draft: typeof state) => {
+        draft.list.list.push(item)
+        draft.list.pagination.total! += 1
+      }))
+    },
+    unshift: (item: T) => {
+      setState(produce(state, (draft: typeof state) => {
+        draft.list.list.unshift(item)
+        draft.list.pagination.total! += 1
+      }))
+    },
+    pop: () => {
+      setState(produce(state, (draft: typeof state) => {
+        if (draft.list.list.length > 0) {
+          draft.list.list.pop()
+          draft.list.pagination.total! -= 1
+        }
+      }))
+    },
+    shift: () => {
+      setState(produce(state, (draft: typeof state) => {
+        if (draft.list.list.length > 0) {
+          draft.list.list.shift()
+          draft.list.pagination.total! -= 1
+        }
+      }))
+    },
+    splice: (start: number, number: number) => {
+      setState(produce(state, (draft: typeof state) => {
+        if (draft.list.list.length > 0) {
+          draft.list.list.splice(start, number)
+          draft.list.pagination.total! -= number
+        }
+      }))
+    }
   }
 }

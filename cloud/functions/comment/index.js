@@ -17,6 +17,7 @@ exports.main = async (event, context) => {
   const $ = _.aggregate
   
   const comment = db.collection('comment')
+  const user = db.collection('user')
   const commentLike = db.collection('comment_like')
   const app = new TcbRouter({ event });
   
@@ -37,7 +38,8 @@ exports.main = async (event, context) => {
 
     try {
       const res = await comment.add({ data: info });
-      ctx.body = { success: true, code: 200, message: '添加成功', data: res._id }
+      const res_user = await user.where({openid: OPENID}).get()
+      ctx.body = { success: true, code: 200, message: '添加成功', data: { ...info, ...res_user.data[0]} }
     } catch (e) {
       ctx.body = { success: false, code: e.errCode, message: e.errMsg }
     }
@@ -118,7 +120,7 @@ exports.main = async (event, context) => {
    * search comments
    * @param {current} 当前页，默认值1
    * @param {pageSize} 每一页大小 默认值10
-   * @param {key} who
+   * @param {key} who book or article or comment
    * @param 
    */
   app.router('v1/list', async (ctx) => {

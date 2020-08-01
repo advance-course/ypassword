@@ -3,7 +3,7 @@ import { Page, PaginationParam } from 'hooks/usePagination/entity';
 
 // add a new comment
 export function addCommentApi(key: string, content: string) {
-  return http.post('comment/v1/add', {
+  return http.post<book.Comment>('comment/v1/add', {
     key, content
   })
 }
