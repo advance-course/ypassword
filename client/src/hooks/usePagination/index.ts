@@ -16,6 +16,8 @@ export default function usePagination<T>(
   param: PaginationParam = {},
   delay?: boolean
 ) {
+  const a = 10;
+  const b = 10;
   const [state, setState] = useState({
     loading: true,
     increasing: false,
