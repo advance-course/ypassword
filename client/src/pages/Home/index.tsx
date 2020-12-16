@@ -42,9 +42,6 @@ export default function Index() {
         index, book
       }
     })
-    Taro.navigateTo({
-      url: '/pages/Home/bookinfo/index'
-    })
   }
 
   function navToComment(bookid: string) {

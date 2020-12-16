@@ -1,3 +1,46 @@
 .container {
   background-color: #ededed;
+  min-height: 100%;
+  padding: 0!important;
+
+  .info_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 160Px;
+    background-color: #ffffff;
+    margin: 6Px 0;
+    .info {
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      width: 24Px;
+      height: 24Px;
+      border-radius: 12Px;
+      overflow: hidden;
+      margin-right: 10Px;
+    }
+    .name {
+      color: #333;
+      font-size: 16Px;
+    }
+    .desc {
+      font-size: 12Px;
+      color: #999;
+      margin-top: 10Px;
+    }
+    .star {
+      width: 100Px;
+      height: 30Px;
+      background-color: #ffffff;
+      border: 1px solid #4faf70;
+      line-height: 30Px;
+      margin-top: 30Px;
+      font-size: 12Px;
+      font-weight: bold;
+      color: #4faf70;
+    }
+  }
 }

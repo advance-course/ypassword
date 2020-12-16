@@ -20,7 +20,6 @@ export default function Bookinfo() {
   }, [bookInfo])
 
   usePageScroll((res) => {
-    console.log(res.scrollTop)
     if (res.scrollTop > 80) {
       Taro.setNavigationBarTitle({ title: bookInfo.name || '' })
     }
@@ -28,8 +27,6 @@ export default function Bookinfo() {
       Taro.setNavigationBarTitle({ title: '' })
     }
   })
-
-  console.log(bookInfo)
 
   return (
     <View className="container">

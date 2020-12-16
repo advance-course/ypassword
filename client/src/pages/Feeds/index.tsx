@@ -23,7 +23,7 @@ export default function Feeds() {
   return (
     <View className="container">
       {list.list.map(item => (
-        <View className="gzh_card" key={item._id} onClick={() => Taro.navigateTo({ url: `/pages/Feeds/articleList/index?id=${item._id}&name=${item.name}`})}>
+        <View className="gzh_card" key={item._id} onClick={() => Taro.navigateTo({ url: `/pages/Feeds/articleList/index?id=${item._id}&name=${item.name}&logo=${item.logo}&desc=${item.desc}`})}>
           <View className="left">
             <Image className="logo" src={item.logo!} />
           </View>

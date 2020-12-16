@@ -129,6 +129,9 @@ export default {
           payload: info
         })
         Taro.hideLoading()
+        Taro.navigateTo({
+          url: '/pages/Home/bookinfo/index'
+        })
       } catch (e) {
         Taro.hideLoading()
         Taro.showToast({title: e.message})
