@@ -62,7 +62,7 @@ export default function PaginationProvider(props: PaginationProviderProps) {
     if (lastPage) {
       return (
         <View className="pagination_bottom">
-          <Text className="desc">--- end ---</Text>
+          <Text className="desc">--- END ---</Text>
         </View>
       )
     }
