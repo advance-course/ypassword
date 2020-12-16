@@ -119,6 +119,7 @@ export default {
     },
     *fetchArticleByBook({payload}, {call, put}) {
       const info: book.Item = payload;
+      Taro.showLoading({title: '加载中...'})
       try {
         const res = yield call(articleListByBookApi, info._id)
         info.articles = res.data
@@ -127,7 +128,9 @@ export default {
           type: 'info',
           payload: info
         })
+        Taro.hideLoading()
       } catch (e) {
+        Taro.hideLoading()
         Taro.showToast({title: e.message})
       }
     }

@@ -1,4 +1,45 @@
 .container {
   background-color: #ededed;
-  padding: 1Px 15Px;
+
+  .title {
+    background-color: #ffffff;
+    height: 80Px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20Px;
+  }
+
+  .introduction {
+    margin-top: 6Px;
+    margin-bottom: 6Px;
+    background-color: #ffffff;
+    padding: 16Px;
+    font-size: 12Px;
+    color: #666666;
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+    .logo {
+      width: 20Px;
+      height: 20Px;
+      border-radius: 10Px;
+      overflow: hidden;
+      margin-right: 10Px;
+    }
+    .name {
+      color: #5d6b93;
+    }
+  }
+  .content {
+    margin-top: 10Px;
+  }
+  .end {
+    height: 50Px;
+    text-align: center;
+    line-height: 50Px;
+    color: #cccccc;
+  }
 }

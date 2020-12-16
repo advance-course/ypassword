@@ -1,38 +1,7 @@
 .card_wrap {
   background-color: #FFF;
-  border-radius: 4Px;
-  margin: 15Px 0;
-  padding: 0 15Px;
-}
-
-.top_warp {
-  display: flex;
-  height: 60Px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.top_left {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  .gzhaoImg {
-    width: 30Px;
-    height: 30Px;
-    margin-right: 10Px;
-    border-radius: 15Px;
-  }
-  .gzhaoName {
-    font-size: 14Px;
-    color: #5d6b93;
-  }
-}
-
-.top_right {
-  width: 90Px;
-  font-size: 12Px;
-  color: #999;
-  text-align: right;
+  padding: 0 16Px;
+  margin-bottom: 1Px;
 }
 
 .content_wrap {
@@ -55,21 +24,8 @@
   margin-top: 10Px;
   display: flex;
   align-items: center;
-
-  .author {
-    font-size: 12Px;
-    color: #999;
-  }
-
-  .tag {
-      font-size: 10Px;
-      margin-left: 10Px;
-      border: 1px solid #aaa;
-      padding: 3Px 8Px;
-      line-height: 1;
-      border-radius: 10Px;
-      color: #999;
-    }
+  color: #999;
+  font-size: 12Px;
 }
 
 .content_right {

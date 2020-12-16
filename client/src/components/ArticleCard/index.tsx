@@ -32,19 +32,11 @@ export default function ArticleCard({info, editor, onLoad, onError}: ArticleCard
 
   return (
     <View className="card_wrap">
-      <View className="top_warp" onClick={() => editorHandler(info)}>
-        <View className="top_left">
-          <Image className="gzhaoImg" src={info.subscription!.logo!} mode="aspectFit" />
-          <Text className="gzhaoName">{info.subscription!.name}</Text>
-        </View>
-        <View className="top_right time">{info.time}</View>
-      </View>
       <View className="content_wrap" onClick={() => Taro.navigateTo({ url: `/pages/webview/index?url=${info.url}` })}>
         <View className="content_left">
           <View className="title">{info.title}</View>
           <View className="xinfo">
-            <Text className="author">{info.subscription!.author}</Text>
-            {info.original && <Text className="tag">原创</Text>}
+            <Text>{`${info.subscription!.author} · ${info.original ? '原创 · ' : ''}${info.time}`}</Text>
           </View>
         </View>
         {info.thumb && (
