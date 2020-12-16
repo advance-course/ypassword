@@ -29,6 +29,8 @@ export default {
       const { params, list: curList } = feeds;
       const def: PaginationParam = payload ? { ...params, ...payload } : params;
 
+      Taro.showLoading({title: '加载中...'})
+
       if (def.current && def.current > 1) {
         yield put({ type: 'increasing', payload: true })
       }
@@ -43,10 +45,12 @@ export default {
           type: 'updateList',
           payload: _list
         })
+        Taro.hideLoading()
       } catch (e) {
         Taro.showToast({ title: e.message });
         yield put({ type: 'increasing', payload: false })
         yield put({ type: 'loading', payload: false })
+        Taro.hideLoading()
       }
     },
     *add({ payload }, { call }) {
