@@ -41,6 +41,6 @@ declare namespace book {
     openid?: string,
     comment?: number,
     createTime?: number,
-
+    isLiked?: boolean // 当前用户是否点赞过当条评论/书籍
   }
 }

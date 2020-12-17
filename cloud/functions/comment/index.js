@@ -149,6 +149,20 @@ exports.main = async (event, context) => {
       .addFields({
         comment: $.size('$children')
       })
+      .lookup({
+        from: 'comment_like',
+        let: {
+          id: '$_id'
+        },
+        pipeline: $.pipeline().match(_.expr($.and([
+          $.eq(['$commentid', '$$id']),
+          $.eq(['$openid', OPENID])
+        ]))).done(),
+        as: 'comment_list'
+      })
+      .addFields({
+        isLiked: $.gt([$.size('$comment_list'), 0])
+      })
       .project({
         author: 0,
         city: 0,

@@ -3,7 +3,7 @@ import {View, Input, Text, Button, Image } from '@tarojs/components'
 import moment from 'moment'
 import usePagination from 'hooks/usePagination'
 import PaginationProvider from 'components/PaginationProvider'
-import {commentListApi, addCommentApi} from './api'
+import {commentListApi, addCommentApi, likeCommentApi} from './api'
 import MyIcon from 'components/myIcon'
 import './index.scss'
 
@@ -13,7 +13,7 @@ export default function Comment() {
   const [commentText, setCommentText] = useState('')
   const [commentLoading, setCommentLoading] = useState(false)
 
-  const {list, loading, errMsg, setIncreasing, setLoading, increasing, unshift} = 
+  const {list, loading, errMsg, setIncreasing, setLoading, increasing, unshift, updateList} = 
   usePagination(commentListApi, {current: 1, pageSize: 20, key})
 
   usePullDownRefresh(() => {
@@ -40,12 +40,31 @@ export default function Comment() {
     })
   }
 
+  function commentLike(item: book.Comment, index: number) {
+    if (item.isLiked) {
+      return Taro.showToast({ title: '您已赞过啦', icon: 'none' })
+    }
+    Taro.showLoading({title: 'liking'})
+    likeCommentApi(item._id!).then(() => {
+      if (!item.like) {
+        item.like = 0
+      }
+      item.like += 1
+      item.isLiked = true
+      updateList(item, index)
+      Taro.hideLoading()
+    }).catch((e) => {
+      Taro.hideLoading()
+      Taro.showToast({ title: e.message, icon: 'none' })
+    })
+  }
+
   return (
     <PaginationProvider className="comment_container" loading={loading} errMsg={errMsg} lastPage={!!list.pagination.lastPage} increasing={increasing}>
       <View className="top_tip">
         共 {list.pagination.total || 0} 条评论
       </View>
-      {list.list.map((item) => (
+      {list.list.map((item, index) => (
         <View className="comment_ctx" key={item._id}>        
           <View className="top">
             <Image className="avator" src={item.avatarUrl || ''} />
@@ -56,9 +75,9 @@ export default function Comment() {
             <View className="create_time">{item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : ''}</View>
 
             <View className="b_right">
-              <View className="c_wrap">
-                <MyIcon name="heart" size={18} color="#666" />
-                <Text className="number">{item.like || 0}</Text>
+              <View className="c_wrap" onClick={() => commentLike(item, index)}>
+                <Text className="number" style={{color: item.isLiked ? 'red' : '#999'}}>{item.like || 0}</Text>
+                <MyIcon name="heart" size={18} color={item.isLiked ? 'red' : '#999'} />
               </View>
               {/* <View className="c_wrap">
                 <MyIcon name="dialogue" size={17} color="#666" />
