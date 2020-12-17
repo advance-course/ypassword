@@ -166,7 +166,7 @@ exports.main = async (event, context) => {
       .end()
 
       const countRes = await ins.count('total').end();
-      const total = countRes.list[0].total
+      const total = countRes.list.length > 0 ? countRes.list[0].total : 0
 
       let lastPage = false;
       if (current * pageSize >= total) {
