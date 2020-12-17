@@ -21,7 +21,7 @@ const config = {
     hooks: path.resolve(__dirname, '..', 'src/hooks'),
   },
   babel: {
-    sourceMap: true,
+    sourceMap: false,
     presets: [
       ['env', {
         modules: false

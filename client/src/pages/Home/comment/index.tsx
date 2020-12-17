@@ -1,6 +1,5 @@
 import Taro, { useRouter, Config, usePullDownRefresh, useReachBottom, useState } from '@tarojs/taro'
-import {View, Input, Text, Button } from '@tarojs/components'
-import {AtAvatar} from 'taro-ui'
+import {View, Input, Text, Button, Image } from '@tarojs/components'
 import moment from 'moment'
 import usePagination from 'hooks/usePagination'
 import PaginationProvider from 'components/PaginationProvider'
@@ -44,38 +43,34 @@ export default function Comment() {
   return (
     <PaginationProvider className="comment_container" loading={loading} errMsg={errMsg} lastPage={!!list.pagination.lastPage} increasing={increasing}>
       <View className="top_tip">
-        全部评论（{list.pagination.total || 0}）
+        共 {list.pagination.total || 0} 条评论
       </View>
       {list.list.map((item) => (
-        <View className="comment_ctx" key={item._id}>
-          <View className="cmt_left">
-            <AtAvatar circle size="small" image={item.avatarUrl || ''} text={item.nickName || ''} />
+        <View className="comment_ctx" key={item._id}>        
+          <View className="top">
+            <Image className="avator" src={item.avatarUrl || ''} />
+            <Text className="user_name">{item.nickName || ''}</Text>
           </View>
-        
-          <View className="cmt_right">
-            <View className="top">
-              <Text className="user_name">{item.nickName || ''}</Text>
-            </View>
-            <Text className="content">{item.content}</Text>
-            <View className="bottom">
-              <View className="create_time">{item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : ''}</View>
+          <Text className="content">{item.content}</Text>
+          <View className="bottom">
+            <View className="create_time">{item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : ''}</View>
 
-              <View className="b_right">
-                <View className="c_wrap">
-                  <MyIcon name="heart" size={18} color="#666" />
-                  <Text className="number">{item.like || 0}</Text>
-                </View>
-                <View className="c_wrap">
-                  <MyIcon name="dialogue" size={17} color="#666" />
-                  <Text className="number">{item.comment || 0}</Text>
-                </View>
+            <View className="b_right">
+              <View className="c_wrap">
+                <MyIcon name="heart" size={18} color="#666" />
+                <Text className="number">{item.like || 0}</Text>
               </View>
+              {/* <View className="c_wrap">
+                <MyIcon name="dialogue" size={17} color="#666" />
+                <Text className="number">{item.comment || 0}</Text>
+              </View> */}
             </View>
           </View>
         </View>
       ))}
+      {!loading && <View className="space">--- · ---</View>}
       <View className="comment_input_wrap">
-        <Input className="comment_input" placeholder="请输入你的观点" value={commentText} onInput={e => setCommentText(e.detail.value)} />
+        <Input className="comment_input" placeholder="请输入你的观点" cursorSpacing={8} value={commentText} onInput={e => setCommentText(e.detail.value)} />
         <Button className="comment_sure" onClick={commentSure} disabled={commentLoading || commentText.length == 0}>
           {commentLoading ? <MyIcon name="refresh" spin size={18} color="#333" /> : '确定'}
         </Button>

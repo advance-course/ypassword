@@ -1,59 +1,60 @@
 .comment_container {
   padding: 0!important;
+  min-height: 100%;
+  background-color: #ededed;
+
   .top_tip {
     height: 30Px;
-    background-color: #efefef;
     font-size: 12Px;
     line-height: 32Px;
     padding: 0 15Px;
   }
 
   .comment_ctx {
-    margin-top: 15Px;
-    padding: 0 15Px;
-
-    display: flex;
-    
-    .cmt_left {
-      width: 40Px;
-      height: 40Px;
-      margin-right: 15Px;
-    }
-
-    .cmt_right {
-      flex: 1;
-    }
+    padding: 16Px;
+    background-color: #FFF;
+    margin-bottom: 4Px;
 
     .top {
       display: flex;
       align-items: center;
       margin-bottom: 10Px;
     }
+    .avator {
+      width: 20Px;
+      height: 20Px;
+      border-radius: 10Px;
+      overflow: hidden;
+      margin-right: 8Px;
+    }
 
     .user_name {
       font-size: 13Px;
-      font-weight: bold;
+      color: #999999;
     }
 
     .content {
       font-size: 14Px;
-      line-height: 1.6;
+      line-height: 1.8;
+      color: #333333;
+      text-align: justify;
     }
   }
 
   .bottom {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 10Px;
+    margin-top: 8Px;
+    justify-content: space-between;
     
     .create_time {
       font-size: 12Px;
-      color: #ccc;
+      color: #999999;
     }
 
     .b_right {
       display: flex;
+      padding-right: 10Px;
     }
 
     .c_wrap {
@@ -69,7 +70,7 @@
   }
 
   .comment_input_wrap {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     height: 50Px;
@@ -78,6 +79,14 @@
     background: #f0f0f0;
     box-sizing: border-box;
     padding: 0 10Px;
+  }
+
+  .space {
+    height: 50Px;
+    text-align: center;
+    line-height: 50Px;
+    font-size: 12Px;
+    color: #999999;
   }
 
   .comment_input {
